@@ -19,8 +19,7 @@ class Members {
     // overload operators
 
     //reads from file
-    // no idea why there's a 'too many parameter error'
-    ifstream& operator>>(ifstream& ifs, Members& member);
+    friend ifstream& operator>>(ifstream& ifs, Members& member);
 
     // prints out
     friend ostream& operator<<(ostream& os, const Members& member);
