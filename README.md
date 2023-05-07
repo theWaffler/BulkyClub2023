@@ -27,7 +27,7 @@ Sales price quantity purchased
 
 Your program should read from the daily sales file and update the members’ information accordingly. 
 As the sales are processed the total amount spent and rebate data for each member should be updated. 
-Use a sales tax rate of 7 3/4% for all revenue totals.
+Use a sales tax rate of 7.75% for all revenue totals.
 
 Generate the following displays at any time:
 1. A store manager should be able to display a sales report for any given day. It should include a list of items and quantities sold on that day as well names of the members who shopped that day. Display the total revenue (including tax) for the given day. It should also include number of unique Executive members and Regular members who shopped during the given day.
@@ -49,14 +49,14 @@ Generate the following displays at any time:
 // Deliverables
 1. Design a very readable, easy to use interface to demonstrate your program.
 2. Contingency handling should include addressing invalid input.
-3. Write at least 10 agile stories (including description, tasks, test scenarios, and story points) before any software is developed. The team must follow the Scrum process (the Scrum master must document all meetings and the product owner must document the backlog).
+~~3. Write at least 10 agile stories (including description, tasks, test scenarios, and story points) before any software is developed. The team must follow the Scrum process (the Scrum master must document all meetings and the product owner must document the backlog).~~ 
 4. All changes must be persistent between executions.
 5. Submit the following:
       a. Test Plan
       b. UML class diagram, at least three use cases, and at least three
       state diagrams, and one activity diagram
       c. Code
-      d. Agile stories, retrospective report, coding standards and team
+      d. ~~Agile stories~~, retrospective report, coding standards and team
       rules
 6. Each team must use a version control system, graphical user
 interface tool, automated documentation tool, and an Agile
