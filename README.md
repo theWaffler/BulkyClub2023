@@ -1,7 +1,7 @@
 # cs1c_proj
 CS1C Spring Final Project 2023
 
-// Project Requirements
+**// Project Requirements**
 
 Bulk Club has two types of members: Regular and Executive
 
@@ -46,10 +46,12 @@ Generate the following displays at any time:
 14. Your software should require the store manager and administrator to logon to obtain access to your program.
 15. Your software should be able to save all changes between executions
 
-// Deliverables
+**// Deliverables**
 1. Design a very readable, easy to use interface to demonstrate your program.
 2. Contingency handling should include addressing invalid input.
+ 
 ~~3. Write at least 10 agile stories (including description, tasks, test scenarios, and story points) before any software is developed. The team must follow the Scrum process (the Scrum master must document all meetings and the product owner must document the backlog).~~ 
+
 4. All changes must be persistent between executions.
 5. Submit the following:
       a. Test Plan
