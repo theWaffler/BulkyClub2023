@@ -7,30 +7,35 @@ using namespace std;
 // thinking two classes. One called Members and a child class called Executive. Which will inherit from the parent class 'Members'
 class Members {
     public:
-    // Constructor - takes 5 arguments. Initilize to default values
-    Members(string n = " ", int num = 000000, string mtype =" ", double t = 0.0, string d =" ")
-        : memName(n),
-            memNum(num),
-            memType(mtype),
-            totalAmt(t), 
-            expDate(d) {};
-
+    // Constructor - takes arguments. Initilize to default values
+    Members(const string &n = " ", int num = 000000, const string &mtype =" ", const string &exp, double t = 0.0, double rb)
+        : name(n),
+            membershipNumber(num),
+            membershipType(mtype),
+            expirationDate(exp),
+            amountSpent(t), 
+            rebate(rb) {};
+    // Deconstructor 
     ~Members();
-    // insert methods here
+     
 
-    // overload operators
-    //reads from file
-    friend ifstream& operator>>(ifstream& ifs, Members& member);
-
-    // prints out
     friend ostream& operator<<(ostream& os, const Members& member);
 
     private:
-    string memName; //member name
-    int memNum; // membership number
-    string memType; // membership type (regular or executive)
-    double totalAmt; // total amount (running total)
-    string expDate; // expiration date
+    string name; //member name
+    int membershipNumber; // membership number
+    string membershipType; // membership type (regular or executive)
+    string expirationDate; // expiration date
+    double amountSpent; // total amount (running total)
+    double rebate; // Rebate of 2% of the total amount 
 };
 #endif
 /* MEMBERS*/
+
+/*
+Other classes??
+Sales
+Inventory
+Store Manager && Admin 
+Bulk club //main class to take in files?
+*/
