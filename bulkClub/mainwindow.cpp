@@ -7,10 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setWindowTitle("Bulk Club");
-    resize(500,400);
-    QLabel *label = new QLabel(this);
-    label->setText("Testing text");
+    setWindowTitle("Bulky Club");
 }
 
 MainWindow::~MainWindow()
