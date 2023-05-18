@@ -1,0 +1,10 @@
+debug/login.o
+debug/Employee.o
+debug/datawarehouse.o
+debug/item.o
+debug/main.o
+debug/mainwindow.o
+debug/member.o
+debug/transaction.o
+debug/moc_login.o
+debug/moc_mainwindow.o
