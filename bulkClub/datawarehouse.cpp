@@ -21,13 +21,13 @@ DataWarehouse::DataWarehouse()
 
     // start of temp code for testing until LoadTransactions is implemented
     Transaction* t = new Transaction(QDate(2011,1,1), 1, "hello", 1, 1);
-    transactions.push_back(t);
+    Transactions.push_back(t);
     t = new Transaction(QDate(2012,1,1), 1, "hello", 1, 1);
-    transactions.push_back(t);
+    Transactions.push_back(t);
     t = new Transaction(QDate(2011,1,1), 1, "whatsup", 1, 1);
-    transactions.push_back(t);
+    Transactions.push_back(t);
     t = new Transaction(QDate(2009,1,1), 1, "hello", 1, 1);
-    transactions.push_back(t);
+    Transactions.push_back(t);
     // end of temp code for testing until LoadTransactions is implemented
 
     LoadMembers();
@@ -49,11 +49,11 @@ void DataWarehouse::LoadTransactions()
 
 void DataWarehouse::sortData()
 {
-    sort(transactions.begin(), transactions.end(), [](const Transaction* t1, const Transaction* t2) {
+    sort(Transactions.begin(), Transactions.end(), [](const Transaction* t1, const Transaction* t2) {
         return t1->date < t2->date;
     });
 
-    for(auto* i : transactions)
+    for(auto* i : Transactions)
     {
         qDebug() << i->date << "\n";
     }
@@ -87,7 +87,7 @@ QString DataWarehouse::GetSalesReportForDate(QDate date, int reportType)
 
     TransactionDateComparator comparator;
 
-    auto range = std::equal_range(transactions.begin(), transactions.end(),
+    auto range = std::equal_range(Transactions.begin(), Transactions.end(),
                                   targetDate, comparator);
 
     double totalRevenue = 0;
@@ -202,16 +202,54 @@ QString DataWarehouse::GetSalesReportForDate(QDate date, int reportType)
     return report;
 }
 
-QString DataWarehouse::GetAllPurchases()
+QString DataWarehouse::GetPurchasesAllMembers()
 {
-    // Todo: Write a method to fulfill the following requirement:
     /*
     A store manager should be able to display the total purchases for
     each member including tax sorted by membership number. The
     display should also include a grand total including tax of all the
     purchases for all the members.
      */
-    return "Not done yet..."; // temporary for stub
+
+    QString report = QString("Sales by Member: \n");
+    double totalRevenue = 0;
+
+    // Todo: sort customers by name
+    for (auto it = Members.begin(); it != Members.end(); it++)
+    {
+        double customerTotal = 0;
+        auto customer = *it;
+        // todo: find out if the report should contain deleted members. it probaby should.
+        //if(customer.isDeleted)
+        //{
+        //    continue;
+        //}
+
+        report += "\n\nCustomer ID: " +  QString::number(customer.id) + "Name: " + customer.name;
+
+        for (auto it = Transactions.begin(); it != Transactions.end(); it++)
+        {
+            Transaction* transaction = *it;
+            if(transaction->customerId != customer.id)
+            {
+                continue;
+            }
+
+            customerTotal += transaction->price * transaction->quantity;
+
+            report += "\nItem: " + transaction->productDescription
+                    + " Quantity: " + QString::number(transaction->quantity)
+                    + " Price: " + QString::number(transaction->price);
+        }
+
+        totalRevenue += customerTotal;
+
+        report += "\nTotal Purchases (including tax): " + QString::number(customerTotal * 1.0775);
+    }
+
+    report += "\n\nGrand Total (including tax): " + QString::number(totalRevenue * 1.0775);
+
+    return report;
 }
 
 QString DataWarehouse::GetItemQuantities()
@@ -222,7 +260,42 @@ QString DataWarehouse::GetItemQuantities()
     sold sorted by item name and the total revenue (without tax) for
     each item.
     */
-    return "Not done yet..."; // temporary for stub
+
+    map<QString, tuple<int, double>> itemQuantities;
+
+    for (auto it = Transactions.begin(); it != Transactions.end(); it++)
+    {
+        Transaction* transaction = *it;
+
+        // add the item name to list of items sold, or increment quantity if it is already there.
+        if(itemQuantities.count(transaction->productDescription) > 0)
+        {
+            auto tuple = itemQuantities[transaction->productDescription];
+            int quantity = get<0>(tuple);
+            double price = get<1>(tuple);
+            itemQuantities[transaction->productDescription] =
+                make_tuple(quantity + transaction->quantity, price + transaction->price * transaction->quantity);
+
+        }
+        else
+        {
+            itemQuantities.insert(make_pair(transaction->productDescription,
+                                                 make_tuple(transaction->quantity,
+                                                            transaction->price * transaction->quantity)));
+        }
+    }
+
+    // TODO: sort items by name
+    QString report = QString("Quantity of Items Sold: \n");
+
+    for (auto it = itemQuantities.begin(); it != itemQuantities.end(); it++)
+    {
+        report += "\nItem: " + it->first + ". Quantity: "
+                  + QString::number(get<0>(it->second)) + " Total Revenue (without tax): "
+                  + QString::number(get<1>(it->second));
+    }
+
+    return report;
 }
 
 QString DataWarehouse::GetExecutiveRebates()
@@ -268,9 +341,11 @@ void DataWarehouse::DeleteMember(int memberId)
     }
 }
 
+// Note: whoever calls this needs to do a "new" transaction, or we may get invalid data
+// after the calling function returns.
 void DataWarehouse::MakePurchase(Transaction* t)
 {
-    transactions.push_back(t);
+    Transactions.push_back(t);
     sortData();
 }
 
@@ -305,25 +380,68 @@ QString DataWarehouse::GetSalesInfoForItem(QString itemName)
     return "Not done yet..."; // temporary for stub
 }
 
+// this is part of requirement 11. If name is given instead of id,
+// call this to get the Id, then call GetMemberPurchases(id);
 int DataWarehouse::GetMemberIdByName(QString memberName)
 {
-    // this is part of requirement 11. If name is given instead of id,
-    // call this to get the Id, then call GetTotalPurchases(id);
-    return 0; // temporary for stub
+    for (auto it = Members.begin(); it != Members.end(); it++)
+    {
+        auto customer = *it;
+
+        if(customer.name == memberName)
+        {
+            return customer.id;
+        }
+    }
+
+    return -1; // customer not found
 }
 
-QString DataWarehouse::GetTotalPurchases(int memberId)
+QString DataWarehouse::GetMemberPurchases(int memberId)
 {
     /*
     A store manager should be able to enter a membership number or
     name and display the total purchases including tax for that member.
     */
 
-    // todo: find transactions for the specified member and calculate totals
-    // note, if member name is provided, we need to call GetMemberIdByName
-    // first, then call this
+    double customerTotal = 0;
+    bool found = false;
 
-    return "Not done yet..."; // temporary for stub
+    QString name;
+
+    for (auto it = Members.begin(); it != Members.end(); it++)
+    {
+        auto member = *it;
+        if(member.id == memberId)
+        {
+            found = true;
+            name = member.name;
+        }
+    }
+
+    if(!found)
+    {
+        return "Error: Member not found.";
+    }
+
+    QString report = QString("Sales for" + name + ":");
+
+    for (auto it = Transactions.begin(); it != Transactions.end(); it++)
+    {
+        Transaction* transaction = *it;
+        if(transaction->customerId != memberId)
+        {
+            continue;
+        }
+
+        customerTotal += transaction->price * transaction->quantity;
+
+        report += "\nItem: " + transaction->productDescription
+                  + " Quantity: " + QString::number(transaction->quantity)
+                  + " Price: " + QString::number(transaction->price);
+    }
+
+    return "\nTotal Purchases (including tax): " + QString::number(customerTotal * 1.0775);
 }
 
 bool DataWarehouse::ShouldBeExecutive (int memberId)

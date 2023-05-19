@@ -17,7 +17,7 @@ class DataWarehouse
 {
 private:
     vector<Member> Members;
-    vector<Transaction*> transactions;
+    vector<Transaction*> Transactions;
     vector<Item> Inventory;
 
     void LoadMembers();
@@ -31,7 +31,7 @@ public:
 
     QString GetSalesReportForDate(QDate date, int reportType);
 
-    QString GetAllPurchases();
+    QString GetPurchasesAllMembers();
     QString GetItemQuantities();
     QString GetExecutiveRebates();
     QString GetMembershipExpirations(QDate month);
@@ -43,7 +43,7 @@ public:
     void ChangePrice(int itemId);
     QString GetSalesInfoForItem(QString itemName);
     int GetMemberIdByName(QString memberName);
-    QString GetTotalPurchases(int memberId);
+    QString GetMemberPurchases(int memberId);
     bool ShouldBeExecutive (int memberId);
     bool ShouldBeRegularMember(int memberId);
 };
