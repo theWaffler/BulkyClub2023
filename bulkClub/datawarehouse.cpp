@@ -1,9 +1,40 @@
 #include "datawarehouse.h"
+#include <map>
+#include <set>
+
+struct TransactionDateComparator
+{
+    bool operator()(const Transaction* transaction, const QDate& date) const
+    {
+        return transaction->date < date;
+    }
+
+    bool operator()(const QDate& date, const Transaction* transaction) const
+    {
+        return date < transaction->date;
+    }
+};
 
 DataWarehouse::DataWarehouse()
 {
+    qDebug() << "data\n";
+
+    // start of temp code for testing until LoadTransactions is implemented
+    Transaction* t = new Transaction(QDate(2011,1,1), 1, "hello", 1, 1);
+    transactions.push_back(t);
+    t = new Transaction(QDate(2012,1,1), 1, "hello", 1, 1);
+    transactions.push_back(t);
+    t = new Transaction(QDate(2011,1,1), 1, "whatsup", 1, 1);
+    transactions.push_back(t);
+    t = new Transaction(QDate(2009,1,1), 1, "hello", 1, 1);
+    transactions.push_back(t);
+    // end of temp code for testing until LoadTransactions is implemented
+
     LoadMembers();
     LoadTransactions();
+    //LoadInventory(); // todo: uncomment once this method is implemented.
+
+    sortData();
 }
 
 void DataWarehouse::LoadMembers()
@@ -16,9 +47,29 @@ void DataWarehouse::LoadTransactions()
     // Todo: populate transactions collection from "day1.txt", "day2.txt", ...
 }
 
-QString DataWarehouse::GetSalesReportForDate(QDate date)
+void DataWarehouse::sortData()
 {
-    // Todo: Write a method to fulfill the following requirement:
+    sort(transactions.begin(), transactions.end(), [](const Transaction* t1, const Transaction* t2) {
+        return t1->date < t2->date;
+    });
+
+    for(auto* i : transactions)
+    {
+        qDebug() << i->date << "\n";
+    }
+
+    qDebug() << "sorted\n";
+}
+
+
+// Note: this method satisfies requirements 1 and 2 by including the "reportType" parameter.
+// From common.h:
+//   #define REPORT_ALL_MEMBERS 0
+//   #define REPORT_EXECUTIVE_ONLY 1
+//   #define REPORT_REGULAR_ONLY 2
+QString DataWarehouse::GetSalesReportForDate(QDate date, int reportType)
+{
+    // Todo: need to create QString to be output to window
     /*
     A store manager should be able to display a sales report for any
     given day. It should include a list of items and quantities sold on that
@@ -26,18 +77,129 @@ QString DataWarehouse::GetSalesReportForDate(QDate date)
     the total revenue (including tax) for the given day. It should also
     include number of unique Executive members and Regular
     members who shopped during the given day.
-     */
-    return NULL; // temporary for stub
-}
+    */
 
-QString DataWarehouse::GetSalesReportForMembershipType(bool isExecutive)
-{
-    // Todo: Write a method to fulfill the following requirement:
-    /*
-    Your team should provide an option to generate the sales report
-    (including tax) for any given day by membership type.
-     */
-    return NULL; // temporary for stub
+    QDate targetDate = date;
+
+    map<QString, int> itemQuantities;
+    set<int> customerIds;
+    bool isExecutive = false; // only used if we have to print report by customer type
+
+    TransactionDateComparator comparator;
+
+    auto range = std::equal_range(transactions.begin(), transactions.end(),
+                                  targetDate, comparator);
+
+    double totalRevenue = 0;
+
+    for (auto it = range.first; it != range.second; it++)
+    {
+        Transaction* transaction = *it;
+
+        // add the item name to list of items sold, or increment quantity if it is already there.
+        if(itemQuantities.count(transaction->productDescription) > 0)
+        {
+            itemQuantities[transaction->productDescription] += transaction->quantity;
+        }
+        else
+        {
+            itemQuantities[transaction->productDescription] = transaction->quantity;
+        }
+
+        // update total daily revenue, with tax of 7.75%
+        totalRevenue += transaction->quantity * transaction->price * 1.0775;
+
+        // add the customer to the list of customers for the day
+        customerIds.insert(transaction->customerId);
+
+        qDebug() << transaction->date << "\n";
+    }
+
+    // Generate the sales report
+    QString report = QString("Daily Sales Report for ");
+    report += targetDate.toString();
+    switch(reportType)
+    {
+    case REPORT_ALL_MEMBERS:
+        report += ". Membership Type: All.";
+        isExecutive = true;
+        break;
+    case REPORT_EXECUTIVE_ONLY:
+        report += ". Membership Type: Executive.";
+        break;
+    case REPORT_REGULAR_ONLY:
+        report += ". Membership Type: Regular.";
+        break;
+    }
+
+    report += "\n\nItems Sold:\n";
+
+    // Add items sold that day and their quantities
+    for (auto it = itemQuantities.begin(); it != itemQuantities.end(); it++)
+    {
+        report += it->first;
+        report += ". Quantity:";
+        report += QString::number(it->second);
+        report += "\n";
+    }
+
+    // Add total revenue
+    report += "\nTotal Daily Revenue (including tax): ";
+    report += QString::number(totalRevenue);
+
+    // Add details on members who shopped that day
+    int totalExecutive = 0;
+    int totalRegular = 0;
+    report += "\n\nCustomers: \n";
+    for (auto it = customerIds.begin(); it != customerIds.end(); it++)
+    {
+        int customerId = *it;
+
+        // find the customer info
+        bool found = false;
+        for (auto it = Members.begin(); it != Members.end(); ++it)
+        {
+            auto customer = *it;
+            if(customer.id == customerId)
+            {
+                found = true;
+                if(reportType == REPORT_ALL_MEMBERS || customer.isExecutive == isExecutive)
+                {
+                    report += customer.name;
+                    report += "\n";
+
+                    if(customer.isExecutive)
+                    {
+                        totalExecutive++;
+                    }
+                    else
+                    {
+                        totalRegular++;
+                    }
+                }
+
+                break; // we found the customer we are looking for. no need to continue.
+            }
+            if(!found)
+            {
+                report += "Error: Customer not found.\n";
+            }
+        }
+    }
+
+    // Add count of unique members (executive and regular)
+    if(reportType == REPORT_ALL_MEMBERS || reportType == REPORT_EXECUTIVE_ONLY)
+    {
+        report += "\nTotal Executive members: ";
+        report += QString::number(totalExecutive);
+    }
+    if(reportType == REPORT_ALL_MEMBERS || reportType == REPORT_REGULAR_ONLY)
+    {
+        report += "\nTotal Regular members: ";
+        report += QString::number(totalRegular);
+    }
+
+    return report;
 }
 
 QString DataWarehouse::GetAllPurchases()
@@ -49,7 +211,7 @@ QString DataWarehouse::GetAllPurchases()
     display should also include a grand total including tax of all the
     purchases for all the members.
      */
-    return NULL; // temporary for stub
+    return "Not done yet..."; // temporary for stub
 }
 
 QString DataWarehouse::GetItemQuantities()
@@ -60,7 +222,7 @@ QString DataWarehouse::GetItemQuantities()
     sold sorted by item name and the total revenue (without tax) for
     each item.
     */
-    return NULL; // temporary for stub
+    return "Not done yet..."; // temporary for stub
 }
 
 QString DataWarehouse::GetExecutiveRebates()
@@ -71,7 +233,7 @@ QString DataWarehouse::GetExecutiveRebates()
     Executive members sorted by membership number. Rebates are
     based on purchases before tax.
     */
-    return NULL; // temporary for stub
+    return "Not done yet..."; // temporary for stub
 }
 
 QString DataWarehouse::GetMembershipExpirations(QDate month)
@@ -82,30 +244,34 @@ QString DataWarehouse::GetMembershipExpirations(QDate month)
     display of all members whose memberships expire that month as
     well as the cost to renew their memberships.
     */
-    return NULL; // temporary for stub
+    return "Not done yet..."; // temporary for stub
 }
 
-void DataWarehouse::AddMember(Member & m)
+void DataWarehouse::AddMember(Member* m)
 {
-    // This method is for requirement 7.
-    // Todo add m to members collection
+    // todo: not sure if Members will use pointers
+//Members.push_back(m);
 }
 
 void DataWarehouse::DeleteMember(int memberId)
 {
   // This method is for requirement 7.
   // Todo find member by id and set isDeleted flag in members collection
+    for (auto it = Members.begin(); it != Members.end(); ++it)
+    {
+        auto member = *it;
+        if(member.id == memberId)
+        {
+            member.isDeleted = true;
+            return;
+        }
+    }
 }
 
 void DataWarehouse::MakePurchase(Transaction* t)
 {
-    /*
-    Your team should provide the capability to create purchases of my
-    choice for the new members to validate your software
-    */
-
-    CompositeKey key = {t->date, t->customerId, t->productDescription};
-    transactions.insert(make_pair(key, t));
+    transactions.push_back(t);
+    sortData();
 }
 
 void DataWarehouse::AddItem(Item i)
@@ -136,7 +302,7 @@ QString DataWarehouse::GetSalesInfoForItem(QString itemName)
 
     // todo: find transactions for the specified item and calculate totals
 
-    return NULL; // temporary for stub
+    return "Not done yet..."; // temporary for stub
 }
 
 int DataWarehouse::GetMemberIdByName(QString memberName)
@@ -157,7 +323,7 @@ QString DataWarehouse::GetTotalPurchases(int memberId)
     // note, if member name is provided, we need to call GetMemberIdByName
     // first, then call this
 
-    return NULL; // temporary for stub
+    return "Not done yet..."; // temporary for stub
 }
 
 bool DataWarehouse::ShouldBeExecutive (int memberId)
