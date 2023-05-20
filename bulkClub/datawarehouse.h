@@ -12,6 +12,7 @@
 #include <QResource>
 #include <QTextStream>
 #include <QRegularExpression>
+#include <QDirIterator>
 
 class DataWarehouse
 {
@@ -21,8 +22,8 @@ private:
     vector<Item> Inventory;
 
     void LoadMembers();
-    void LoadTransactions();
-    void LoadInventory();
+    void LoadTransactionsAndInventory();
+
 
 public:
     DataWarehouse();

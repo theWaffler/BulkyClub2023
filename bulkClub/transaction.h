@@ -12,6 +12,7 @@ public:  // we can consider making this private and adding access methods later
     double price;
     int quantity;
 public:
+    Transaction();
     Transaction(QDate _date, int _customerId,
                 QString _productDescription, double _price, int _quantity);
 

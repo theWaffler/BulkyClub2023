@@ -18,7 +18,7 @@ struct TransactionDateComparator
 DataWarehouse::DataWarehouse()
 {
     qDebug() << "data\n";
-
+/*
     // start of temp code for testing until LoadTransactions is implemented
     Transaction* t = new Transaction(QDate(2011,1,1), 1, "hello", 1, 1);
     Transactions.push_back(t);
@@ -29,22 +29,118 @@ DataWarehouse::DataWarehouse()
     t = new Transaction(QDate(2009,1,1), 1, "hello", 1, 1);
     Transactions.push_back(t);
     // end of temp code for testing until LoadTransactions is implemented
-
+*/
     LoadMembers();
-    LoadTransactions();
-    //LoadInventory(); // todo: uncomment once this method is implemented.
+    LoadTransactionsAndInventory();
 
     sortData();
 }
 
 void DataWarehouse::LoadMembers()
 {
-    // Todo: populate members collection from "warehouse shoppers.txt"
+    QFile file(":/members/transactions/warehouseShoppers.txt");
+
+    if(!file.exists()){
+        qDebug() << "Could not find warehouseShoppers.txt\n";
+    }
+    if(!file.open(QIODevice::OpenModeFlag::ReadOnly)) {
+        qDebug() << "Could not open warehouseShoppers.txt" << "\n";
+        return;
+    } else {
+        QTextStream stream(&file);
+        while (!stream.atEnd()) {
+            Member newMember;
+            QString line = stream.readLine();
+            newMember.name = line;
+            line = stream.readLine();
+            newMember.id = line.toInt();
+            line = stream.readLine();
+            if (line == "Executive") {
+                newMember.isExecutive = true;
+            } else {
+                newMember.isExecutive = false;
+            }
+            line = stream.readLine();
+            QDate expDate = QDate::fromString(line, "MM/dd/yyyy");
+            newMember.expirationDate = expDate;
+            Members.push_back(newMember);
+        }
+
+        file.close();
+    }
 }
 
-void DataWarehouse::LoadTransactions()
+void DataWarehouse::LoadTransactionsAndInventory()
 {
-    // Todo: populate transactions collection from "day1.txt", "day2.txt", ...
+    QString directoryPath = ":data/transactions";
+    QDirIterator it(directoryPath, QDir::Files | QDir::NoDotAndDotDot);
+    while (it.hasNext()) {
+        QString filePath = it.next();
+        QFile file(filePath);
+        if(!file.exists()){
+            qDebug() << "could not find " << filePath << '\n';
+        }
+        if(!file.open(QIODevice::OpenModeFlag::ReadOnly)) {
+            qDebug() << "Could not open " << filePath << "\n";
+            return;
+        } else {
+            QTextStream stream(&file);
+            while (!stream.atEnd()) {
+
+                //get all the data
+                QString transDateStr = stream.readLine(); //Transaction Date
+
+                //make sure the data is formatted correctly
+                QDate transDate = QDate::fromString(transDateStr, "M/d/yyyy");
+                if (!transDate.isValid()) {
+                    transDate = QDate::fromString(transDateStr, "MM/dd/yyyy");
+                }
+
+                QString id = stream.readLine(); //member id
+
+                QString product = stream.readLine(); //item description
+
+                double price = stream.readLine().toDouble(); //item price
+
+                int quantity = stream.readLine().toInt(); // item quantity
+
+                //updating itemVector
+                bool found = false;
+                for (Item& item : Inventory) {
+                    if (item.product == product) {
+                        item.numSold += quantity;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    Item newItem;
+                    newItem.product = product;
+                    newItem.price = price;
+                    newItem.isDeleted = false;
+                    newItem.numSold = quantity;
+                    Inventory.push_back(newItem);
+                }
+
+
+
+                //create a new transaction and add the data
+                Transaction* newTransaction = new Transaction;
+                newTransaction->date = transDate;
+                newTransaction->customerId = id.toInt();
+                newTransaction->productDescription = product;
+                newTransaction->price = price;
+                newTransaction->quantity = quantity;
+
+                //Add pointer to transaction to transactionVector
+                Transactions.push_back(newTransaction);
+
+            }
+
+            file.close();
+        }
+
+    }
 }
 
 void DataWarehouse::sortData()
