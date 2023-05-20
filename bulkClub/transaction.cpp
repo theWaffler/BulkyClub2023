@@ -1,5 +1,6 @@
 #include "transaction.h"
 
+Transaction::Transaction() {}
 Transaction::Transaction(QDate _date, int _customerId,
                          QString _productDescription, double _price, int _quantity)
 {

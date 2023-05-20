@@ -15,6 +15,7 @@ public: // we can consider making this private and adding access methods later
     bool isDeleted;
 
 public:
+    Member();
     Member(QString _name, int _id, bool _isExecutive, QDate _expirationDate,
            double _totalAmountSpent, double _rebate, bool _isDeleted = false);
 };
