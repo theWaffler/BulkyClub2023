@@ -403,10 +403,116 @@ QString DataWarehouse::GetExecutiveRebates()
     Executive members sorted by membership number. Rebates are
     based on purchases before tax.
     */
-    return "Not done yet..."; // temporary for stub
+
+    QString report = QString("Executive Member Rebates: \n");
+
+    // todo: sort by membership number
+
+    for (auto it = Members.begin(); it != Members.end(); it++)
+    {
+        auto customer = *it;
+        if(!customer.isExecutive)
+        {
+            continue;
+        }
+
+        report += customer.name + ": " + QString::number(GetMemberRebate(customer.id)) +"\n";
+    }
+
+    return report;
 }
 
-QString DataWarehouse::GetMembershipExpirations(QDate month)
+QString DataWarehouse::GeConvertToExecutiveRecommendations()
+{
+    int total = 0;
+    QString report = QString("Regular Members who should convert to Executive: \n");
+
+    // todo: sort
+
+    for (auto it = Members.begin(); it != Members.end(); it++)
+    {
+        auto customer = *it;
+        if(customer.isExecutive)
+        {
+            continue;
+        }
+
+        if(ShouldBeExecutive(customer.id))
+        {
+            report += customer.name + "\n";
+        }
+    }
+
+    report += "\nTotal" + QString::number(total);
+
+    return report;
+}
+
+QString DataWarehouse::GeConvertToRegularRecommendations()
+{
+    int total = 0;
+    QString report = QString("Executive Members who should convert to Regular: \n");
+
+    // todo: sort
+
+    for (auto it = Members.begin(); it != Members.end(); it++)
+    {
+        auto customer = *it;
+        if(!customer.isExecutive)
+        {
+            continue;
+        }
+
+        if(!ShouldBeExecutive(customer.id))
+        {
+            report += customer.name + "\n";
+        }
+    }
+
+    report += "\nTotal: " + QString::number(total);
+
+    return report;
+}
+
+bool DataWarehouse::ShouldBeExecutive (int memberId)
+{
+    double priceDifference = 120 - 65; // exec membership is $120, regular is $65
+    if (GetMemberRebate(memberId) > priceDifference)
+    {
+        return true;
+    }
+    return false;
+}
+
+double DataWarehouse::GetMemberRebate(int memberId)
+{
+    double totalAmountSpent = 0;
+
+    for (auto it = Members.begin(); it != Members.end(); it++)
+    {
+        auto customer = *it;
+
+        if(customer.id != memberId)
+        {
+            continue;
+        }
+
+        for (auto it = Transactions.begin(); it != Transactions.end(); it++)
+        {
+            Transaction* transaction = *it;
+            if(transaction->customerId != customer.id)
+            {
+                continue;
+            }
+
+            totalAmountSpent += transaction->quantity * transaction->price;
+        }
+    }
+
+    return totalAmountSpent * 0.02;
+}
+
+QString DataWarehouse::GetMembershipExpirations(int month, int year)
 {
     // Todo: Write a method to fulfill the following requirement:
     /*
@@ -414,7 +520,21 @@ QString DataWarehouse::GetMembershipExpirations(QDate month)
     display of all members whose memberships expire that month as
     well as the cost to renew their memberships.
     */
-    return "Not done yet..."; // temporary for stub
+
+    QString report = QString("Memberships expiring in " + QString::number(month) +"/" + QString::number(year) + ":\n");
+
+    for (auto it = Members.begin(); it != Members.end(); it++)
+    {
+        auto customer = *it;
+
+        if(customer.expirationDate.month() == month && customer.expirationDate.year() == year)
+        {
+            QString renewalCost = customer.isExecutive ? "$120" : "$65";
+            report += customer.name + ", Renewal cost: " + renewalCost +"\n";
+        }
+    }
+
+    return report;
 }
 
 void DataWarehouse::AddMember(Member* m)
@@ -539,23 +659,4 @@ QString DataWarehouse::GetMemberPurchases(int memberId)
     }
 
     return "\nTotal Purchases (including tax): " + QString::number(customerTotal * 1.0775);
-}
-
-bool DataWarehouse::ShouldBeExecutive (int memberId)
-{
-    /*
-    Your program should be able to determine if any Regular customer
-    should convert their membership to Executive status using the given
-    sales data. Display the number of recommended conversions.
-    */
-    // Todo: find transactions for the customer and do calculations.
-    // NOTE: we will also need a function to display the number of recommended conversions.
-    return false; // temporary for stub
-}
-
-bool DataWarehouse::ShouldBeRegularMember(int memberId)
-{
-    // Note, this is for requirement 13. Once ShouldBeExecutive works, this
-    // should work. as with that method, we will also need one to display totals.
-    return !ShouldBeExecutive(memberId);
 }
