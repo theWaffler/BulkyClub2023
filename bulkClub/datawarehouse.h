@@ -24,6 +24,7 @@ private:
 
     void LoadMembers();
     void LoadTransactionsAndInventory();
+    bool IsExecutiveId(int customerId);
 
 public:
     DataWarehouse();

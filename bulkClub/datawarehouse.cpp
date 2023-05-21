@@ -202,6 +202,12 @@ QString DataWarehouse::GetSalesReportForDate(QDate date, int reportType)
     {
         Transaction* transaction = *it;
 
+        if((reportType == REPORT_EXECUTIVE_ONLY && !IsExecutiveId(transaction->customerId))
+            || (reportType == REPORT_REGULAR_ONLY && IsExecutiveId(transaction->customerId)))
+        {
+            continue;
+        }
+
         // add the item name to list of items sold, or increment quantity if it is already there.
         if(itemQuantities.count(transaction->productDescription) > 0)
         {
@@ -228,9 +234,9 @@ QString DataWarehouse::GetSalesReportForDate(QDate date, int reportType)
     {
     case REPORT_ALL_MEMBERS:
         report += ". Membership Type: All.";
-        isExecutive = true;
         break;
     case REPORT_EXECUTIVE_ONLY:
+        isExecutive = true;
         report += ". Membership Type: Executive.";
         break;
     case REPORT_REGULAR_ONLY:
@@ -250,7 +256,7 @@ QString DataWarehouse::GetSalesReportForDate(QDate date, int reportType)
     }
 
     // Add total revenue
-    report += "\nTotal Daily Revenue (including tax): ";
+    report += "\nTotal Daily Revenue (including tax): $";
     report += QString::number(totalRevenue);
 
     // Add details on members who shopped that day
@@ -314,6 +320,21 @@ QString DataWarehouse::GetSalesReportForDate(QDate date, int reportType)
     return report;
 }
 
+bool DataWarehouse::IsExecutiveId(int customerId)
+{
+    // skip over transactions with customers that don't match the report type.
+    for (auto it = Members.begin(); it != Members.end(); ++it)
+    {
+        Member customer = *it;
+        if(customer.id == customerId)
+        {
+            return customer.isExecutive;
+        }
+    }
+
+    return false;
+}
+
 // Call this for requirement 3
 QString DataWarehouse::GetPurchasesAllMembers()
 {
@@ -342,19 +363,24 @@ QString DataWarehouse::GetPurchasesAllMembers()
                 continue;
             }
 
+            if (transaction->productDescription == "Vine Ripe Tomatoes")
+            {
+                qDebug() << "break!\n";
+            }
+
             customerTotal += transaction->price * transaction->quantity;
 
             report += "\nItem: " + transaction->productDescription
                     + " Quantity: " + QString::number(transaction->quantity)
-                    + " Price: " + QString::number(transaction->price);
+                    + " Price: $" + QString::number(transaction->price);
         }
 
         totalRevenue += customerTotal;
 
-        report += "\nTotal Purchases (including tax): " + QString::number(customerTotal * 1.0775);
+        report += "\nTotal Purchases (including tax): $" + QString::number(customerTotal * 1.0775);
     }
 
-    report += "\n\nGrand Total (including tax): " + QString::number(totalRevenue * 1.0775);
+    report += "\n\nGrand Total (including tax): $" + QString::number(totalRevenue * 1.0775);
 
     return report;
 }
@@ -397,7 +423,7 @@ QString DataWarehouse::GetItemQuantities()
     for (auto it = itemQuantities.begin(); it != itemQuantities.end(); it++)
     {
         report += "\nItem: " + it->first + ". Quantity: "
-                  + QString::number(get<0>(it->second)) + " Total Revenue (without tax): "
+                  + QString::number(get<0>(it->second)) + " Total Revenue (without tax): $"
                   + QString::number(get<1>(it->second));
     }
 
@@ -429,7 +455,7 @@ QString DataWarehouse::GetItemQuantity(QString itemName)
         }
     }
 
-    report += QString::number(quantity) + ", Total Revenue (without tax): " + QString::number(revenue);
+    report += QString::number(quantity) + ", Total Revenue (without tax): $" + QString::number(revenue);
 
     return report;
 }
@@ -453,7 +479,7 @@ QString DataWarehouse::GetExecutiveRebates()
             continue;
         }
 
-        report += customer.name + ": " + QString::number(GetMemberRebate(customer.id)) +"\n";
+        report += customer.name + ": $" + QString::number(GetMemberRebate(customer.id)) +"\n";
     }
 
     return report;
@@ -731,7 +757,7 @@ QString DataWarehouse::GetMemberPurchases(int memberId)
         return "Error: Member not found.";
     }
 
-    QString report = QString("Sales for" + name + ":");
+    QString report = QString("Sales for " + name + ":");
 
     for (auto it = Transactions.begin(); it != Transactions.end(); it++)
     {
@@ -745,8 +771,8 @@ QString DataWarehouse::GetMemberPurchases(int memberId)
 
         report += "\nItem: " + transaction->productDescription
                   + " Quantity: " + QString::number(transaction->quantity)
-                  + " Price: " + QString::number(transaction->price);
+                  + " Price: $" + QString::number(transaction->price);
     }
 
-    return "\nTotal Purchases (including tax): " + QString::number(customerTotal * 1.0775);
+    return "\nTotal Purchases (including tax): $" + QString::number(customerTotal * 1.0775);
 }

@@ -33,6 +33,7 @@ void TestRequirements(DataWarehouse& storage)
     s = storage.GetSalesReportForDate(QDate(2021,4,5), REPORT_REGULAR_ONLY);
     qDebug() << s;
 
+
     // Requirement 3
     s = storage.GetPurchasesAllMembers();
     qDebug() << s;
