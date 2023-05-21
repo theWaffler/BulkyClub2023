@@ -20,6 +20,7 @@ class Employee
 public:
     Employee();
     bool validateCredentials(const QString& username, const QString& password);
+    EmployeeType getUserRole(const QString& username)const;
 
 private:
     std::vector<User> users;

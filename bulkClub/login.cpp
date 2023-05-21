@@ -1,6 +1,6 @@
 #include "login.h"
 #include "ui_login.h"
-#include "Employee.h" // Include Employee class header
+#include "Employee.h"
 #include <QMessageBox>
 #include "mainwindow.h"
 #include <QMovie>
@@ -30,7 +30,10 @@ void login::on_pushButton_login_clicked()
     if (employee->validateCredentials(username, password)) {
         // Login successful
         this->close();  // Close the login window
-        MainWindow *mainWindow = new MainWindow();  // Create a new MainWindow
+
+        EmployeeType role = employee->getUserRole(username);  // Get the user's role
+
+        MainWindow *mainWindow = new MainWindow(role);  // Create a new MainWindow with the user's role
         mainWindow->show();  // Show the MainWindow
     } else {
         // Login failed

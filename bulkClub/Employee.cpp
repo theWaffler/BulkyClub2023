@@ -19,3 +19,14 @@ bool Employee::validateCredentials(const QString& username, const QString& passw
     // If no match found, return false
     return false;
 }
+EmployeeType Employee::getUserRole(const QString& username) const
+{
+    for (const auto& user : users)
+    {
+        if (user.username == username)
+            return user.type;
+    }
+
+    //default role if user is not found
+    return EmployeeType::Manager;
+}
