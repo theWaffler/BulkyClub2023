@@ -22,15 +22,27 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
         ui->pushButton_totalRevenueTax->setEnabled(true);
         ui->pushButton_memberShoppingDataSearch->setEnabled(true);
         ui->pushButton_memberType->setEnabled(true);
+        ui->pushButton_itemAddDelete->setEnabled(true);
+        ui->pushButton_memberAddDelete->setEnabled(true);
+        ui->pushButton_memberRebateDisplay->setEnabled(true);
+        ui->pushButton_memberExpSearch->setEnabled(true);
+        ui->pushButton_inventorySearch->setEnabled(true);
+        ui->pushButton_memberSearch->setEnabled(true);
     }
     else {
         //disable admin-specific GUI elements
-        ui->pushButton_searchSalesReport->setEnabled(false);
-        ui->pushButton_salesReportMemberTypeDisplay->setEnabled(false);
-        ui->pushButton_itemSold->setEnabled(false);
-        ui->pushButton_totalRevenueTax->setEnabled(false);
-        ui->pushButton_memberShoppingDataSearch->setEnabled(false);
-        ui->pushButton_memberType->setEnabled(false);
+        ui->pushButton_searchSalesReport->setEnabled(true);
+        ui->pushButton_salesReportMemberTypeDisplay->setEnabled(true);
+        ui->pushButton_itemSold->setEnabled(true);
+        ui->pushButton_totalRevenueTax->setEnabled(true);
+        ui->pushButton_memberShoppingDataSearch->setEnabled(true);
+        ui->pushButton_memberType->setEnabled(true);
+        ui->pushButton_itemAddDelete->setEnabled(false);
+        ui->pushButton_memberAddDelete->setEnabled(false);
+        ui->pushButton_memberRebateDisplay->setEnabled(true);
+        ui->pushButton_memberExpSearch->setEnabled(true);
+        ui->pushButton_inventorySearch->setEnabled(true);
+        ui->pushButton_memberSearch->setEnabled(true);
     }
 }
 

@@ -34,6 +34,8 @@ private slots:
 
     void on_pushButton_inventorySearch_clicked();
 
+    void on_pushButton_memberSearch_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
