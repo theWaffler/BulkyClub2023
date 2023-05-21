@@ -1,0 +1,8 @@
+build-bulkClub-Desktop_Qt_6_5_0_MinGW_64_bit-Debug/
+.qtc_clangd/
+.cache/
+clangd/index/
+qcoreapplication.h.42EB9CE8BBE99B7F.idx
+*.idx
+*.bat
+*.json
