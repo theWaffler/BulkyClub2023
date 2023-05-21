@@ -682,8 +682,18 @@ debug/datawarehouse.o: ../bulkClub/datawarehouse.cpp ../bulkClub/datawarehouse.h
 		C:/Qt/6.5.0/mingw_64/include/QtCore/qobject_impl.h \
 		C:/Qt/6.5.0/mingw_64/include/QtCore/qbindingstorage.h \
 		C:/Qt/6.5.0/mingw_64/include/QtCore/QString \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/QDebug \
 		../bulkClub/transaction.h \
-		../bulkClub/item.h
+		../bulkClub/item.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/QFile \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qfile.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qfiledevice.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qiodevice.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/QResource \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qresource.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/QTextStream \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/QRegularExpression \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qregularexpression.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\datawarehouse.o ..\bulkClub\datawarehouse.cpp
 
 debug/item.o: ../bulkClub/item.cpp ../bulkClub/item.h \
@@ -796,7 +806,8 @@ debug/item.o: ../bulkClub/item.cpp ../bulkClub/item.h \
 		C:/Qt/6.5.0/mingw_64/include/QtCore/qcoreevent.h \
 		C:/Qt/6.5.0/mingw_64/include/QtCore/qobject_impl.h \
 		C:/Qt/6.5.0/mingw_64/include/QtCore/qbindingstorage.h \
-		C:/Qt/6.5.0/mingw_64/include/QtCore/QString
+		C:/Qt/6.5.0/mingw_64/include/QtCore/QString \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\item.o ..\bulkClub\item.cpp
 
 debug/login.o: ../bulkClub/login.cpp ../bulkClub/login.h \
@@ -1205,7 +1216,24 @@ debug/main.o: ../bulkClub/main.cpp C:/Qt/6.5.0/mingw_64/include/QtWidgets/QAppli
 		C:/Qt/6.5.0/mingw_64/include/QtGui/QTransform \
 		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qtabwidget.h \
 		../bulkClub/Employee.h \
-		C:/Qt/6.5.0/mingw_64/include/QtCore/QString
+		C:/Qt/6.5.0/mingw_64/include/QtCore/QString \
+		../bulkClub/datawarehouse.h \
+		../bulkClub/member.h \
+		../bulkClub/Common.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/QDateTime \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qdatetime.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qcalendar.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/QDebug \
+		../bulkClub/transaction.h \
+		../bulkClub/item.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/QFile \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qfile.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qfiledevice.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/QResource \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qresource.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/QTextStream \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/QRegularExpression \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qregularexpression.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\main.o ..\bulkClub\main.cpp
 
 debug/mainwindow.o: ../bulkClub/mainwindow.cpp ../bulkClub/mainwindow.h \
@@ -1392,17 +1420,63 @@ debug/mainwindow.o: ../bulkClub/mainwindow.cpp ../bulkClub/mainwindow.h \
 		C:/Qt/6.5.0/mingw_64/include/QtGui/qinputmethod.h \
 		C:/Qt/6.5.0/mingw_64/include/QtCore/qlocale.h \
 		C:/Qt/6.5.0/mingw_64/include/QtGui/qguiapplication_platform.h \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/QHeaderView \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qheaderview.h \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qabstractitemview.h \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qabstractitemmodel.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qitemselectionmodel.h \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qstyleoption.h \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qabstractspinbox.h \
+		C:/Qt/6.5.0/mingw_64/include/QtGui/qvalidator.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qregularexpression.h \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qslider.h \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qabstractslider.h \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qstyle.h \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qtabbar.h \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qrubberband.h \
 		C:/Qt/6.5.0/mingw_64/include/QtWidgets/QLabel \
 		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qlabel.h \
-		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qframe.h \
 		C:/Qt/6.5.0/mingw_64/include/QtGui/qpicture.h \
 		C:/Qt/6.5.0/mingw_64/include/QtGui/qtextdocument.h \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/QLineEdit \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qlineedit.h \
+		C:/Qt/6.5.0/mingw_64/include/QtGui/qtextcursor.h \
+		C:/Qt/6.5.0/mingw_64/include/QtGui/qtextformat.h \
+		C:/Qt/6.5.0/mingw_64/include/QtGui/qpen.h \
+		C:/Qt/6.5.0/mingw_64/include/QtGui/qtextoption.h \
 		C:/Qt/6.5.0/mingw_64/include/QtWidgets/QMenuBar \
 		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qmenubar.h \
 		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qmenu.h \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/QPushButton \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qpushbutton.h \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qabstractbutton.h \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/QRadioButton \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qradiobutton.h \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/QScrollBar \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qscrollbar.h \
 		C:/Qt/6.5.0/mingw_64/include/QtWidgets/QStatusBar \
 		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qstatusbar.h \
-		C:/Qt/6.5.0/mingw_64/include/QtWidgets/QWidget
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/QTableView \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/qtableview.h \
+		C:/Qt/6.5.0/mingw_64/include/QtWidgets/QWidget \
+		C:/Qt/6.5.0/mingw_64/include/QtGui/QMovie \
+		C:/Qt/6.5.0/mingw_64/include/QtGui/qmovie.h \
+		C:/Qt/6.5.0/mingw_64/include/QtGui/qimagereader.h \
+		C:/Qt/6.5.0/mingw_64/include/QtGui/qimageiohandler.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qplugin.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qjsonobject.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qjsonvalue.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qcborvalue.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qdatetime.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qcalendar.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qcborcommon.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/quuid.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/q20algorithm.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/q20functional.h \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/qfactoryinterface.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o ..\bulkClub\mainwindow.cpp
 
 debug/member.o: ../bulkClub/member.cpp ../bulkClub/member.h \
@@ -1515,7 +1589,8 @@ debug/member.o: ../bulkClub/member.cpp ../bulkClub/member.h \
 		C:/Qt/6.5.0/mingw_64/include/QtCore/qcoreevent.h \
 		C:/Qt/6.5.0/mingw_64/include/QtCore/qobject_impl.h \
 		C:/Qt/6.5.0/mingw_64/include/QtCore/qbindingstorage.h \
-		C:/Qt/6.5.0/mingw_64/include/QtCore/QString
+		C:/Qt/6.5.0/mingw_64/include/QtCore/QString \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\member.o ..\bulkClub\member.cpp
 
 debug/transaction.o: ../bulkClub/transaction.cpp ../bulkClub/transaction.h \
@@ -1628,7 +1703,8 @@ debug/transaction.o: ../bulkClub/transaction.cpp ../bulkClub/transaction.h \
 		C:/Qt/6.5.0/mingw_64/include/QtCore/qcoreevent.h \
 		C:/Qt/6.5.0/mingw_64/include/QtCore/qobject_impl.h \
 		C:/Qt/6.5.0/mingw_64/include/QtCore/qbindingstorage.h \
-		C:/Qt/6.5.0/mingw_64/include/QtCore/QString
+		C:/Qt/6.5.0/mingw_64/include/QtCore/QString \
+		C:/Qt/6.5.0/mingw_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\transaction.o ..\bulkClub\transaction.cpp
 
 debug/qrc_image.o: debug/qrc_image.cpp 
