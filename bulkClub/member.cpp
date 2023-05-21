@@ -1,6 +1,5 @@
 #include "member.h"
 
-Member::Member() {}
 Member::Member(QString _name, int _id, bool _isExecutive, QDate _expirationDate,
                double _totalAmountSpent, double _rebate, bool _isDeleted)
 {

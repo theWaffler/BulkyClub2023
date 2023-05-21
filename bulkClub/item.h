@@ -14,7 +14,6 @@ public: // we can consider making this private and adding access methods later
 
 
 public:
-    Item();
     Item(QString _product, double _price, int _numSold, bool _isDeleted = false);
 };
 
