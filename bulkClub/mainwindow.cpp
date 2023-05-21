@@ -42,66 +42,72 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_searchSalesReport_clicked()
 {
-
+// Manager function
 }
 
 
 void MainWindow::on_pushButton_salesReportMemberTypeDisplay_clicked()
 {
-
+// Manager function
 }
 
 
 void MainWindow::on_pushButton_itemSold_clicked()
 {
-
+// Manager function
 }
 
 
 void MainWindow::on_pushButton_totalRevenueTax_clicked()
 {
-
+// Manager function
 }
 
 
 void MainWindow::on_pushButton_memberShoppingDataSearch_clicked()
 {
-
+// Manager function
 }
 
 
 void MainWindow::on_pushButton_memberType_clicked()
 {
-
+// Manager function
 }
 
 
 void MainWindow::on_pushButton_itemAddDelete_clicked()
 {
-
+//ADMIN function
 }
 
 
 void MainWindow::on_pushButton_memberAddDelete_clicked()
 {
-
+//ADMIN function
 }
 
 
 void MainWindow::on_pushButton_memberRebateDisplay_clicked()
 {
-
+// Manager function
 }
 
 
 void MainWindow::on_pushButton_memberExpSearch_clicked()
 {
-
+// Manager function
 }
 
 
 void MainWindow::on_pushButton_inventorySearch_clicked()
 {
+// Manager function
+}
 
+
+void MainWindow::on_pushButton_memberSearch_clicked()
+{
+// Manager function
 }
 
