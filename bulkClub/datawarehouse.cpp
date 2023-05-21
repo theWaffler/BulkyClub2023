@@ -129,8 +129,11 @@ void DataWarehouse::LoadTransactionsAndInventory()
         }
 
     }
+  
+    sortInventory();
     sortMembers();
 }
+
 void DataWarehouse::sortTransactions()
 {
     sort(Transactions.begin(), Transactions.end(), [](const Transaction* t1, const Transaction* t2) {
@@ -145,6 +148,22 @@ void DataWarehouse::sortTransactions()
    // qDebug() << "sorted\n";
 }
 
+void DataWarehouse::sortInventory()
+{
+    sort(Inventory.begin(), Inventory.end(), [](const Item &I1, const Item &I2)
+         {
+             return I1.product < I2.product;
+         });
+
+    for(auto& i : Inventory)
+    {
+        qDebug() << i.product << "\n";
+    }
+
+    // qDebug() << "sorted\n";
+
+}
+
 void DataWarehouse::sortMembers()
 {
     sort(Members.begin(), Members.end(), [](const Member &M1, const Member &M2)
@@ -152,17 +171,16 @@ void DataWarehouse::sortMembers()
         return M1.id < M2.id;
     });
 
-    for(auto i : Members)
+    for(auto& i : Members)
     {
         qDebug() << i.id << "\n";
     }
 
     //qDebug() << "sorted\n";
-
 }
 
 
-// Note: this method satisfies requirements 1 and 2 by including the "reportType" parameter.
+// Call this for requirements 1 and 2 by including the "reportType" parameter.
 // From common.h:
 //   #define REPORT_ALL_MEMBERS 0
 //   #define REPORT_EXECUTIVE_ONLY 1
@@ -308,6 +326,8 @@ QString DataWarehouse::GetSalesReportForDate(QDate date, int reportType)
     return report;
 }
 
+
+// Call this for requirement 3
 QString DataWarehouse::GetPurchasesAllMembers()
 {
     /*
@@ -358,9 +378,9 @@ QString DataWarehouse::GetPurchasesAllMembers()
     return report;
 }
 
+// Call this for requirement 4
 QString DataWarehouse::GetItemQuantities()
 {
-    // Todo: Write a method to fulfill the following requirement:
     /*
     A store manager should be able to display the quantity of each item
     sold sorted by item name and the total revenue (without tax) for
@@ -391,7 +411,6 @@ QString DataWarehouse::GetItemQuantities()
         }
     }
 
-    // TODO: sort items by name
     QString report = QString("Quantity of Items Sold: \n");
 
     for (auto it = itemQuantities.begin(); it != itemQuantities.end(); it++)
@@ -404,9 +423,39 @@ QString DataWarehouse::GetItemQuantities()
     return report;
 }
 
+// Call this for requirement 10
+QString DataWarehouse::GetItemQuantity(QString itemName)
+{
+    /*
+    A store manager should be able to enter an item name and only
+    display the quantity of that item sold as well as the total revenue
+    (without tax) for the item. No other items should be displayed.
+    */
+
+    int quantity = 0;
+    double revenue = 0;
+
+    QString report = QString("Quantity of " + itemName + " Sold: ");
+
+    for (auto it = Transactions.begin(); it != Transactions.end(); it++)
+    {
+        Transaction* transaction = *it;
+
+        if(transaction->productDescription == itemName)
+        {
+            revenue += transaction->quantity * transaction->price;
+            quantity += transaction->quantity;
+        }
+    }
+
+    report += QString::number(quantity) + ", Total Revenue (without tax): " + QString::number(revenue);
+
+    return report;
+}
+
+// Call this for requirement 5
 QString DataWarehouse::GetExecutiveRebates()
 {
-    // Todo: Write a method to fulfill the following requirement:
     /*
     A store manager should be able to display the rebate of all the
     Executive members sorted by membership number. Rebates are
@@ -431,6 +480,7 @@ QString DataWarehouse::GetExecutiveRebates()
     return report;
 }
 
+// Call this for requirement 12
 QString DataWarehouse::GetConvertToExecutiveRecommendations()
 {
     int total = 0;
@@ -458,6 +508,7 @@ QString DataWarehouse::GetConvertToExecutiveRecommendations()
     return report;
 }
 
+// Call this for requirement 13
 QString DataWarehouse::GetConvertToRegularRecommendations()
 {
     int total = 0;
@@ -523,9 +574,9 @@ double DataWarehouse::GetMemberRebate(int memberId)
     return totalAmountSpent * 0.02;
 }
 
+// Call this for requirement 6
 QString DataWarehouse::GetMembershipExpirations(int month, int year)
 {
-    // Todo: Write a method to fulfill the following requirement:
     /*
     A store manager should be able to enter a month and obtain a
     display of all members whose memberships expire that month as
@@ -548,16 +599,16 @@ QString DataWarehouse::GetMembershipExpirations(int month, int year)
     return report;
 }
 
-void DataWarehouse::AddMember(Member* m)
+// Call for requrement 7
+void DataWarehouse::AddMember(Member m)
 {
-    // todo: not sure if Members will use pointers
-//Members.push_back(m);
+    Members.push_back(m);
+    sortMembers();
 }
 
+// Call for requirement 7
 void DataWarehouse::DeleteMember(int memberId)
 {
-  // This method is for requirement 7.
-  // Todo find member by id and set isDeleted flag in members collection
     for (auto it = Members.begin(); it != Members.end(); ++it)
     {
         auto member = *it;
@@ -569,46 +620,51 @@ void DataWarehouse::DeleteMember(int memberId)
     }
 }
 
-// Note: whoever calls this needs to do a "new" transaction, or we may get invalid data
-// after the calling function returns.
+// Call for requiremet 8.
 void DataWarehouse::MakePurchase(Transaction* t)
 {
     Transactions.push_back(t);
     sortTransactions();
 }
 
+// Call fore requrirement 9
 void DataWarehouse::AddItem(Item i)
 {
-    // This method is for requirement 9.
-    // Todo insert i into items collection
+    Inventory.push_back(i);
+    sortInventory();
 }
 
-void DataWarehouse::DeleteItem(int itemId)
+// Call for requirement 9
+void DataWarehouse::DeleteItem(QString itemName)
 {
-    // This method is for requirement 9.
-    // Todo find item in items by id, and remove it from collection.
+    for (auto it = Inventory.begin(); it != Inventory.end(); it++)
+    {
+        auto item = *it;
+
+        if(item.product == itemName)
+        {
+            item.isDeleted = true;
+            return;
+        }
+    }
 }
 
-void DataWarehouse::ChangePrice(int itemId)
+// Call for requirement 9
+void DataWarehouse::ChangePrice(QString itemName, double price)
 {
-    // This method is for requirement 9.
-   // Todo find item in items by id, and update its price.
+    for (auto it = Inventory.begin(); it != Inventory.end(); it++)
+    {
+        auto item = *it;
+
+        if(item.product == itemName)
+        {
+            item.price = price;
+            return;
+        }
+    }
 }
 
-QString DataWarehouse::GetSalesInfoForItem(QString itemName)
-{
-    /*
-    A store manager should be able to enter an item name and only
-    display the quantity of that item sold as well as the total revenue
-    (without tax) for the item. No other items should be displayed.
-    */
-
-    // todo: find transactions for the specified item and calculate totals
-
-    return "Not done yet..."; // temporary for stub
-}
-
-// this is part of requirement 11. If name is given instead of id,
+// Call for requirement 11. If name is given instead of id,
 // call this to get the Id, then call GetMemberPurchases(id);
 int DataWarehouse::GetMemberIdByName(QString memberName)
 {
@@ -625,6 +681,7 @@ int DataWarehouse::GetMemberIdByName(QString memberName)
     return -1; // customer not found
 }
 
+// Call for requirement 11
 QString DataWarehouse::GetMemberPurchases(int memberId)
 {
     /*

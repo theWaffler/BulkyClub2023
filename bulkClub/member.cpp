@@ -12,3 +12,4 @@ Member::Member(QString _name, int _id, bool _isExecutive, QDate _expirationDate,
     rebate = _rebate;
     isDeleted = _isDeleted;
 }
+

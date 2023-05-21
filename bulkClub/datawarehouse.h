@@ -30,19 +30,20 @@ public:
 
     void sortMembers();
     void sortTransactions();
+    void sortInventory();
 
     QString GetSalesReportForDate(QDate date, int reportType);
     QString GetPurchasesAllMembers();
     QString GetItemQuantities();
+    QString GetItemQuantity(QString itemName);
     QString GetExecutiveRebates();
     QString GetMembershipExpirations(int month, int year);
-    void AddMember(Member* m);
+    void AddMember(Member m);
     void DeleteMember(int memberId);
     void MakePurchase(Transaction* t);
     void AddItem(Item i);
-    void DeleteItem(int itemId);
-    void ChangePrice(int itemId);
-    QString GetSalesInfoForItem(QString itemName);
+    void DeleteItem(QString itemName);
+    void ChangePrice(QString itemName, double price);
     int GetMemberIdByName(QString memberName);
     QString GetMemberPurchases(int memberId);
     bool ShouldBeExecutive (int memberId);
