@@ -29,6 +29,7 @@ public:
     DataWarehouse();
 
     void sortMembers();
+    //void sortMembersByName();
     void sortTransactions();
     void sortInventory();
 
@@ -40,7 +41,7 @@ public:
     QString GetMembershipExpirations(int month, int year);
     void AddMember(Member m);
     void DeleteMember(int memberId);
-    void MakePurchase(Transaction* t);
+    QString MakePurchase(Transaction* t);
     void AddItem(Item i);
     void DeleteItem(QString itemName);
     void ChangePrice(QString itemName, double price);

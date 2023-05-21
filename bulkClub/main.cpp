@@ -50,18 +50,21 @@ void TestRequirements(DataWarehouse& storage)
     qDebug() << s;
 
     // Requirement 7a
-    Member m("Test Member",87652, false, QDate::fromString("11/11/22"),0,0, false);
+    Member m("Test Member",87652, false, QDate::fromString("11/11/22", "M/d/yyyy"),0,0, false);
     storage.AddMember(m);
 
     // Requirmenent 7b
-
-
+    int memberId = storage.GetMemberIdByName("Test Member");
+    storage.DeleteMember(memberId);
 
     // Requirement 8
-    // create purchase ----------------
+    Transaction*     t = new Transaction(QDate::fromString("11/11/21", "M/d/yyyy"), 12345, "Coke", 1.50, 1);
+    storage.MakePurchase(t);
 
     // Requirement 9
-    // add and delete items ------------
+    Item i("Test Item", 3.33, 0, false);
+    storage.AddItem(i);
+    storage.DeleteItem("Test Item");
 
     // Requirement 10
     s = storage.GetItemQuantity("Coke");

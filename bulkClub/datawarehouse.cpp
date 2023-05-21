@@ -17,7 +17,7 @@ struct TransactionDateComparator
 
 DataWarehouse::DataWarehouse()
 {
-    qDebug() << "data\n";
+   // qDebug() << "data\n";
 
     LoadMembers();
     LoadTransactionsAndInventory();
@@ -140,45 +140,33 @@ void DataWarehouse::sortTransactions()
         return t1->date < t2->date;
     });
 
-    for(auto* i : Transactions)
-    {
-        qDebug() << i->date << "\n";
-    }
-
    // qDebug() << "sorted\n";
 }
 
 void DataWarehouse::sortInventory()
 {
-    sort(Inventory.begin(), Inventory.end(), [](const Item &I1, const Item &I2)
-         {
+    sort(Inventory.begin(), Inventory.end(), [](const Item &I1, const Item &I2){
              return I1.product < I2.product;
          });
 
-    for(auto& i : Inventory)
-    {
-        qDebug() << i.product << "\n";
-    }
-
     // qDebug() << "sorted\n";
-
 }
 
 void DataWarehouse::sortMembers()
 {
-    sort(Members.begin(), Members.end(), [](const Member &M1, const Member &M2)
-    {
+    sort(Members.begin(), Members.end(), [](const Member &M1, const Member &M2){
         return M1.id < M2.id;
     });
-
-    for(auto& i : Members)
-    {
-        qDebug() << i.id << "\n";
-    }
 
     //qDebug() << "sorted\n";
 }
 
+/*void DataWarehouse::sortMembersByName()
+{
+    sort(Members.begin(), Members.end(), [](const Member &M1, const Member &M2){
+        return M1.name < M2.name;
+    });
+}*/
 
 // Call this for requirements 1 and 2 by including the "reportType" parameter.
 // From common.h:
@@ -230,7 +218,7 @@ QString DataWarehouse::GetSalesReportForDate(QDate date, int reportType)
         // add the customer to the list of customers for the day
         customerIds.insert(transaction->customerId);
 
-        qDebug() << transaction->date << "\n";
+        //qDebug() << transaction->date << "\n";
     }
 
     // Generate the sales report
@@ -326,7 +314,6 @@ QString DataWarehouse::GetSalesReportForDate(QDate date, int reportType)
     return report;
 }
 
-
 // Call this for requirement 3
 QString DataWarehouse::GetPurchasesAllMembers()
 {
@@ -335,21 +322,15 @@ QString DataWarehouse::GetPurchasesAllMembers()
     each member including tax sorted by membership number. The
     display should also include a grand total including tax of all the
     purchases for all the members.
-     */
+    */
 
     QString report = QString("Sales by Member: \n");
     double totalRevenue = 0;
 
-    // Todo: sort customers by name
     for (auto it = Members.begin(); it != Members.end(); it++)
     {
         double customerTotal = 0;
         Member customer = *it;
-        // todo: find out if the report should contain deleted members. it probaby should.
-        //if(customer.isDeleted)
-        //{
-        //    continue;
-        //}
 
         report += "\n\nCustomer ID: " +  QString::number(customer.id) + ", Name: " + customer.name;
 
@@ -464,8 +445,6 @@ QString DataWarehouse::GetExecutiveRebates()
 
     QString report = QString("Executive Member Rebates: \n");
 
-    // todo: sort by membership number
-
     for (auto it = Members.begin(); it != Members.end(); it++)
     {
         auto customer = *it;
@@ -496,7 +475,7 @@ QString DataWarehouse::GetConvertToExecutiveRecommendations()
             continue;
         }
 
-        if(ShouldBeExecutive(customer.id))
+        if(ShouldBeExecutive(customer.id) && !customer.isDeleted)
         {
             report += customer.name + ", ID:" + QString::number(customer.id) + "\n";
             total++;
@@ -524,7 +503,7 @@ QString DataWarehouse::GetConvertToRegularRecommendations()
             continue;
         }
 
-        if(!ShouldBeExecutive(customer.id))
+        if(!ShouldBeExecutive(customer.id) && !customer.isDeleted)
         {
             report += customer.name + ", ID:" + QString::number(customer.id) + "\n";
             total++;
@@ -621,10 +600,53 @@ void DataWarehouse::DeleteMember(int memberId)
 }
 
 // Call for requiremet 8.
-void DataWarehouse::MakePurchase(Transaction* t)
+QString DataWarehouse::MakePurchase(Transaction* t)
 {
+    // Make sure customer is found and not deleted.
+    bool found = false;
+    for (auto it = Members.begin(); it != Members.end(); it++)
+    {
+        auto member = *it;
+        if(member.id == t->customerId)
+        {
+            found = true;
+            if(member.isDeleted)
+            {
+                return QString("Error, customer " + member.name + " is deleted.");
+            }
+        }
+    }
+
+    if(!found)
+    {
+        return QString("Error, customer not found.");
+    }
+
+    found = false;
+    // Make sure item is found and not deleted.
+    for (auto it = Inventory.begin(); it != Inventory.end(); it++)
+    {
+        auto item = *it;
+
+        if(item.product == t->productDescription)
+        {
+            found = true;
+            if(item.isDeleted)
+            {
+                return QString("Error, item " + item.product + " is deleted.");
+            }
+        }
+    }
+
+    if(!found)
+    {
+        return QString("Error, item not found.");
+    }
+
     Transactions.push_back(t);
     sortTransactions();
+
+    return QString("Purchase added.");
 }
 
 // Call fore requrirement 9
