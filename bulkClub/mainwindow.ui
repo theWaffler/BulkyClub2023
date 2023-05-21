@@ -7,8 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>1280</width>
-    <height>720</height>
+    <height>1000</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1280</width>
+    <height>1000</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1280</width>
+    <height>1000</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -27,7 +39,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="C:/Users/Gerald/Documents/Qt/loginWindow_2/loginWindow/images.qrc">:/image/D:/School/CS-1C/GroupProject/cs1c_proj/bulkClub/tacoFlying.gif</pixmap>
+     <pixmap>:/image/D:/School/CS-1C/GroupProject/cs1c_proj/bulkClub/tacoFlying.gif</pixmap>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_memberShoppingData">
@@ -388,8 +400,6 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="C:/Users/Gerald/Documents/Qt/loginWindow_2/loginWindow/images.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
