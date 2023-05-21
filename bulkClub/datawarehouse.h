@@ -28,10 +28,10 @@ private:
 public:
     DataWarehouse();
 
-    void sortData();
+    void sortMembers();
+    void sortTransactions();
 
     QString GetSalesReportForDate(QDate date, int reportType);
-
     QString GetPurchasesAllMembers();
     QString GetItemQuantities();
     QString GetExecutiveRebates();
@@ -47,7 +47,7 @@ public:
     QString GetMemberPurchases(int memberId);
     bool ShouldBeExecutive (int memberId);
     double GetMemberRebate(int memberId);
-    QString GeConvertToExecutiveRecommendations();
-    QString GeConvertToRegularRecommendations();
+    QString GetConvertToExecutiveRecommendations();
+    QString GetConvertToRegularRecommendations();
 };
 #endif // DATAWAREHOUSE_H

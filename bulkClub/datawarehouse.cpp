@@ -18,22 +18,9 @@ struct TransactionDateComparator
 DataWarehouse::DataWarehouse()
 {
     qDebug() << "data\n";
-/*
-    // start of temp code for testing until LoadTransactions is implemented
-    Transaction* t = new Transaction(QDate(2011,1,1), 1, "hello", 1, 1);
-    Transactions.push_back(t);
-    t = new Transaction(QDate(2012,1,1), 1, "hello", 1, 1);
-    Transactions.push_back(t);
-    t = new Transaction(QDate(2011,1,1), 1, "whatsup", 1, 1);
-    Transactions.push_back(t);
-    t = new Transaction(QDate(2009,1,1), 1, "hello", 1, 1);
-    Transactions.push_back(t);
-    // end of temp code for testing until LoadTransactions is implemented
-*/
+
     LoadMembers();
     LoadTransactionsAndInventory();
-
-    sortData();
 }
 
 void DataWarehouse::LoadMembers()
@@ -142,9 +129,9 @@ void DataWarehouse::LoadTransactionsAndInventory()
         }
 
     }
+    sortMembers();
 }
-
-void DataWarehouse::sortData()
+void DataWarehouse::sortTransactions()
 {
     sort(Transactions.begin(), Transactions.end(), [](const Transaction* t1, const Transaction* t2) {
         return t1->date < t2->date;
@@ -155,7 +142,23 @@ void DataWarehouse::sortData()
         qDebug() << i->date << "\n";
     }
 
-    qDebug() << "sorted\n";
+   // qDebug() << "sorted\n";
+}
+
+void DataWarehouse::sortMembers()
+{
+    sort(Members.begin(), Members.end(), [](const Member &M1, const Member &M2)
+    {
+        return M1.id < M2.id;
+    });
+
+    for(auto i : Members)
+    {
+        qDebug() << i.id << "\n";
+    }
+
+    //qDebug() << "sorted\n";
+
 }
 
 
@@ -254,12 +257,16 @@ QString DataWarehouse::GetSalesReportForDate(QDate date, int reportType)
 
         // find the customer info
         bool found = false;
-        for (auto it = Members.begin(); it != Members.end(); ++it)
+        for (auto it2 = Members.begin(); it2 != Members.end(); ++it2)
         {
-            auto customer = *it;
+            Member customer = *it2;
+            //qDebug() << "\nLookup (from custIds): " << customerId;
+            //qDebug() << "Match (from members): " << customer.id;
+            //qDebug() << "Inequality: " << (customer.id == customerId);
             if(customer.id == customerId)
             {
                 found = true;
+                //qDebug() << "\nFound it.\n";
                 if(reportType == REPORT_ALL_MEMBERS || customer.isExecutive == isExecutive)
                 {
                     report += customer.name;
@@ -277,10 +284,12 @@ QString DataWarehouse::GetSalesReportForDate(QDate date, int reportType)
 
                 break; // we found the customer we are looking for. no need to continue.
             }
-            if(!found)
-            {
-                report += "Error: Customer not found.\n";
-            }
+        }
+
+        if(!found)
+        {
+            report += "Error: Customer not found.\n";
+            //qDebug() << "Error Id not found";
         }
     }
 
@@ -315,14 +324,14 @@ QString DataWarehouse::GetPurchasesAllMembers()
     for (auto it = Members.begin(); it != Members.end(); it++)
     {
         double customerTotal = 0;
-        auto customer = *it;
+        Member customer = *it;
         // todo: find out if the report should contain deleted members. it probaby should.
         //if(customer.isDeleted)
         //{
         //    continue;
         //}
 
-        report += "\n\nCustomer ID: " +  QString::number(customer.id) + "Name: " + customer.name;
+        report += "\n\nCustomer ID: " +  QString::number(customer.id) + ", Name: " + customer.name;
 
         for (auto it = Transactions.begin(); it != Transactions.end(); it++)
         {
@@ -422,7 +431,7 @@ QString DataWarehouse::GetExecutiveRebates()
     return report;
 }
 
-QString DataWarehouse::GeConvertToExecutiveRecommendations()
+QString DataWarehouse::GetConvertToExecutiveRecommendations()
 {
     int total = 0;
     QString report = QString("Regular Members who should convert to Executive: \n");
@@ -439,7 +448,8 @@ QString DataWarehouse::GeConvertToExecutiveRecommendations()
 
         if(ShouldBeExecutive(customer.id))
         {
-            report += customer.name + "\n";
+            report += customer.name + ", ID:" + QString::number(customer.id) + "\n";
+            total++;
         }
     }
 
@@ -448,7 +458,7 @@ QString DataWarehouse::GeConvertToExecutiveRecommendations()
     return report;
 }
 
-QString DataWarehouse::GeConvertToRegularRecommendations()
+QString DataWarehouse::GetConvertToRegularRecommendations()
 {
     int total = 0;
     QString report = QString("Executive Members who should convert to Regular: \n");
@@ -465,7 +475,8 @@ QString DataWarehouse::GeConvertToRegularRecommendations()
 
         if(!ShouldBeExecutive(customer.id))
         {
-            report += customer.name + "\n";
+            report += customer.name + ", ID:" + QString::number(customer.id) + "\n";
+            total++;
         }
     }
 
@@ -563,7 +574,7 @@ void DataWarehouse::DeleteMember(int memberId)
 void DataWarehouse::MakePurchase(Transaction* t)
 {
     Transactions.push_back(t);
-    sortData();
+    sortTransactions();
 }
 
 void DataWarehouse::AddItem(Item i)
