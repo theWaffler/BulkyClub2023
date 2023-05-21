@@ -29,8 +29,8 @@
    <widget class="QLabel" name="taco">
     <property name="geometry">
      <rect>
-      <x>870</x>
-      <y>140</y>
+      <x>860</x>
+      <y>30</y>
       <width>401</width>
       <height>371</height>
      </rect>
@@ -39,7 +39,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>:/image/D:/School/CS-1C/GroupProject/cs1c_proj/bulkClub/tacoFlying.gif</pixmap>
+     <pixmap resource="image.qrc">:/images/tacoFlying.gif</pixmap>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_memberShoppingData">
@@ -191,19 +191,6 @@
     </property>
     <property name="text">
      <string>Display</string>
-    </property>
-   </widget>
-   <widget class="QScrollBar" name="verticalScrollBar">
-    <property name="geometry">
-     <rect>
-      <x>850</x>
-      <y>30</y>
-      <width>20</width>
-      <height>621</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
     </property>
    </widget>
    <widget class="QLabel" name="label_totalRevenueTax">
@@ -598,6 +585,8 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="image.qrc"/>
+ </resources>
  <connections/>
 </ui>
