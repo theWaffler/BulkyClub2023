@@ -47,20 +47,21 @@ void TestRequirements(DataWarehouse& storage)
     qDebug() << s;
 
     // Requirement 6
-    s = storage.GetMembershipExpirations(5, 2022);
+    s = storage.GetMembershipExpirations(12, 2021);
     qDebug() << s;
 
     // Requirement 7a
-    Member m("Test Member",87652, false, QDate::fromString("11/11/22", "M/d/yyyy"),0,0, false);
+    Member m("zTest Member",87652, false, QDate(2022, 11, 11),0,0, false);
     storage.AddMember(m);
 
     // Requirmenent 7b
-    int memberId = storage.GetMemberIdByName("Test Member");
+    int memberId = storage.GetMemberIdByName("zTest Member");
     storage.DeleteMember(memberId);
 
     // Requirement 8
-    Transaction*     t = new Transaction(QDate::fromString("11/11/21", "M/d/yyyy"), 12345, "Coke", 1.50, 1);
-    storage.MakePurchase(t);
+    Transaction*     t = new Transaction(QDate(2022, 11, 11), 12345, "Coke", 1.50, 1);
+    auto result = storage.MakePurchase(t);
+    qDebug() << result;
 
     // Requirement 9
     Item i("Test Item", 3.33, 0, false);
@@ -68,16 +69,16 @@ void TestRequirements(DataWarehouse& storage)
     storage.DeleteItem("Test Item");
 
     // Requirement 10
-    s = storage.GetItemQuantity("Coke");
+    s = storage.GetItemQuantity("1 gallon milk");
     qDebug() << s;
 
     // Requirement 11 a
-    int n = storage.GetMemberIdByName("Larry Largefamily");
+    int n = storage.GetMemberIdByName("Sally Shopper");
     s = storage.GetMemberPurchases(n);
     qDebug() << s;
 
     // Requirement 11 b
-    s = storage.GetMemberPurchases(12345);
+    s = storage.GetMemberPurchases(77777);
     qDebug() << s;
 
     // Requirement 12

@@ -50,6 +50,7 @@ void DataWarehouse::LoadMembers()
             line = stream.readLine();
             QDate expDate = QDate::fromString(line, "MM/dd/yyyy");
             newMember.expirationDate = expDate;
+            newMember.isDeleted = false;
             Members.push_back(newMember);
         }
 
@@ -508,7 +509,7 @@ QString DataWarehouse::GetConvertToExecutiveRecommendations()
         }
     }
 
-    report += "\nTotal" + QString::number(total);
+    report += "\nTotal: " + QString::number(total);
 
     return report;
 }
@@ -616,7 +617,7 @@ void DataWarehouse::DeleteMember(int memberId)
 {
     for (auto it = Members.begin(); it != Members.end(); ++it)
     {
-        auto member = *it;
+        Member& member = *it;
         if(member.id == memberId)
         {
             member.isDeleted = true;
@@ -687,7 +688,7 @@ void DataWarehouse::DeleteItem(QString itemName)
 {
     for (auto it = Inventory.begin(); it != Inventory.end(); it++)
     {
-        auto item = *it;
+        Item& item = *it;
 
         if(item.product == itemName)
         {
@@ -702,7 +703,7 @@ void DataWarehouse::ChangePrice(QString itemName, double price)
 {
     for (auto it = Inventory.begin(); it != Inventory.end(); it++)
     {
-        auto item = *it;
+        Item& item = *it;
 
         if(item.product == itemName)
         {
@@ -774,5 +775,6 @@ QString DataWarehouse::GetMemberPurchases(int memberId)
                   + " Price: $" + QString::number(transaction->price);
     }
 
-    return "\nTotal Purchases (including tax): $" + QString::number(customerTotal * 1.0775);
+    report += "\nTotal Purchases (including tax): $" + QString::number(customerTotal * 1.0775);
+    return report;
 }
