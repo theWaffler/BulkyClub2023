@@ -6,6 +6,7 @@
 #include <QString>
 #include <QMessageBox>
 #include <QStandardItemModel>
+#include <QHeaderView>
 
 MainWindow::MainWindow(EmployeeType role, QWidget *parent)
     : QMainWindow(parent)
@@ -58,7 +59,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_searchSalesReport_clicked()
 {
-    /*
     QString dateStr = ui->lineEdit_dateSalesReport->text();
     QDate date = QDate::fromString(dateStr, "yyyy-MM-dd");
 
@@ -69,30 +69,6 @@ void MainWindow::on_pushButton_searchSalesReport_clicked()
         return;
     }
 
-    // Assuming `storage` is an instance of your data storage class
-    int reportType = REPORT_ALL_MEMBERS;  // Set the appropriate report type
-
-    QString s = storage.GetSalesReportForDate(date, reportType);
-    qDebug() << s;
-
-    // Get the SalesReportModel from the tableView
-    SalesReportModel *reportModel = qobject_cast<SalesReportModel*>(ui->tableView->model());
-
-    // Populate the data model with the fetched sales report data
-    reportModel->populateData(QVector<QString>() << s);
-*/
-
-    QString dateStr = ui->lineEdit_dateSalesReport->text();
-    QDate date = QDate::fromString(dateStr, "yyyy-MM-dd");
-
-    // Check if the entered date is valid
-    if (!date.isValid())
-    {
-        QMessageBox::warning(this, "Invalid Date", "Please enter a valid date in the format yyyy-MM-dd.");
-        return;
-    }
-
-    // Assuming `storage` is an instance of your data storage class
     int reportType = REPORT_ALL_MEMBERS;  // Set the appropriate report type
 
     QString s = storage.GetSalesReportForDate(date, reportType);
@@ -118,6 +94,9 @@ void MainWindow::on_pushButton_searchSalesReport_clicked()
 
     // Set the table model for the QTableView
     ui->tableView->setModel(model);
+
+    // Set the header text for the column
+    model->setHeaderData(0, Qt::Horizontal, "Sales Report");
 
     // Resize the columns to fit the content
     ui->tableView->resizeColumnsToContents();
