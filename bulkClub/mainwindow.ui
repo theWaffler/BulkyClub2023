@@ -591,13 +591,13 @@
      <string>Inventory Search</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_inventorySearchDate">
+   <widget class="QLabel" name="label_inventorySearchName">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>760</y>
-      <width>49</width>
-      <height>16</height>
+      <width>61</width>
+      <height>20</height>
      </rect>
     </property>
     <property name="font">
@@ -607,7 +607,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Date:</string>
+     <string>Name:</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_inventorySearch">
@@ -683,7 +683,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>24</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

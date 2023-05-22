@@ -62,7 +62,8 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
     connect(memberSearchWindow, &memberSearch::searchRequested, this, &MainWindow::performMemberSearch);
 
     // Set up the table model
-    setupTableModel();
+    //setupTableModel();
+    setupTableModelMemberSearch();
 }
 
 MainWindow::~MainWindow()
@@ -126,62 +127,62 @@ void MainWindow::on_pushButton_searchSalesReport_clicked()
 
 void MainWindow::on_pushButton_salesReportMemberTypeDisplay_clicked()
 {
-// Testing function
-// Manager function
+    // Testing function
+    // Manager function
 }
 
 
 void MainWindow::on_pushButton_itemSold_clicked()
 {
-// Manager function
+    // Manager function
 }
 
 
 void MainWindow::on_pushButton_totalRevenueTax_clicked()
 {
-// Manager function
+    // Manager function
 }
 
 
 void MainWindow::on_pushButton_memberShoppingDataSearch_clicked()
 {
-// Manager function
+    // Manager function
 }
 
 
 void MainWindow::on_pushButton_memberType_clicked()
 {
-// Manager function
+    // Manager function
 }
 
 
 void MainWindow::on_pushButton_itemAddDelete_clicked()
 {
-//ADMIN function
+    //ADMIN function
 }
 
 
 void MainWindow::on_pushButton_memberAddDelete_clicked()
 {
-//ADMIN function
+    //ADMIN function
 }
 
 
 void MainWindow::on_pushButton_memberRebateDisplay_clicked()
 {
-// Manager function
+    // Manager function
 }
 
 
 void MainWindow::on_pushButton_memberExpSearch_clicked()
 {
-// Manager function
+    // Manager function
 }
 
 
 void MainWindow::on_pushButton_inventorySearch_clicked()
 {
-// Manager function
+    // Manager function
 }
 
 
@@ -190,28 +191,12 @@ void MainWindow::on_pushButton_memberSearch_clicked()
     // Open the membersearch window
     memberSearchWindow->show();
 
+    // Set up the table model for member search
+    setupTableModelMemberSearch();
 }
 
 void MainWindow::performMemberSearch(const QString& memberName, const QString& memberNumber)
 {
-    // valid code but ugly af
-    /*
-    int memberId = storage.GetMemberIdByName(memberName);
-    if (memberId != -1)
-    {
-        QString memberPurchases = storage.GetMemberPurchases(memberId);
-        QVector<QString> searchData;
-        searchData.append(memberName);
-        searchData.append(QString::number(memberId));
-        searchData.append(memberPurchases);
-        populateTable(searchData);
-    }
-    else
-    {
-        QMessageBox::warning(this, "Member Not Found", "The member could not be found.");
-    }
-    */
-
     int memberId = -1;
 
     // Check if the member number is provided
@@ -238,9 +223,9 @@ void MainWindow::performMemberSearch(const QString& memberName, const QString& m
     QMessageBox::warning(this, "Member Not Found", "The member could not be found.");
 }
 
-void MainWindow::setupTableModel()
+void MainWindow::setupTableModelMemberSearch()
 {
-    // Create the table model
+    // Create the table model for member search
     tableModel = new QStandardItemModel(this);
 
     // Set the column count and header labels
@@ -272,4 +257,3 @@ void MainWindow::populateTable(const QVector<QString>& data)
     ui->tableView->setRowHeight(0, 100); // Set the desired height in pixels
 
 }
-

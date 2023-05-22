@@ -43,8 +43,10 @@ private:
     DataWarehouse storage;
     memberSearch* memberSearchWindow;
     QStandardItemModel* tableModel;
+    QStandardItemModel* memberSearchTableModel;
 
     void setupTableModel();
+    void setupTableModelMemberSearch();
     void populateTable(const QVector<QString>& data);
 };
 

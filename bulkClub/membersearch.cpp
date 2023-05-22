@@ -34,4 +34,8 @@ memberSearch::~memberSearch()
 
 void memberSearch::on_pushButton_memberSearchButton_clicked()
 {
+    // Clear text when search button is clicked on
+    // didn't work ahhh!!
+    //ui->lineEdit_memberNameSearch->clear();
+   // ui->lineEdit_memberNumberSearch->clear();
 }
