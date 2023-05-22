@@ -7,6 +7,8 @@
 #include <QMessageBox>
 #include <QStandardItemModel>
 #include <QHeaderView>
+#include "membersearch.h"
+#include "ui_membersearch.h"
 
 MainWindow::MainWindow(EmployeeType role, QWidget *parent)
     : QMainWindow(parent)
@@ -49,6 +51,18 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
         ui->pushButton_inventorySearch->setEnabled(true);
         ui->pushButton_memberSearch->setEnabled(true);
     }
+
+    // Create an instance of membersearch window
+    memberSearchWindow = new memberSearch();
+
+    // Connect the destroyed() signal to handleMemberSearchWindowDestroyed() slot
+    connect(memberSearchWindow, &QObject::destroyed, this, &MainWindow::handleMemberSearchWindowDestroyed);
+
+    // Connect the searchRequested signal from memberSearch to performMemberSearch slot in MainWindow
+    connect(memberSearchWindow, &memberSearch::searchRequested, this, &MainWindow::performMemberSearch);
+
+    // Set up the table model
+    setupTableModel();
 }
 
 MainWindow::~MainWindow()
@@ -56,6 +70,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::handleMemberSearchWindowDestroyed(QObject *obj)
+{
+    if (obj == memberSearchWindow)
+    {
+        memberSearchWindow = nullptr;
+    }
+}
 
 void MainWindow::on_pushButton_searchSalesReport_clicked()
 {
@@ -166,6 +187,89 @@ void MainWindow::on_pushButton_inventorySearch_clicked()
 
 void MainWindow::on_pushButton_memberSearch_clicked()
 {
-// Manager function
+    // Open the membersearch window
+    memberSearchWindow->show();
+
+}
+
+void MainWindow::performMemberSearch(const QString& memberName, const QString& memberNumber)
+{
+    // valid code but ugly af
+    /*
+    int memberId = storage.GetMemberIdByName(memberName);
+    if (memberId != -1)
+    {
+        QString memberPurchases = storage.GetMemberPurchases(memberId);
+        QVector<QString> searchData;
+        searchData.append(memberName);
+        searchData.append(QString::number(memberId));
+        searchData.append(memberPurchases);
+        populateTable(searchData);
+    }
+    else
+    {
+        QMessageBox::warning(this, "Member Not Found", "The member could not be found.");
+    }
+    */
+
+    int memberId = -1;
+
+    // Check if the member number is provided
+    if (!memberNumber.isEmpty()) {
+        memberId = memberNumber.toInt();
+    } else {
+        memberId = storage.GetMemberIdByName(memberName);
+    }
+
+    // Perform the search based on the member ID
+    if (memberId != -1) {
+        QString foundMemberName = storage.GetMemberNameById(memberId);
+        if (!foundMemberName.isEmpty()) {
+            QString memberPurchases = storage.GetMemberPurchases(memberId);
+            QVector<QString> searchData;
+            searchData.append(foundMemberName);
+            searchData.append(QString::number(memberId));
+            searchData.append(memberPurchases);
+            populateTable(searchData);
+            return;
+        }
+    }
+
+    QMessageBox::warning(this, "Member Not Found", "The member could not be found.");
+}
+
+void MainWindow::setupTableModel()
+{
+    // Create the table model
+    tableModel = new QStandardItemModel(this);
+
+    // Set the column count and header labels
+    int columnCount = 3;
+    tableModel->setColumnCount(columnCount);
+    tableModel->setHorizontalHeaderLabels({"Member Name", "Member Number", "Purchases"});
+
+    // Set the table model for the table view
+    ui->tableView->setModel(tableModel);
+
+    // Adjust the column widths to fit the contents
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+}
+
+
+void MainWindow::populateTable(const QVector<QString>& data)
+{
+
+    // Clear the existing data in the table model
+    tableModel->removeRows(0, tableModel->rowCount());
+
+    // Add a new row with the data
+    tableModel->insertRow(0);
+    for (int i = 0; i < data.size(); ++i)
+    {
+        tableModel->setData(tableModel->index(0, i), data[i]);
+    }
+    // Expand the height of the first row
+    ui->tableView->setRowHeight(0, 100); // Set the desired height in pixels
+
 }
 

@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include <Employee.h>
 #include "datawarehouse.h"
+#include "membersearch.h"
+#include <QStandardItemModel>
+#include <QHeaderView>
 
 namespace Ui {
 class MainWindow;
@@ -28,18 +31,21 @@ private slots:
     void on_pushButton_memberType_clicked();
     void on_pushButton_itemAddDelete_clicked();
     void on_pushButton_memberAddDelete_clicked();
-
     void on_pushButton_memberRebateDisplay_clicked();
-
     void on_pushButton_memberExpSearch_clicked();
-
     void on_pushButton_inventorySearch_clicked();
-
     void on_pushButton_memberSearch_clicked();
+    void handleMemberSearchWindowDestroyed(QObject *obj); // slot to handle member search window closing
+    void performMemberSearch(const QString& memberName, const QString& memberNumber);
 
 private:
     Ui::MainWindow *ui;
-    DataWarehouse storage; // add storage as a member variable
+    DataWarehouse storage;
+    memberSearch* memberSearchWindow;
+    QStandardItemModel* tableModel;
+
+    void setupTableModel();
+    void populateTable(const QVector<QString>& data);
 };
 
 #endif // MAINWINDOW_H

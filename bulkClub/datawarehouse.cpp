@@ -782,3 +782,18 @@ QString DataWarehouse::GetMemberPurchases(int memberId)
     report += "\nTotal Purchases (including tax): $" + QString::number(customerTotal * 1.0775);
     return report;
 }
+//new
+QString DataWarehouse::GetMemberNameById(int memberId)
+{
+    for (auto it = Members.begin(); it != Members.end(); it++)
+    {
+        auto customer = *it;
+
+        if (customer.id == memberId)
+        {
+            return customer.name;
+        }
+    }
+
+    return ""; // member not found
+}
