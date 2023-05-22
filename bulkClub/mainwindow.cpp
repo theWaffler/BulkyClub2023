@@ -2,6 +2,10 @@
 #include "ui_mainwindow.h"
 #include "QLabel"
 #include <QMovie>
+#include "datawarehouse.h"
+#include <QString>
+#include <QMessageBox>
+#include <QStandardItemModel>
 
 MainWindow::MainWindow(EmployeeType role, QWidget *parent)
     : QMainWindow(parent)
@@ -54,7 +58,69 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_searchSalesReport_clicked()
 {
-// Manager function
+    /*
+    QString dateStr = ui->lineEdit_dateSalesReport->text();
+    QDate date = QDate::fromString(dateStr, "yyyy-MM-dd");
+
+    // Check if the entered date is valid
+    if (!date.isValid())
+    {
+        QMessageBox::warning(this, "Invalid Date", "Please enter a valid date in the format yyyy-MM-dd.");
+        return;
+    }
+
+    // Assuming `storage` is an instance of your data storage class
+    int reportType = REPORT_ALL_MEMBERS;  // Set the appropriate report type
+
+    QString s = storage.GetSalesReportForDate(date, reportType);
+    qDebug() << s;
+
+    // Get the SalesReportModel from the tableView
+    SalesReportModel *reportModel = qobject_cast<SalesReportModel*>(ui->tableView->model());
+
+    // Populate the data model with the fetched sales report data
+    reportModel->populateData(QVector<QString>() << s);
+*/
+
+    QString dateStr = ui->lineEdit_dateSalesReport->text();
+    QDate date = QDate::fromString(dateStr, "yyyy-MM-dd");
+
+    // Check if the entered date is valid
+    if (!date.isValid())
+    {
+        QMessageBox::warning(this, "Invalid Date", "Please enter a valid date in the format yyyy-MM-dd.");
+        return;
+    }
+
+    // Assuming `storage` is an instance of your data storage class
+    int reportType = REPORT_ALL_MEMBERS;  // Set the appropriate report type
+
+    QString s = storage.GetSalesReportForDate(date, reportType);
+    qDebug() << s;
+
+    // Split the sales report data into rows
+    QStringList rows = s.split('\n');
+
+    // Get the number of rows and columns
+    int numRows = rows.size();
+    int numCols = 1; // Assuming one column for the sales report data
+
+    // Create a table model for the sales report data
+    QStandardItemModel *model = new QStandardItemModel(numRows, numCols, this);
+
+    // Populate the table model with the sales report data
+    for (int row = 0; row < numRows; ++row)
+    {
+        QString rowData = rows[row];
+        QStandardItem *item = new QStandardItem(rowData);
+        model->setItem(row, 0, item);
+    }
+
+    // Set the table model for the QTableView
+    ui->tableView->setModel(model);
+
+    // Resize the columns to fit the content
+    ui->tableView->resizeColumnsToContents();
 }
 
 

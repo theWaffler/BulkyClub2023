@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <Employee.h>
+#include "datawarehouse.h"
 
 namespace Ui {
 class MainWindow;
@@ -38,6 +39,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    DataWarehouse storage; // add storage as a member variable
 };
 
 #endif // MAINWINDOW_H
