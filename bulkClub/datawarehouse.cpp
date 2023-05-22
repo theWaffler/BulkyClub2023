@@ -162,6 +162,15 @@ void DataWarehouse::sortMembers()
     //qDebug() << "sorted\n";
 }
 
+void DataWarehouse::sortMembersByName()
+{
+    sort(Members.begin(), Members.end(), [](const Member &M1, const Member &M2){
+        return M1.name < M2.name;
+    });
+
+    //qDebug() << "sorted\n";
+}
+
 /*void DataWarehouse::sortMembersByName()
 {
     sort(Members.begin(), Members.end(), [](const Member &M1, const Member &M2){
@@ -364,11 +373,6 @@ QString DataWarehouse::GetPurchasesAllMembers()
                 continue;
             }
 
-            if (transaction->productDescription == "Vine Ripe Tomatoes")
-            {
-                qDebug() << "break!\n";
-            }
-
             customerTotal += transaction->price * transaction->quantity;
 
             report += "\nItem: " + transaction->productDescription
@@ -480,7 +484,7 @@ QString DataWarehouse::GetExecutiveRebates()
             continue;
         }
 
-        report += customer.name + ": $" + QString::number(GetMemberRebate(customer.id)) +"\n";
+        report += "ID: " + QString::number(customer.id) + ", Name: " + customer.name + ": $" + QString::number(GetMemberRebate(customer.id)) +"\n";
     }
 
     return report;
@@ -504,7 +508,7 @@ QString DataWarehouse::GetConvertToExecutiveRecommendations()
 
         if(ShouldBeExecutive(customer.id) && !customer.isDeleted)
         {
-            report += customer.name + ", ID:" + QString::number(customer.id) + "\n";
+            report += "ID: " + QString::number(customer.id) + ", Name:" + customer.name +"\n";
             total++;
         }
     }
@@ -532,7 +536,7 @@ QString DataWarehouse::GetConvertToRegularRecommendations()
 
         if(!ShouldBeExecutive(customer.id) && !customer.isDeleted)
         {
-            report += customer.name + ", ID:" + QString::number(customer.id) + "\n";
+            report += "ID: " + QString::number(customer.id) + ", Name:" + customer.name +"\n";
             total++;
         }
     }
@@ -598,7 +602,7 @@ QString DataWarehouse::GetMembershipExpirations(int month, int year)
         if(customer.expirationDate.month() == month && customer.expirationDate.year() == year)
         {
             QString renewalCost = customer.isExecutive ? "$120" : "$65";
-            report += customer.name + ", Renewal cost: " + renewalCost +"\n";
+            report += "ID: " + QString::number(customer.id) + ", Name: " + customer.name + ", Renewal cost: " + renewalCost +"\n";
         }
     }
 

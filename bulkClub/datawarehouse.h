@@ -30,7 +30,7 @@ public:
     DataWarehouse();
 
     void sortMembers();
-    //void sortMembersByName();
+    void sortMembersByName();
     void sortTransactions();
     void sortInventory();
 
