@@ -16,6 +16,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     member.cpp \
+    membersearch.cpp \
     transaction.cpp
 
 HEADERS += \
@@ -26,11 +27,13 @@ HEADERS += \
     login.h \
     mainwindow.h \
     member.h \
+    membersearch.h \
     transaction.h
 
 FORMS += \
     login.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    membersearch.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
