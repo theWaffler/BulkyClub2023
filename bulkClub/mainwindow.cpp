@@ -105,6 +105,7 @@ void MainWindow::on_pushButton_searchSalesReport_clicked()
 
 void MainWindow::on_pushButton_salesReportMemberTypeDisplay_clicked()
 {
+// Testing function
 // Manager function
 }
 
