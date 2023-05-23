@@ -173,25 +173,6 @@ void MainWindow::on_pushButton_memberAddDelete_clicked()
     //ADMIN function
 }
 
-/*
-void MainWindow::on_pushButton_memberRebateDisplay_clicked()
-{
-    // Call the DataWarehouse function to get the executive members' rebates
-    QString rebateData = storage.GetExecutiveRebates();
-
-    // Split the rebate data into rows
-    QStringList rows = rebateData.split('\n');
-
-    // Remove the header line
-    if (!rows.isEmpty())
-        rows.removeFirst();
-
-    // Populate the table view with the rebate data
-    populateTable(rows.toVector());
-    //populateExecutiveRebate(rows.toVector());
-}
-*/
-
 void MainWindow::on_pushButton_memberRebateDisplay_clicked()
 {
     // Call the DataWarehouse function to get the executive members' rebates
@@ -204,9 +185,6 @@ void MainWindow::on_pushButton_memberRebateDisplay_clicked()
     populateExecutiveRebate(rows);
 }
 
-
-
-/*
 void MainWindow::setupExecutiveRebate()
 {
     // Create the table model
@@ -223,50 +201,6 @@ void MainWindow::setupExecutiveRebate()
     // Adjust the column widths to fit the contents
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
-*/
-
-void MainWindow::setupExecutiveRebate()
-{
-    // Create the table model
-    tableModel = new QStandardItemModel(this);
-
-    // Set the column count and header labels
-    int columnCount = 1;
-    tableModel->setColumnCount(columnCount);
-    tableModel->setHorizontalHeaderLabels({"Search Results"});
-
-    // Set the table model for the table view
-    ui->tableView->setModel(tableModel);
-
-    // Adjust the column widths to fit the contents
-    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
-}
-
-/*
-void MainWindow::populateExecutiveRebate(const QVector<QString>& data)
-{
-    // Clear the existing data in the table model
-    tableModel->removeRows(0, tableModel->rowCount());
-
-    // Add new rows with the data
-    int numRows = data.size();
-    for (int row = 0; row < numRows; ++row)
-    {
-        QStringList rowData = data[row].split(",");
-        int numCols = rowData.size();
-        for (int col = 0; col < numCols; ++col)
-        {
-            tableModel->setData(tableModel->index(row, col), rowData[col].trimmed());
-        }
-    }
-
-    // Expand the height of the rows
-    for (int row = 0; row < numRows; ++row)
-    {
-        ui->tableView->setRowHeight(row, 100); // Set the desired height in pixels
-    }
-}
-*/
 
 void MainWindow::populateExecutiveRebate(const QStringList& data)
 {
@@ -293,8 +227,6 @@ void MainWindow::populateExecutiveRebate(const QStringList& data)
         ui->tableView->setRowHeight(row, 100); // Set the desired height in pixels
     }
 }
-
-
 
 void MainWindow::on_pushButton_memberExpSearch_clicked()
 {
