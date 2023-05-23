@@ -46,14 +46,18 @@ private:
     QStandardItemModel* memberSearchTableModel;
     QStandardItemModel* inventorySearchTableModel;
     QStandardItemModel* expSearchTableModel;
+    QStandardItemModel* executiveRebateTableModel;
 
     void setupTableModel();
     void setupTableModelExpSearch();
     void setupTableModelMemberSearch();
     void setupTableModelInventorySearch();
+    void setupExecutiveRebate();
     void populateInventoryTable(const QString& itemData);
     void populateExpMemberTable(const QVector<QString>& data);
     void populateTable(const QVector<QString>& data);
+    //void populateExecutiveRebate(const QVector<QString>& data);
+    void populateExecutiveRebate(const QStringList& data);
 };
 
 #endif // MAINWINDOW_H
