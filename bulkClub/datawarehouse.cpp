@@ -436,7 +436,6 @@ QString DataWarehouse::GetItemQuantities()
 }
 
 // Call this for requirement 10
-
 QString DataWarehouse::GetItemQuantity(QString itemName)
 {
     /*
@@ -465,8 +464,6 @@ QString DataWarehouse::GetItemQuantity(QString itemName)
 
     return report;
 }
-
-
 
 // Call this for requirement 5
 QString DataWarehouse::GetExecutiveRebates()
@@ -590,11 +587,6 @@ double DataWarehouse::GetMemberRebate(int memberId)
 // Call this for requirement 6
 QString DataWarehouse::GetMembershipExpirations(int month, int year)
 {
-    /*
-    A store manager should be able to enter a month and obtain a
-    display of all members whose memberships expire that month as
-    well as the cost to renew their memberships.
-    */
 
     QString report = QString("Memberships expiring in " + QString::number(month) +"/" + QString::number(year) + ":\n");
 

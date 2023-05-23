@@ -52,6 +52,9 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
         ui->pushButton_memberSearch->setEnabled(true);
     }
 
+    // Connect the search button clicked signal to the slot
+    connect(ui->pushButton_memberExpSearch, &QPushButton::clicked, this, &MainWindow::on_pushButton_memberExpSearch_clicked);
+
     // Create an instance of membersearch window
     memberSearchWindow = new memberSearch();
 
@@ -65,6 +68,7 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
     //setupTableModel();
     setupTableModelMemberSearch();
     setupTableModelInventorySearch();
+    setupTableModelExpSearch();
 }
 
 MainWindow::~MainWindow()
@@ -177,7 +181,71 @@ void MainWindow::on_pushButton_memberRebateDisplay_clicked()
 
 void MainWindow::on_pushButton_memberExpSearch_clicked()
 {
-    // Manager function
+    // Get the entered month and year from lineEdit_memberExpSearch
+    QString dateStr = ui->lineEdit_membeExpSearch->text();
+    QStringList dateParts = dateStr.split("/");
+    if (dateParts.size() != 2)
+    {
+        QMessageBox::warning(this, "Invalid Date", "Please enter the month and year in the format 'month/year'.");
+        return;
+    }
+
+    int month = dateParts[0].toInt();
+    int year = dateParts[1].toInt();
+
+    // Call the DataWarehouse function to get the membership expirations
+    QString searchResults = storage.GetMembershipExpirations(month, year);
+
+    // Split the search results into rows
+    QStringList rows = searchResults.split('\n');
+
+    // Remove the header line
+    if (!rows.isEmpty())
+        rows.removeFirst();
+
+    // Populate the table view with the search results
+    populateTable(rows.toVector());
+}
+
+void MainWindow::setupTableModelExpSearch()
+{
+    // Create the table model
+    tableModel = new QStandardItemModel(this);
+
+    // Set the column count and header labels
+    int columnCount = 1;
+    tableModel->setColumnCount(columnCount);
+    tableModel->setHorizontalHeaderLabels({"Search Results"});
+
+    // Set the table model for the table view
+    ui->tableView->setModel(tableModel);
+
+    // Adjust the column widths to fit the contents
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+}
+
+void MainWindow::populateExpMemberTable(const QVector<QString>& data)
+{
+    // Clear the existing data in the table model
+    tableModel->removeRows(0, tableModel->rowCount());
+
+    // Add new rows with the data
+    int numRows = data.size();
+    for (int row = 0; row < numRows; ++row)
+    {
+        QStringList rowData = data[row].split(",");
+        int numCols = rowData.size();
+        for (int col = 0; col < numCols; ++col)
+        {
+            tableModel->setData(tableModel->index(row, col), rowData[col].trimmed());
+        }
+    }
+
+    // Expand the height of the rows
+    for (int row = 0; row < numRows; ++row)
+    {
+        ui->tableView->setRowHeight(row, 100); // Set the desired height in pixels
+    }
 }
 
 void MainWindow::on_pushButton_inventorySearch_clicked()

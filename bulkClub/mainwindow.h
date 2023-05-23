@@ -45,12 +45,14 @@ private:
     QStandardItemModel* tableModel;
     QStandardItemModel* memberSearchTableModel;
     QStandardItemModel* inventorySearchTableModel;
+    QStandardItemModel* expSearchTableModel;
 
     void setupTableModel();
+    void setupTableModelExpSearch();
     void setupTableModelMemberSearch();
     void setupTableModelInventorySearch();
-    //void populateInventoryTable(const QString& itemName, const QString& quantity, const QString& revenue);
     void populateInventoryTable(const QString& itemData);
+    void populateExpMemberTable(const QVector<QString>& data);
     void populateTable(const QVector<QString>& data);
 };
 
