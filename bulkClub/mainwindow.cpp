@@ -8,7 +8,7 @@
 #include <QStandardItemModel>
 #include <QHeaderView>
 #include "membersearch.h"
-#include "ui_membersearch.h"
+//#include "ui_membersearch.h"
 
 MainWindow::MainWindow(EmployeeType role, QWidget *parent)
     : QMainWindow(parent)
@@ -24,7 +24,8 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
     if (role == EmployeeType::Admin) {
         //enable admin-specific GUI elements
         ui->pushButton_searchSalesReport->setEnabled(true);
-        ui->pushButton_salesReportMemberTypeDisplay->setEnabled(true);
+        ui->pushButton_salesReportExecutive->setEnabled(true);
+        ui->pushButton_salesReportRegular->setEnabled(true);
         ui->pushButton_itemSold->setEnabled(true);
         ui->pushButton_totalRevenueTax->setEnabled(true);
         ui->pushButton_memberShoppingDataSearch->setEnabled(true);
@@ -39,7 +40,8 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
     else {
         //disable admin-specific GUI elements
         ui->pushButton_searchSalesReport->setEnabled(true);
-        ui->pushButton_salesReportMemberTypeDisplay->setEnabled(true);
+        ui->pushButton_salesReportExecutive->setEnabled(true);
+        ui->pushButton_salesReportRegular->setEnabled(true);
         ui->pushButton_itemSold->setEnabled(true);
         ui->pushButton_totalRevenueTax->setEnabled(true);
         ui->pushButton_memberShoppingDataSearch->setEnabled(true);
@@ -64,13 +66,14 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
     // Connect the searchRequested signal from memberSearch to performMemberSearch slot in MainWindow
     connect(memberSearchWindow, &memberSearch::searchRequested, this, &MainWindow::performMemberSearch);
 
+
     // Set up the table model
     //setupTableModel();
     setupTableModelMemberSearch();
     setupTableModelInventorySearch();
     setupTableModelExpSearch();
-    setupExecutiveRebate();
-    setupTotalRevenue();
+    //executiveSalesTableModel;
+    //regularSalesTableModel;
 }
 
 MainWindow::~MainWindow()
@@ -129,13 +132,6 @@ void MainWindow::on_pushButton_searchSalesReport_clicked()
 
     // Resize the columns to fit the content
     ui->tableView->resizeColumnsToContents();
-}
-
-
-void MainWindow::on_pushButton_salesReportMemberTypeDisplay_clicked()
-{
-    // Testing function
-    // Manager function
 }
 
 
@@ -225,6 +221,78 @@ void MainWindow::on_pushButton_memberAddDelete_clicked()
 {
     //ADMIN function
 }
+
+////////////////////////////////////////////////////////////////////////////////////////
+// Display executive sales report
+// input: none
+
+void MainWindow::on_pushButton_salesReportExecutive_clicked()
+{
+    // getting date
+    QDate date = QDate::fromString(ui->lineEdit_salesReportExecutiveDate->text(),"yyyy-MM-dd");
+
+    // call datawarehouse function to get sales report for executive members
+    QString salesReportEx = storage.GetSalesReportForDate(date, REPORT_EXECUTIVE_ONLY);
+
+    // split the data
+    QStringList rows = salesReportEx.split('\n', Qt::SkipEmptyParts);
+
+    //call populate populateExecutiveSalesTable function to display data
+    populateExecutiveSalesTable(rows);
+}
+
+void MainWindow::setupExecutiveSalesTable()
+{
+    // create table for model
+    tableModel = new QStandardItemModel(this);
+
+    //set column count and header label
+    int columnCount = 1;
+    tableModel->setColumnCount(columnCount);
+    tableModel->setHorizontalHeaderLabels({"Search Results"});
+
+    // set table model to existing tableView
+    ui->tableView->setModel(tableModel);
+
+    // Adjust the coumn width to fit stuff
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+}
+
+void MainWindow::populateExecutiveSalesTable(const QStringList& data)
+{
+    // Clear the existing data in the table model
+    tableModel->removeRows(0, tableModel->rowCount());
+
+    // Set the row count and column count
+    int numRows = data.size();
+    int numCols = 1;
+
+    // Set the table model size
+    tableModel->setRowCount(numRows);
+    tableModel->setColumnCount(numCols);
+
+    // Populate the table model with the rebate data
+    for (int row = 0; row < numRows; ++row)
+    {
+        tableModel->setData(tableModel->index(row, 0), data[row].trimmed());
+    }
+
+    // Expand the height of the rows
+    for (int row = 0; row < numRows; ++row)
+    {
+        ui->tableView->setRowHeight(row, 100); // Set the desired height in pixels
+    }
+}
+////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////
+// Display regular sales report
+// input: none
+void MainWindow::on_pushButton_salesReportRegular_clicked()
+{
+
+}
+////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // Display executive member rebate
@@ -505,3 +573,35 @@ void MainWindow::populateTable(const QVector<QString>& data)
     ui->tableView->setRowHeight(0, 100); // Set the desired height in pixels
 }
 ////////////////////////////////////////////////////////////////////////////////////////
+
+void MainWindow::on_pushButton_salesReportMemberTypeDisplay_clicked()
+{
+    // No idea why I can't delete this function. Will get a compile error if I remove it.
+    // gui element has been deleted already.
+    /*   << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+         << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⢛⣋⣭⣴⣶⣾⣿⣿⣷⣶⣶⣬⣙⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+         << "⣿⣿⣿⣿⣿⣿⡿⢋⣩⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣌⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+         << "⣿⣿⣿⣿⠟⣩⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+         << "⣿⣿⡿⢡⣾⣿⣿⣿⣿⣿⠿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+         << "⣿⠏⣰⣿⣿⣿⣿⠟⣩⣴⣶⣿⠿⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⠿⢿⣟⣿⡏\n"
+         << "⡟⣰⣿⣿⣿⡿⢡⣾⡿⢛⣩⣴⣾⣿⣿⠿⠟⢛⣛⣻⣿⣿⣿⣿⣿⣿⣿⡏⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⢋⣩⣤⣶⣶⣿⣿⣿⣿⣿⣿⡇\n"
+         << "⠃⣿⣿⣿⣿⣷⡿⢋⣴⣿⡿⠟⣫⣥⣶⠾⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢋⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢋⣴\n"
+         << "⣿⣿⣿⣿⣿⣡⣿⠿⣫⣴⣿⣿⡟⣡⣾⣿⣷⣦⡙⢿⣿⣿⣿⣿⡿⢁⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⢡⣾⣿⣿⣿⣿⣿⣿⣿⣿⠿⢋⣥⣾⣿\n"
+         << "⡆⢻⣿⣿⣿⣿⣿⠋⣴⣿⡿⣿⣿⠀⣿⣿⣿⢿⣿⣿⣆⠻⣿⣿⠙⣡⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⣩⣴⣿⣾⣿⣿⣿⣿⣿⡿⠟⣋⣥⣾⣿⣿⣿⣿\n"
+         << "⣷⡘⣿⣿⣿⣿⡇⣼⣿⢁⣴⣶⣶⣄⠘⣿⡇⠀⢻⣿⣿⣆⢹⣿⡷⠈⣛⣭⣭⣭⣙⠻⣿⣿⣿⣿⣿⣿⣿⣿⠟⣋⣴⣾⣿⣿⠿⢛⣩⣴⣶⣤⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿\n"
+         << "⣿⣷⡘⢿⣿⣿⣿⣿⡇⢸⣿⣿⢿⣿⣦⠹⣿⡄⠀⠙⠻⢿⡆⣿⣷⡿⠟⣋⣭⣭⣭⣁⡙⠿⠿⢿⡿⢟⣩⣴⣾⣿⠿⢛⣭⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+         << "⣿⣿⣿⣦⣉⠻⠿⠿⠷⠘⢿⡅⠀⠙⣿⡇⢈⠻⢦⣠⡾⠋⣰⠟⣉⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣦⢸⠿⢛⣩⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+         << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡈⢿⣆⡀⠈⠀⣿⣷⣶⣄⠲⠎⣡⣾⡟⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⢛⣡⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+         << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠍⣛⠒⠀⣿⣿⡿⢋⣴⣾⡿⠋⠐⠆⣙⣛⣛⣛⣛⣋⣭⠰⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+         << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢁⣾⣿⡿⠀⠿⢁⣴⣿⣿⠟⣡⣄⠻⣆⠹⣿⣿⣿⣿⠟⢋⣠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+         << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⣿⡿⣫⡶⢃⣴⣿⣿⡿⢋⣴⣿⣿⣆⢑⠀⣤⡙⢩⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+         << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠻⠾⠋⣴⣿⣿⣿⠟⣰⣿⣿⣿⣿⡿⢨⣷⣿⣿⣦⠙⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+         << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢂⣾⣿⣿⣿⠏⠘⠿⣿⣿⡿⠟⣀⣾⣿⣿⣿⣿⣷⡈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+         << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠃⣿⣿⣿⠟⣁⣾⣿⠶⣂⣤⣶⡌⢿⣿⣿⣿⣿⣿⣿⣗⡈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+         << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣈⣉⣐⣚⣫⣭⣶⣾⣿⣿⣿⣷⢸⣿⣿⣿⣿⣿⣿⣿⣷⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+         << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢸⣿⣿⣿⣿⣿⣿⣿⣿⡆⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+         << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⣾⣿⣿⣿⣿⣿⣿⣿⣿⣧⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+         << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣸⣿⡿⠿⠿⠛⠛⠿⠿⢿⣿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
+         << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⣩⣵⣶⣿⣿⣿⣿⣿⣿⣶⣤⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" */
+
+}

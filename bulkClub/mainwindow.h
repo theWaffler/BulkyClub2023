@@ -38,6 +38,10 @@ private slots:
     void handleMemberSearchWindowDestroyed(QObject *obj); // slot to handle member search window closing
     void performMemberSearch(const QString& memberName, const QString& memberNumber);
 
+    void on_pushButton_salesReportExecutive_clicked();
+
+    void on_pushButton_salesReportRegular_clicked();
+
 private:
     Ui::MainWindow *ui;
     DataWarehouse storage;
@@ -48,6 +52,8 @@ private:
     QStandardItemModel* expSearchTableModel;
     QStandardItemModel* executiveRebateTableModel;
     QStandardItemModel* totalRevenue();
+    QStandardItemModel* executiveSalesTableModel;
+    QStandardItemModel* regularSalesTableModel;
 
     // table setup
     void setupTableModel();
@@ -56,6 +62,8 @@ private:
     void setupTableModelInventorySearch();
     void setupExecutiveRebate();
     void setupTotalRevenue();
+    void setupExecutiveSalesTable();
+    void setupRegularSalesTable();
 
     // populate table
     //void populateInventoryTable(const QString& itemData);
@@ -66,6 +74,8 @@ private:
     //void populateExecutiveRebate(const QVector<QString>& data);
     void populateExecutiveRebate(const QStringList& data);
     void populateTotalRevenue(const QStringList& data);
+    void populateExecutiveSalesTable(const QStringList& data);
+    void populateRegularSalesTable(const QStringList& data);
 };
 
 #endif // MAINWINDOW_H
