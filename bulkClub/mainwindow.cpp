@@ -173,6 +173,10 @@ void MainWindow::on_pushButton_memberAddDelete_clicked()
     //ADMIN function
 }
 
+////////////////////////////////////////////////////////////////////////////////////////
+// Display executive member rebate
+// input: none
+
 void MainWindow::on_pushButton_memberRebateDisplay_clicked()
 {
     // Call the DataWarehouse function to get the executive members' rebates
@@ -227,10 +231,15 @@ void MainWindow::populateExecutiveRebate(const QStringList& data)
         ui->tableView->setRowHeight(row, 100); // Set the desired height in pixels
     }
 }
+////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////
+// Member Expiration Search
+// input: MM/YYYY
 
 void MainWindow::on_pushButton_memberExpSearch_clicked()
 {
-    // Get the entered month and year from lineEdit_memberExpSearch
+    // Get the entered month and year from lineEdit_membeExpSearch
     QString dateStr = ui->lineEdit_membeExpSearch->text();
     QStringList dateParts = dateStr.split("/");
     if (dateParts.size() != 2)
@@ -246,14 +255,14 @@ void MainWindow::on_pushButton_memberExpSearch_clicked()
     QString searchResults = storage.GetMembershipExpirations(month, year);
 
     // Split the search results into rows
-    QStringList rows = searchResults.split('\n');
+    //QStringList rows = searchResults.split('\n');
+    QStringList rows = searchResults.split('\n', Qt::SkipEmptyParts);
 
-    // Remove the header line
-    if (!rows.isEmpty())
-        rows.removeFirst();
+    // Remove the empty lines
+    //rows.removeAll("");
 
     // Populate the table view with the search results
-    populateTable(rows.toVector());
+    populateExpMemberTable(rows);
 }
 
 void MainWindow::setupTableModelExpSearch()
@@ -273,21 +282,22 @@ void MainWindow::setupTableModelExpSearch()
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
 
-void MainWindow::populateExpMemberTable(const QVector<QString>& data)
+void MainWindow::populateExpMemberTable(const QStringList& data)
 {
     // Clear the existing data in the table model
     tableModel->removeRows(0, tableModel->rowCount());
 
-    // Add new rows with the data
-    int numRows = data.size();
+    int numRows= data.size();
+    int numCols = 1;
+
+    //set table model size
+    tableModel->setRowCount(numRows);
+    tableModel->setColumnCount(numCols);
+
+    // Populate the table model with the rebate data
     for (int row = 0; row < numRows; ++row)
     {
-        QStringList rowData = data[row].split(",");
-        int numCols = rowData.size();
-        for (int col = 0; col < numCols; ++col)
-        {
-            tableModel->setData(tableModel->index(row, col), rowData[col].trimmed());
-        }
+        tableModel->setData(tableModel->index(row, 0), data[row].trimmed());
     }
 
     // Expand the height of the rows
@@ -295,8 +305,13 @@ void MainWindow::populateExpMemberTable(const QVector<QString>& data)
     {
         ui->tableView->setRowHeight(row, 100); // Set the desired height in pixels
     }
-}
 
+}
+////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////
+// Inventory Product Search
+// input: product name
 void MainWindow::on_pushButton_inventorySearch_clicked()
 {
     // Get the item name from lineEdit_inventorySearch
@@ -309,45 +324,64 @@ void MainWindow::on_pushButton_inventorySearch_clicked()
         return;
     }
 
-    // Call the DataWarehouse function to get the item data as a single string
+    // Call DataWareHouse function
     QString itemData = storage.GetItemQuantity(itemName);
 
-    // Call the populateInventoryTable function to display the search results in the tableView
-    populateInventoryTable(itemData);
+    // Split
+    QStringList rows = itemData.split('\n', Qt::SkipEmptyParts);
+
+    // call populateInventoryTable function to display data in tablebiew
+    populateInventoryTable(rows);
 }
 
 void MainWindow::setupTableModelInventorySearch()
 {
-    // Create the table model for inventory search
-    inventorySearchTableModel = new QStandardItemModel(this);
+    //create table
+    tableModel = new QStandardItemModel(this);
 
-    // Set the column count and header label
-    int columnCount = 1;
-    inventorySearchTableModel->setColumnCount(columnCount);
-    inventorySearchTableModel->setHorizontalHeaderLabels({"Search Results"});
+    // set column count and header label
+    int columnCount =1;
+    tableModel->setColumnCount(columnCount);
+    tableModel->setHorizontalHeaderLabels({"Search Results"});
 
     // Set the table model for the table view
-    ui->tableView->setModel(inventorySearchTableModel);
+    ui->tableView->setModel(tableModel);
 
-    // Adjust the column width to fit the contents
+    // Adjust the column widths to fit the contents
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
 
-void MainWindow::populateInventoryTable(const QString& itemData)
+void MainWindow::populateInventoryTable(const QStringList& itemData)
 {
-    // Clear the existing data in the inventory search table model
-    inventorySearchTableModel->removeRows(0, inventorySearchTableModel->rowCount());
+    // Clear the existing data in the table model
+    tableModel->removeRows(0, tableModel->rowCount());
 
-    // Add a new row with the search results
-    inventorySearchTableModel->insertRow(0);
-    inventorySearchTableModel->setData(inventorySearchTableModel->index(0, 0), itemData);
+    // Set the row count and column count
+    int numRows = itemData.size();
+    int numCols = 1;
 
-    // Expand the height of the first row
-    ui->tableView->setRowHeight(0, 100); // Set the desired height in pixels
+    // Set the table model size
+    tableModel->setRowCount(numRows);
+    tableModel->setColumnCount(numCols);
+
+    // Populate the table model with the rebate data
+    for (int row = 0; row < numRows; ++row)
+    {
+        tableModel->setData(tableModel->index(row, 0), itemData[row].trimmed());
+    }
+
+    // Expand the height of the rows
+    for (int row = 0; row < numRows; ++row)
+    {
+        ui->tableView->setRowHeight(row, 100); // Set the desired height in pixels
+    }
+
 }
+////////////////////////////////////////////////////////////////////////////////////////
 
-
-
+////////////////////////////////////////////////////////////////////////////////////////
+// Member Search
+// input: member name / member number
 void MainWindow::on_pushButton_memberSearch_clicked()
 {
     // Open the membersearch window
@@ -405,7 +439,6 @@ void MainWindow::setupTableModelMemberSearch()
 
 void MainWindow::populateTable(const QVector<QString>& data)
 {
-
     // Clear the existing data in the table model
     tableModel->removeRows(0, tableModel->rowCount());
 
@@ -417,5 +450,5 @@ void MainWindow::populateTable(const QVector<QString>& data)
     }
     // Expand the height of the first row
     ui->tableView->setRowHeight(0, 100); // Set the desired height in pixels
-
 }
+////////////////////////////////////////////////////////////////////////////////////////

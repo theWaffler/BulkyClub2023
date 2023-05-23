@@ -53,8 +53,10 @@ private:
     void setupTableModelMemberSearch();
     void setupTableModelInventorySearch();
     void setupExecutiveRebate();
-    void populateInventoryTable(const QString& itemData);
-    void populateExpMemberTable(const QVector<QString>& data);
+    //void populateInventoryTable(const QString& itemData);
+    void populateInventoryTable(const QStringList& itemData);
+    //void populateExpMemberTable(const QVector<QString>& data);
+    void populateExpMemberTable(const QStringList& data);
     void populateTable(const QVector<QString>& data);
     //void populateExecutiveRebate(const QVector<QString>& data);
     void populateExecutiveRebate(const QStringList& data);
