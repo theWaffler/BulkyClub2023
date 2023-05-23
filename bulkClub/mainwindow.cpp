@@ -64,6 +64,7 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
     // Set up the table model
     //setupTableModel();
     setupTableModelMemberSearch();
+    setupTableModelInventorySearch();
 }
 
 MainWindow::~MainWindow()
@@ -179,11 +180,117 @@ void MainWindow::on_pushButton_memberExpSearch_clicked()
     // Manager function
 }
 
+/*
+void MainWindow::on_pushButton_inventorySearch_clicked()
+{
+    // Get the item name from lineEdit_inventorySearch
+    QString itemName = ui->lineEdit_inventorySearch->text();
+
+    // Check if the item name is empty
+    if (itemName.isEmpty())
+    {
+        QMessageBox::warning(this, "Empty Item Name", "Please enter an item name.");
+        return;
+    }
+
+    // Call the DataWarehouse function to get the item quantity and revenue
+    QString quantity = storage.GetItemQuantity(itemName);
+    QString revenue = storage.GetItemRevenue(itemName);
+
+    // Call the populateInventoryTable function to display the search results in the tableView
+    populateInventoryTable(itemName, quantity, revenue);
+
+}
+*/
 
 void MainWindow::on_pushButton_inventorySearch_clicked()
 {
-    // Manager function
+    // Get the item name from lineEdit_inventorySearch
+    QString itemName = ui->lineEdit_inventorySearch->text();
+
+    // Check if the item name is empty
+    if (itemName.isEmpty())
+    {
+        QMessageBox::warning(this, "Empty Item Name", "Please enter an item name.");
+        return;
+    }
+
+    // Call the DataWarehouse function to get the item data as a single string
+    QString itemData = storage.GetItemQuantity(itemName);
+
+    // Call the populateInventoryTable function to display the search results in the tableView
+    populateInventoryTable(itemData);
 }
+
+/*
+void MainWindow::setupTableModelInventorySearch()
+{
+
+    // Create the table model for inventory search
+    inventorySearchTableModel = new QStandardItemModel(this);
+
+    // Set the column count and header labels
+    int columnCount = 3;
+    inventorySearchTableModel->setColumnCount(columnCount);
+    inventorySearchTableModel->setHorizontalHeaderLabels({"Item", "Quantity", "Total Revenue (without tax)"});
+
+    // Set the table model for the table view
+    ui->tableView->setModel(inventorySearchTableModel);
+
+    // Adjust the column widths to fit the contents
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+
+}
+*/
+
+void MainWindow::setupTableModelInventorySearch()
+{
+    // Create the table model for inventory search
+    inventorySearchTableModel = new QStandardItemModel(this);
+
+    // Set the column count and header label
+    int columnCount = 1;
+    inventorySearchTableModel->setColumnCount(columnCount);
+    inventorySearchTableModel->setHorizontalHeaderLabels({"Search Results"});
+
+    // Set the table model for the table view
+    ui->tableView->setModel(inventorySearchTableModel);
+
+    // Adjust the column width to fit the contents
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+}
+
+
+/*
+void MainWindow::populateInventoryTable(const QString& itemName, const QString& quantity, const QString& revenue)
+{
+    // Clear the existing data in the inventory search table model
+    inventorySearchTableModel->removeRows(0, inventorySearchTableModel->rowCount());
+
+    // Add a new row with the data
+    inventorySearchTableModel->insertRow(0);
+    inventorySearchTableModel->setData(inventorySearchTableModel->index(0, 0), itemName);
+    inventorySearchTableModel->setData(inventorySearchTableModel->index(0, 1), quantity);
+    inventorySearchTableModel->setData(inventorySearchTableModel->index(0, 2), revenue);
+
+    // Expand the height of the first row
+    ui->tableView->setRowHeight(0, 100); // Set the desired height in pixels
+}
+*/
+
+void MainWindow::populateInventoryTable(const QString& itemData)
+{
+    // Clear the existing data in the inventory search table model
+    inventorySearchTableModel->removeRows(0, inventorySearchTableModel->rowCount());
+
+    // Add a new row with the search results
+    inventorySearchTableModel->insertRow(0);
+    inventorySearchTableModel->setData(inventorySearchTableModel->index(0, 0), itemData);
+
+    // Expand the height of the first row
+    ui->tableView->setRowHeight(0, 100); // Set the desired height in pixels
+}
+
 
 
 void MainWindow::on_pushButton_memberSearch_clicked()

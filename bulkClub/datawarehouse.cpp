@@ -436,6 +436,7 @@ QString DataWarehouse::GetItemQuantities()
 }
 
 // Call this for requirement 10
+
 QString DataWarehouse::GetItemQuantity(QString itemName)
 {
     /*
@@ -447,7 +448,7 @@ QString DataWarehouse::GetItemQuantity(QString itemName)
     int quantity = 0;
     double revenue = 0;
 
-    QString report = QString("Quantity of " + itemName + " Sold: ");
+    QString report = QString("Quantity of: " + itemName + " Sold: ");
 
     for (auto it = Transactions.begin(); it != Transactions.end(); it++)
     {
@@ -464,6 +465,8 @@ QString DataWarehouse::GetItemQuantity(QString itemName)
 
     return report;
 }
+
+
 
 // Call this for requirement 5
 QString DataWarehouse::GetExecutiveRebates()
@@ -782,7 +785,8 @@ QString DataWarehouse::GetMemberPurchases(int memberId)
     report += "\nTotal Purchases (including tax): $" + QString::number(customerTotal * 1.0775);
     return report;
 }
-//new
+
+// used for member search if you supply a ID vs member name
 QString DataWarehouse::GetMemberNameById(int memberId)
 {
     for (auto it = Members.begin(); it != Members.end(); it++)
@@ -796,4 +800,34 @@ QString DataWarehouse::GetMemberNameById(int memberId)
     }
 
     return ""; // member not found
+}
+
+// used for inventory search and return revenue
+QString DataWarehouse::GetItemRevenue(QString itemName)
+{
+    /*
+    A store manager should be able to enter an item name and only
+    display the quantity of that item sold as well as the total revenue
+    (without tax) for the item. No other items should be displayed.
+    */
+
+    int quantity = 0;
+    double revenue = 0;
+
+    QString report = QString("Quantity of " + itemName + " Sold: ");
+
+    for (auto it = Transactions.begin(); it != Transactions.end(); it++)
+    {
+        Transaction* transaction = *it;
+
+        if(transaction->productDescription == itemName)
+        {
+            revenue += transaction->quantity * transaction->price;
+            quantity += transaction->quantity;
+        }
+    }
+
+    report += QString::number(quantity) + ", Total Revenue (without tax): $" + QString::number(revenue);
+
+    return report;
 }

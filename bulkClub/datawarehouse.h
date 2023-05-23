@@ -52,6 +52,7 @@ public:
     double GetMemberRebate(int memberId);
     QString GetConvertToExecutiveRecommendations();
     QString GetConvertToRegularRecommendations();
-    QString GetMemberNameById(int memberId); // new
+    QString GetMemberNameById(int memberId); // member search by id
+    QString GetItemRevenue(QString itemName); // item search revenue
 };
 #endif // DATAWAREHOUSE_H

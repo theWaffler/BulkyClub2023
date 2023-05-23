@@ -44,9 +44,13 @@ private:
     memberSearch* memberSearchWindow;
     QStandardItemModel* tableModel;
     QStandardItemModel* memberSearchTableModel;
+    QStandardItemModel* inventorySearchTableModel;
 
     void setupTableModel();
     void setupTableModelMemberSearch();
+    void setupTableModelInventorySearch();
+    //void populateInventoryTable(const QString& itemName, const QString& quantity, const QString& revenue);
+    void populateInventoryTable(const QString& itemData);
     void populateTable(const QVector<QString>& data);
 };
 
