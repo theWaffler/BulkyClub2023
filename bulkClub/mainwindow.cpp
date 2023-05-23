@@ -70,6 +70,7 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
     setupTableModelInventorySearch();
     setupTableModelExpSearch();
     setupExecutiveRebate();
+    setupTotalRevenue();
 }
 
 MainWindow::~MainWindow()
@@ -143,12 +144,65 @@ void MainWindow::on_pushButton_itemSold_clicked()
     // Manager function
 }
 
-
+////////////////////////////////////////////////////////////////////////////////////////
+// Total Revenue
+// input: none
 void MainWindow::on_pushButton_totalRevenueTax_clicked()
 {
-    // Manager function
+    // call datawarehouse function
+    QString totalRevenue = storage.GetItemQuantities();
+
+    //split
+    QStringList rows = totalRevenue.split('\n', Qt::SkipEmptyParts);
+
+    // call populate totalRevenue
+    populateTotalRevenue(rows);
 }
 
+void MainWindow::setupTotalRevenue()
+{
+    //create table
+    tableModel = new QStandardItemModel(this);
+
+    //set column count and header label
+    int columnCount = 1;
+    tableModel->setColumnCount(columnCount);
+    tableModel->setHorizontalHeaderLabels({"Search Results"});
+
+    // set table model for table view
+    ui->tableView->setModel(tableModel);
+
+    //adjust column widths to fit content
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+}
+
+void MainWindow::populateTotalRevenue(const QStringList& data)
+{
+    //clear existing data in table view
+    tableModel->removeRows(0,tableModel->rowCount());
+
+    // set row and column count
+    int numRows = data.size();
+    int numCols = 1;
+
+    // set the model size
+    tableModel->setRowCount(numRows);
+    tableModel->setColumnCount(numCols);
+
+    // Populate the table model with the rebate data
+    for (int row = 0; row < numRows; ++row)
+    {
+        tableModel->setData(tableModel->index(row, 0), data[row].trimmed());
+    }
+
+    // Expand the height of the rows
+    for (int row = 0; row < numRows; ++row)
+    {
+        ui->tableView->setRowHeight(row, 100); // Set the desired height in pixels
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////
 
 void MainWindow::on_pushButton_memberShoppingDataSearch_clicked()
 {
@@ -166,7 +220,6 @@ void MainWindow::on_pushButton_itemAddDelete_clicked()
 {
     //ADMIN function
 }
-
 
 void MainWindow::on_pushButton_memberAddDelete_clicked()
 {
