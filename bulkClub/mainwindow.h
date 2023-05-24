@@ -54,6 +54,7 @@ private:
     QStandardItemModel* totalRevenue();
     QStandardItemModel* executiveSalesTableModel;
     QStandardItemModel* regularSalesTableModel;
+    QStandardItemModel* allSalesTableModel;
 
     // table setup
     void setupTableModel();
@@ -64,6 +65,7 @@ private:
     void setupTotalRevenue();
     void setupExecutiveSalesTable();
     void setupRegularSalesTable();
+    void setupAllSalesTable();
 
     // populate table
     //void populateInventoryTable(const QString& itemData);
@@ -76,6 +78,7 @@ private:
     void populateTotalRevenue(const QStringList& data);
     void populateExecutiveSalesTable(const QStringList& data);
     void populateRegularSalesTable(const QStringList& data);
+    void populateAllSalesTable(const QStringList& data);
 };
 
 #endif // MAINWINDOW_H

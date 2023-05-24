@@ -68,12 +68,13 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
 
 
     // Set up the table model
-    //setupTableModel();
+   //setupTableModel();
     setupTableModelMemberSearch();
     setupTableModelInventorySearch();
     setupTableModelExpSearch();
-    //executiveSalesTableModel;
-    //regularSalesTableModel;
+    //executiveSalesTableModel();
+    //regularSalesTableModel();
+    setupAllSalesTable();
 }
 
 MainWindow::~MainWindow()
@@ -134,11 +135,63 @@ void MainWindow::on_pushButton_searchSalesReport_clicked()
     ui->tableView->resizeColumnsToContents();
 }
 
-
+////////////////////////////////////////////////////////////////////////////////////////
+// Display sales report for ALL
+// input: none
 void MainWindow::on_pushButton_itemSold_clicked()
 {
-    // Manager function
+    // call function
+    QString salesAll = storage.GetPurchasesAllMembers();
+
+    //split
+    QStringList rows = salesAll.split('\n', Qt::SkipEmptyParts);
+
+    //call populateAllSalesTable
+    populateAllSalesTable(rows);
 }
+
+void MainWindow::setupAllSalesTable()
+{
+    //create table
+    tableModel = new QStandardItemModel(this);
+
+    //set col and header label
+    int colCount = 1;
+    tableModel->setColumnCount(colCount);
+    tableModel->setHorizontalHeaderLabels({"Search Results"});
+
+    // set model to current tableView
+    ui->tableView->setModel(tableModel);
+
+    //adjust to fit
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+}
+
+void MainWindow::populateAllSalesTable(const QStringList& data)
+{
+    // Clear prior data
+    tableModel->removeRows(0, tableModel->rowCount());
+
+    // Set row count
+    int numRows = data.size();
+
+    // Set model size
+    tableModel->setRowCount(numRows);
+
+    // Populate the table
+    for (int row = 0; row < numRows; ++row)
+    {
+        tableModel->setData(tableModel->index(row, 0), data[row].trimmed());
+    }
+
+    // Expand the height of the rows
+    for (int row = 0; row < numRows; ++row)
+    {
+        ui->tableView->setRowHeight(row, 100); // Set the desired height in pixels
+    }
+}
+////////////////////////////////////////////////////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // Total Revenue
@@ -231,6 +284,13 @@ void MainWindow::on_pushButton_salesReportExecutive_clicked()
     // getting date
     QDate date = QDate::fromString(ui->lineEdit_salesReportExecutiveDate->text(),"yyyy-MM-dd");
 
+    // Check if the entered date is valid
+    if (!date.isValid())
+    {
+        QMessageBox::warning(this, "Invalid Date", "Please enter a valid date in the format yyyy-MM-dd.");
+        return;
+    }
+
     // call datawarehouse function to get sales report for executive members
     QString salesReportEx = storage.GetSalesReportForDate(date, REPORT_EXECUTIVE_ONLY);
 
@@ -292,6 +352,13 @@ void MainWindow::on_pushButton_salesReportRegular_clicked()
 {
     //getting date
     QDate date = QDate::fromString(ui->lineEdit_salesReportRegularDate->text(),"yyyy-MM-dd");
+
+    // Check if the entered date is valid
+    if (!date.isValid())
+    {
+        QMessageBox::warning(this, "Invalid Date", "Please enter a valid date in the format yyyy-MM-dd.");
+        return;
+    }
 
     // call function from datawarehouse to get sales report for regular memebers
     QString salesReportRg = storage.GetSalesReportForDate(date,REPORT_REGULAR_ONLY);

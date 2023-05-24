@@ -45,7 +45,7 @@
    <widget class="QLineEdit" name="lineEdit_memberShoppingData">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>90</x>
       <y>450</y>
       <width>150</width>
       <height>30</height>
@@ -55,7 +55,7 @@
    <widget class="QLabel" name="label_memberShoppingDataDate">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>450</y>
       <width>49</width>
       <height>16</height>
@@ -93,7 +93,7 @@
    <widget class="QLabel" name="label_memberShoppingData">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>410</y>
       <width>251</width>
       <height>41</height>
@@ -160,7 +160,7 @@
    <widget class="QPushButton" name="pushButton_memberShoppingDataSearch">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>160</x>
       <y>480</y>
       <width>80</width>
       <height>30</height>
@@ -178,7 +178,7 @@
    <widget class="QPushButton" name="pushButton_totalRevenueTax">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>370</y>
       <width>80</width>
       <height>30</height>
@@ -196,7 +196,7 @@
    <widget class="QLabel" name="label_totalRevenueTax">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>340</y>
       <width>231</width>
       <height>31</height>
@@ -215,7 +215,7 @@
    <widget class="QPushButton" name="pushButton_memberType">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>550</y>
       <width>80</width>
       <height>30</height>
@@ -270,7 +270,7 @@
    <widget class="QPushButton" name="pushButton_itemSold">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>300</y>
       <width>80</width>
       <height>30</height>
@@ -299,13 +299,16 @@
       <pointsize>12</pointsize>
      </font>
     </property>
+    <property name="text">
+     <string>YYYY-MM-DD</string>
+    </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>270</y>
-      <width>111</width>
+      <width>251</width>
       <height>31</height>
      </rect>
     </property>
@@ -316,13 +319,13 @@
      </font>
     </property>
     <property name="text">
-     <string>Items Sold</string>
+     <string>Items Sold (All Members)</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_memberType">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>510</y>
       <width>251</width>
       <height>41</height>
@@ -341,7 +344,7 @@
    <widget class="QLabel" name="label_memberRebate">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>590</y>
       <width>251</width>
       <height>41</height>
@@ -360,7 +363,7 @@
    <widget class="QPushButton" name="pushButton_memberRebateDisplay">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>630</y>
       <width>80</width>
       <height>30</height>
@@ -378,7 +381,7 @@
    <widget class="QLabel" name="label_memberExp">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>670</y>
       <width>251</width>
       <height>41</height>
@@ -397,7 +400,7 @@
    <widget class="QLabel" name="label_memberExpDate">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>710</y>
       <width>49</width>
       <height>16</height>
@@ -416,17 +419,23 @@
    <widget class="QLineEdit" name="lineEdit_membeExpSearch">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>60</x>
       <y>710</y>
       <width>150</width>
       <height>30</height>
      </rect>
     </property>
+    <property name="text">
+     <string>MM-YYYY</string>
+    </property>
+    <property name="placeholderText">
+     <string/>
+    </property>
    </widget>
    <widget class="QPushButton" name="pushButton_memberExpSearch">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>130</x>
       <y>740</y>
       <width>80</width>
       <height>30</height>
@@ -539,7 +548,7 @@
    <widget class="QLabel" name="label_memberExp_2">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>770</y>
       <width>251</width>
       <height>41</height>
@@ -558,7 +567,7 @@
    <widget class="QLabel" name="label_inventorySearchName">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>10</x>
       <y>810</y>
       <width>61</width>
       <height>20</height>
@@ -577,7 +586,7 @@
    <widget class="QLineEdit" name="lineEdit_inventorySearch">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>70</x>
       <y>810</y>
       <width>150</width>
       <height>30</height>
@@ -587,7 +596,7 @@
    <widget class="QPushButton" name="pushButton_inventorySearch">
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>140</x>
       <y>840</y>
       <width>80</width>
       <height>30</height>
@@ -729,6 +738,9 @@
       <pointsize>12</pointsize>
      </font>
     </property>
+    <property name="text">
+     <string>YYYY-MM-DD</string>
+    </property>
    </widget>
    <widget class="QLabel" name="label_salesReportRegularDate">
     <property name="geometry">
@@ -762,6 +774,9 @@
      <font>
       <pointsize>12</pointsize>
      </font>
+    </property>
+    <property name="text">
+     <string>YYYY-MM-DD</string>
     </property>
    </widget>
   </widget>
