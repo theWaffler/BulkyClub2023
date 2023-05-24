@@ -30,6 +30,10 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
     ui->taco->setMovie(movie);
     movie->start();
 
+    QMovie *catgif = new QMovie(":/images/pusheen-eating.gif");
+    ui->catgif->setMovie(catgif);
+    catgif->start();
+
     if (role == EmployeeType::Admin) {
         //enable admin-specific GUI elements
         ui->pushButton_searchSalesReport->setEnabled(true);
@@ -37,11 +41,7 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
         ui->pushButton_salesReportRegular->setEnabled(true);
         ui->pushButton_itemSold->setEnabled(true);
         ui->pushButton_totalRevenueTax->setEnabled(true);
-        //ui->pushButton_memberShoppingDataSearch->setEnabled(true);
-        //ui->pushButton_memberType->setEnabled(true);
         ui->pushButton_memberConversionRegular->setEnabled(true);
-        //ui->pushButton_itemAddDelete->setEnabled(true);
-        //ui->pushButton_memberAddDelete->setEnabled(true);
         ui->pushButton_memberRebateDisplay->setEnabled(true);
         ui->pushButton_memberExpSearch->setEnabled(true);
         ui->pushButton_inventorySearch->setEnabled(true);
@@ -61,11 +61,7 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
         ui->pushButton_salesReportRegular->setEnabled(true);
         ui->pushButton_itemSold->setEnabled(true);
         ui->pushButton_totalRevenueTax->setEnabled(true);
-        //ui->pushButton_memberShoppingDataSearch->setEnabled(true);
-        //ui->pushButton_memberType->setEnabled(true);
         ui->pushButton_memberConversionRegular->setEnabled(true);
-        //ui->pushButton_itemAddDelete->setEnabled(false);
-        //ui->pushButton_memberAddDelete->setEnabled(false);
         ui->pushButton_memberRebateDisplay->setEnabled(true);
         ui->pushButton_memberExpSearch->setEnabled(true);
         ui->pushButton_inventorySearch->setEnabled(true);
@@ -93,14 +89,12 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
 
 
     // Set up the table model
-   //setupTableModel();
     setupTableModelMemberSearch();
     setupTableModelInventorySearch();
     setupTableModelExpSearch();
-    //executiveSalesTableModel();
-    //regularSalesTableModel();
     setupAllSalesTable();
     setupMemberConversionRegular();
+    setupDateSales();
 }
 
 MainWindow::~MainWindow()
@@ -116,8 +110,12 @@ void MainWindow::handleMemberSearchWindowDestroyed(QObject *obj)
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////
+// Display sales report for ALL by date
+// input: none
 void MainWindow::on_pushButton_searchSalesReport_clicked()
 {
+    // get date
     QString dateStr = ui->lineEdit_dateSalesReport->text();
     QDate date = QDate::fromString(dateStr, "yyyy-MM-dd");
 
@@ -128,38 +126,59 @@ void MainWindow::on_pushButton_searchSalesReport_clicked()
         return;
     }
 
-    int reportType = REPORT_ALL_MEMBERS;  // Set the appropriate report type
+    // call function from datawarehouse
+    QString salesReportDate = storage.GetSalesReportForDate(date, REPORT_ALL_MEMBERS);
 
-    QString s = storage.GetSalesReportForDate(date, reportType);
-    qDebug() << s;
+    //split
+    QStringList rows = salesReportDate.split('\n', Qt::SkipEmptyParts);
 
-    // Split the sales report data into rows
-    QStringList rows = s.split('\n');
+    // call populate function
+    populateDateSales(rows);
+}
 
-    // Get the number of rows and columns
-    int numRows = rows.size();
-    int numCols = 1; // Assuming one column for the sales report data
+void MainWindow::setupDateSales()
+{
+    //create table
+    tableModel = new QStandardItemModel(this);
 
-    // Create a table model for the sales report data
-    QStandardItemModel *model = new QStandardItemModel(numRows, numCols, this);
+    //set col and header
+    int colCount = 1;
+    tableModel->setColumnCount(colCount);
+    tableModel->setHorizontalHeaderLabels({"Search Results"});
 
-    // Populate the table model with the sales report data
+    //set table
+    ui->tableView->setModel(tableModel);
+
+    //auto adjust
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+}
+
+void MainWindow::populateDateSales(const QStringList& data)
+{
+    // Clear the existing data in the table model
+    tableModel->removeRows(0, tableModel->rowCount());
+
+    // Set the row count and column count
+    int numRows = data.size();
+    int numCols = 1;
+
+    // Set the table model size
+    tableModel->setRowCount(numRows);
+    tableModel->setColumnCount(numCols);
+
+    // Populate the table model with the rebate data
     for (int row = 0; row < numRows; ++row)
     {
-        QString rowData = rows[row];
-        QStandardItem *item = new QStandardItem(rowData);
-        model->setItem(row, 0, item);
+        tableModel->setData(tableModel->index(row, 0), data[row].trimmed());
     }
 
-    // Set the table model for the QTableView
-    ui->tableView->setModel(model);
-
-    // Set the header text for the column
-    model->setHeaderData(0, Qt::Horizontal, "Sales Report");
-
-    // Resize the columns to fit the content
-    ui->tableView->resizeColumnsToContents();
+    // Expand the height of the rows
+    for (int row = 0; row < numRows; ++row)
+    {
+        ui->tableView->setRowHeight(row, 30); // Set the desired height in pixels
+    }
 }
+////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // Display sales report for ALL
@@ -276,8 +295,6 @@ void MainWindow::populateMemberConversionExecutive(const QStringList& data)
         ui->tableView->setRowHeight(row, 30); // Set the desired height in pixels
     }
 }
-
-
 ////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -660,18 +677,7 @@ void MainWindow::populateTotalRevenue(const QStringList& data)
         ui->tableView->setRowHeight(row, 30); // Set the desired height in pixels
     }
 }
-
 ////////////////////////////////////////////////////////////////////////////////////////
-
-//void MainWindow::on_pushButton_memberShoppingDataSearch_clicked()
-//{
-    // Manager function
-//}
-
-//void MainWindow::on_pushButton_itemAddDelete_clicked()
-//{
-//    //ADMIN function
-//}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
