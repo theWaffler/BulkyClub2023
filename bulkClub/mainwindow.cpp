@@ -16,6 +16,7 @@
 #include <QHeaderView>
 #include "membersearch.h"
 #include "MakePurchaseDialog.h"
+#include "login.h"
 
 //#include "ui_membersearch.h"
 
@@ -1100,12 +1101,33 @@ void MainWindow::on_pushButton_memberSearch_clicked()
 
 void MainWindow::performMemberSearch(const QString& memberName, const QString& memberNumber)
 {
+    memberSearch memSearch;
+    memSearch.setWindowFlags(memSearch.windowFlags() | Qt::WindowStaysOnTopHint);
+    memSearch.show();
+
     int memberId = -1;
 
-    // Check if the member number is provided
+    // Check if the member number is provided and valid
     if (!memberNumber.isEmpty()) {
-        memberId = memberNumber.toInt();
+        bool ok;
+        memberId = memberNumber.toInt(&ok);
+        if (!ok || memberId < 0 || memberNumber.length() < 5) {
+            QMessageBox::warning(&memSearch, "Invalid Member ID", "Please enter a valid member ID (positive number with at least 5 digits).");
+            return;
+        }
     } else {
+        // Check if the member name is provided and valid
+        if (memberName.isEmpty()) {
+            QMessageBox::warning(&memSearch, "Invalid Input", "Please enter either the member name or the member ID.");
+            return;
+        }
+        // Perform the check that member name can only accept letters
+        QRegularExpression nameRegex("^[A-Za-z]+$");
+        if (!nameRegex.match(memberName).hasMatch()) {
+            QMessageBox::warning(&memSearch, "Invalid Member Name", "Please enter a valid member name (letters only).");
+            return;
+        }
+        // Perform the search based on the member name
         memberId = storage.GetMemberIdByName(memberName);
     }
 
@@ -1113,17 +1135,25 @@ void MainWindow::performMemberSearch(const QString& memberName, const QString& m
     if (memberId != -1) {
         QString foundMemberName = storage.GetMemberNameById(memberId);
         if (!foundMemberName.isEmpty()) {
-            QString memberPurchases = storage.GetMemberPurchases(memberId);
-            QVector<QString> searchData;
-            searchData.append(foundMemberName);
-            searchData.append(QString::number(memberId));
-            searchData.append(memberPurchases);
-            populateTable(searchData);
-            return;
+            // Check if the retrieved member name matches the provided member name
+            if (memberName.isEmpty() || foundMemberName.contains(memberName, Qt::CaseInsensitive)) {
+                QString memberPurchases = storage.GetMemberPurchases(memberId);
+                QVector<QString> searchData;
+                searchData.append(foundMemberName);
+                searchData.append(QString::number(memberId));
+                searchData.append(memberPurchases);
+                populateTable(searchData);
+                return;
+            } else {
+                QMessageBox::warning(this, "Member Not Found", "No user found matching the provided criteria.");
+                return;
+            }
         }
     }
 
-    QMessageBox::warning(this, "Member Not Found", "The member could not be found.");
+    QMessageBox warningBox(&memSearch);
+    warningBox.setWindowFlags(warningBox.windowFlags() | Qt::WindowStaysOnTopHint);
+    warningBox.warning(&memSearch, "Member Not Found", "The member could not be found.");
 }
 
 void MainWindow::setupTableModelMemberSearch()
