@@ -24,11 +24,11 @@ public:
 
 private slots:
     void on_pushButton_searchSalesReport_clicked();
-    void on_pushButton_salesReportMemberTypeDisplay_clicked();
+    //void on_pushButton_salesReportMemberTypeDisplay_clicked();
     void on_pushButton_itemSold_clicked();
     void on_pushButton_totalRevenueTax_clicked();
     void on_pushButton_memberShoppingDataSearch_clicked();
-    void on_pushButton_memberType_clicked();
+    //void on_pushButton_memberType_clicked();
     void on_pushButton_itemAddDelete_clicked();
     void on_pushButton_memberAddDelete_clicked();
     void on_pushButton_memberRebateDisplay_clicked();
@@ -37,10 +37,9 @@ private slots:
     void on_pushButton_memberSearch_clicked();
     void handleMemberSearchWindowDestroyed(QObject *obj); // slot to handle member search window closing
     void performMemberSearch(const QString& memberName, const QString& memberNumber);
-
     void on_pushButton_salesReportExecutive_clicked();
-
     void on_pushButton_salesReportRegular_clicked();
+    void on_pushButton_memberConversionRegular_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -55,6 +54,7 @@ private:
     QStandardItemModel* executiveSalesTableModel;
     QStandardItemModel* regularSalesTableModel;
     QStandardItemModel* allSalesTableModel;
+    QStandardItemModel* memberConversionRegularModel;
 
     // table setup
     void setupTableModel();
@@ -66,6 +66,7 @@ private:
     void setupExecutiveSalesTable();
     void setupRegularSalesTable();
     void setupAllSalesTable();
+    void setupMemberConversionRegular();
 
     // populate table
     //void populateInventoryTable(const QString& itemData);
@@ -79,6 +80,7 @@ private:
     void populateExecutiveSalesTable(const QStringList& data);
     void populateRegularSalesTable(const QStringList& data);
     void populateAllSalesTable(const QStringList& data);
+    void populateMemberConversionRegular(const QStringList& data);
 };
 
 #endif // MAINWINDOW_H

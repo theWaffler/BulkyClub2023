@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1280</width>
-    <height>1000</height>
+    <height>925</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -42,35 +42,6 @@
      <pixmap resource="image.qrc">:/images/tacoFlying.gif</pixmap>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_memberShoppingData">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>450</y>
-      <width>150</width>
-      <height>30</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_memberShoppingDataDate">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>450</y>
-      <width>49</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>14</pointsize>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Date:</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_salesReportMemberType">
     <property name="geometry">
      <rect>
@@ -90,32 +61,13 @@
      <string>Sales Report by Member Type</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_memberShoppingData">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>410</y>
-      <width>251</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>15</pointsize>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Members Shopping Data</string>
-    </property>
-   </widget>
    <widget class="QTableView" name="tableView">
     <property name="geometry">
      <rect>
       <x>300</x>
       <y>10</y>
       <width>531</width>
-      <height>831</height>
+      <height>871</height>
      </rect>
     </property>
    </widget>
@@ -157,29 +109,11 @@
      <string>Sales Report</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_memberShoppingDataSearch">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>480</y>
-      <width>80</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Search</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButton_totalRevenueTax">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>370</y>
+      <y>390</y>
       <width>80</width>
       <height>30</height>
      </rect>
@@ -197,7 +131,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>340</y>
+      <y>360</y>
       <width>231</width>
       <height>31</height>
      </rect>
@@ -210,24 +144,6 @@
     </property>
     <property name="text">
      <string>Total Revenue (inc. tax)</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton_memberType">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>550</y>
-      <width>80</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Display</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_salesReportExecutive">
@@ -271,7 +187,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>300</y>
+      <y>320</y>
       <width>80</width>
       <height>30</height>
      </rect>
@@ -307,7 +223,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>270</y>
+      <y>290</y>
       <width>251</width>
       <height>31</height>
      </rect>
@@ -322,30 +238,11 @@
      <string>Items Sold (All Members)</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_memberType">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>510</y>
-      <width>251</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>15</pointsize>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Member Type (QTY)</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_memberRebate">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>590</y>
+      <y>500</y>
       <width>251</width>
       <height>41</height>
      </rect>
@@ -364,7 +261,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>630</y>
+      <y>540</y>
       <width>80</width>
       <height>30</height>
      </rect>
@@ -382,7 +279,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>670</y>
+      <y>580</y>
       <width>251</width>
       <height>41</height>
      </rect>
@@ -401,7 +298,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>710</y>
+      <y>620</y>
       <width>49</width>
       <height>16</height>
      </rect>
@@ -420,7 +317,7 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>710</y>
+      <y>620</y>
       <width>150</width>
       <height>30</height>
      </rect>
@@ -436,7 +333,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>740</y>
+      <y>650</y>
       <width>80</width>
       <height>30</height>
      </rect>
@@ -549,7 +446,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>770</y>
+      <y>680</y>
       <width>251</width>
       <height>41</height>
      </rect>
@@ -568,7 +465,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>810</y>
+      <y>720</y>
       <width>61</width>
       <height>20</height>
      </rect>
@@ -587,7 +484,7 @@
     <property name="geometry">
      <rect>
       <x>70</x>
-      <y>810</y>
+      <y>720</y>
       <width>150</width>
       <height>30</height>
      </rect>
@@ -597,7 +494,7 @@
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>840</y>
+      <y>750</y>
       <width>80</width>
       <height>30</height>
      </rect>
@@ -615,7 +512,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>870</y>
+      <y>780</y>
       <width>251</width>
       <height>41</height>
      </rect>
@@ -634,7 +531,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>910</y>
+      <y>820</y>
       <width>141</width>
       <height>41</height>
      </rect>
@@ -777,6 +674,43 @@
     </property>
     <property name="text">
      <string>YYYY-MM-DD</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_memberConversionRegular">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>430</y>
+      <width>191</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>15</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Member Conversion</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_memberConversionRegular">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>460</y>
+      <width>80</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Display</string>
     </property>
    </widget>
   </widget>

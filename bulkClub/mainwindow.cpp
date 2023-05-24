@@ -28,8 +28,9 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
         ui->pushButton_salesReportRegular->setEnabled(true);
         ui->pushButton_itemSold->setEnabled(true);
         ui->pushButton_totalRevenueTax->setEnabled(true);
-        ui->pushButton_memberShoppingDataSearch->setEnabled(true);
-        ui->pushButton_memberType->setEnabled(true);
+        //ui->pushButton_memberShoppingDataSearch->setEnabled(true);
+        //ui->pushButton_memberType->setEnabled(true);
+        ui->pushButton_memberConversionRegular->setEnabled(true);
         ui->pushButton_itemAddDelete->setEnabled(true);
         ui->pushButton_memberAddDelete->setEnabled(true);
         ui->pushButton_memberRebateDisplay->setEnabled(true);
@@ -44,8 +45,9 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
         ui->pushButton_salesReportRegular->setEnabled(true);
         ui->pushButton_itemSold->setEnabled(true);
         ui->pushButton_totalRevenueTax->setEnabled(true);
-        ui->pushButton_memberShoppingDataSearch->setEnabled(true);
-        ui->pushButton_memberType->setEnabled(true);
+        //ui->pushButton_memberShoppingDataSearch->setEnabled(true);
+        //ui->pushButton_memberType->setEnabled(true);
+        ui->pushButton_memberConversionRegular->setEnabled(true);
         ui->pushButton_itemAddDelete->setEnabled(false);
         ui->pushButton_memberAddDelete->setEnabled(false);
         ui->pushButton_memberRebateDisplay->setEnabled(true);
@@ -75,6 +77,7 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
     //executiveSalesTableModel();
     //regularSalesTableModel();
     setupAllSalesTable();
+    setupMemberConversionRegular();
 }
 
 MainWindow::~MainWindow()
@@ -258,13 +261,6 @@ void MainWindow::on_pushButton_memberShoppingDataSearch_clicked()
     // Manager function
 }
 
-
-void MainWindow::on_pushButton_memberType_clicked()
-{
-    // Manager function
-}
-
-
 void MainWindow::on_pushButton_itemAddDelete_clicked()
 {
     //ADMIN function
@@ -274,6 +270,67 @@ void MainWindow::on_pushButton_memberAddDelete_clicked()
 {
     //ADMIN function
 }
+
+////////////////////////////////////////////////////////////////////////////////////////
+// Regular Member Conversion
+// input: none
+void MainWindow::on_pushButton_memberConversionRegular_clicked()
+{
+    //storage.GetConvertToExecutiveRecommendations();
+    // call function from datawarehouse
+    QString memberConversionRegular = storage.GetConvertToExecutiveRecommendations();
+
+    //split
+    QStringList rows = memberConversionRegular.split('\n', Qt::SkipEmptyParts);
+
+    //populate table
+    populateMemberConversionRegular(rows);
+}
+
+void MainWindow::setupMemberConversionRegular()
+{
+    //create table
+    tableModel = new QStandardItemModel(this);
+
+    //set col and header
+    int colCount = 1;
+    tableModel->setColumnCount(colCount);
+    tableModel->setHorizontalHeaderLabels({"Search Results"});
+
+    //set table view
+    ui->tableView->setModel(tableModel);
+
+    //auto adust
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+}
+
+void MainWindow::populateMemberConversionRegular(const QStringList& data)
+{
+    // Clear the existing data in the table model
+    tableModel->removeRows(0, tableModel->rowCount());
+
+    // Set the row count and column count
+    int numRows = data.size();
+    int numCols = 1;
+
+    // Set the table model size
+    tableModel->setRowCount(numRows);
+    tableModel->setColumnCount(numCols);
+
+    // Populate the table model with the rebate data
+    for (int row = 0; row < numRows; ++row)
+    {
+        tableModel->setData(tableModel->index(row, 0), data[row].trimmed());
+    }
+
+    // Expand the height of the rows
+    for (int row = 0; row < numRows; ++row)
+    {
+        ui->tableView->setRowHeight(row, 100); // Set the desired height in pixels
+    }
+}
+////////////////////////////////////////////////////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // Display executive sales report
@@ -694,8 +751,14 @@ void MainWindow::populateTable(const QVector<QString>& data)
 }
 ////////////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_pushButton_salesReportMemberTypeDisplay_clicked()
-{
+
+//void MainWindow::on_pushButton_memberType_clicked()
+//{
+    // cannt delete this function. will get complie errors
+//}
+
+//void MainWindow::on_pushButton_salesReportMemberTypeDisplay_clicked()
+//{
     // No idea why I can't delete this function. Will get a compile error if I remove it.
     // gui element has been deleted already.
     /*   << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
@@ -724,4 +787,4 @@ void MainWindow::on_pushButton_salesReportMemberTypeDisplay_clicked()
          << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣸⣿⡿⠿⠿⠛⠛⠿⠿⢿⣿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n"
          << "⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⣩⣵⣶⣿⣿⣿⣿⣿⣿⣶⣤⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" */
 
-}
+//}
