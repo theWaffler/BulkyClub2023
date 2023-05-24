@@ -40,6 +40,7 @@ private slots:
     void on_pushButton_salesReportExecutive_clicked();
     void on_pushButton_salesReportRegular_clicked();
     void on_pushButton_memberConversionRegular_clicked();
+    void on_pushButton_executiveRegular_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -55,6 +56,7 @@ private:
     QStandardItemModel* regularSalesTableModel;
     QStandardItemModel* allSalesTableModel;
     QStandardItemModel* memberConversionRegularModel;
+    QStandardItemModel* memberConversionExecutiveModel;
 
     // table setup
     void setupTableModel();
@@ -67,6 +69,7 @@ private:
     void setupRegularSalesTable();
     void setupAllSalesTable();
     void setupMemberConversionRegular();
+    void setupMemberConversionExecutive();
 
     // populate table
     //void populateInventoryTable(const QString& itemData);
@@ -81,6 +84,7 @@ private:
     void populateRegularSalesTable(const QStringList& data);
     void populateAllSalesTable(const QStringList& data);
     void populateMemberConversionRegular(const QStringList& data);
+    void populateMemberConversionExecutive(const QStringList& data);
 };
 
 #endif // MAINWINDOW_H
