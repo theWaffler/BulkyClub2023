@@ -15,6 +15,8 @@
 #include <QStandardItemModel>
 #include <QHeaderView>
 #include "membersearch.h"
+#include "MakePurchaseDialog.h"
+
 //#include "ui_membersearch.h"
 
 MainWindow::MainWindow(EmployeeType role, QWidget *parent)
@@ -518,7 +520,6 @@ void MainWindow::on_pushButton_changeItemPrice_clicked()
     }
 }
 
-
 void MainWindow::on_pushButton_deleteItem_clicked()
 {
     qDebug() << "Delete item clicked\n";
@@ -556,6 +557,68 @@ void MainWindow::on_pushButton_deleteItem_clicked()
         {
             QMessageBox::warning(this, "Error", "Item Not Found.");
         }
+    }
+}
+
+void MainWindow::on_pushButton_makePurchase_clicked()
+{
+    //qDebug() << "Delete item clicked\n";
+    // Create the dialog
+    MakePurchaseDialog dialog;
+    //dialog.storage = &storage;
+
+    // Set dialog properties or configure it as needed
+    dialog.setWindowTitle("Make Purchase");
+    dialog.setMinimumSize(200, 100);
+
+    // Create a layout for the dialog
+    QVBoxLayout *layout = new QVBoxLayout(&dialog);
+
+    // Show the dialog
+    if (dialog.exec() == QDialog::Accepted) {
+        QString inDate = dialog.getDate();
+        QString inID = dialog.getCustomerID();
+        QString itemName = dialog.getItemName();
+        QString inQuantity = dialog.getQuantity();
+
+        QDate date = QDate::fromString(inDate, "yyyy-MM-dd");
+
+        if (!date.isValid())
+        {
+            QMessageBox::warning(this, "Invalid Expiration Date", "Please enter a valid expiration date in the format yyyy-MM-dd.");
+            return;
+        }
+
+        bool idIsInt = false;
+        int id = inID.toInt(&idIsInt);
+
+        if(!idIsInt)
+        {
+            QMessageBox::warning(this, "Invalid Member ID", "Please enter a valid integer ID.");
+            return;
+        }
+
+        if(itemName.length() == 0)
+        {
+            QMessageBox::warning(this, "Missing Item Name", "Please enter an Item Name.");
+            return;
+        }
+
+        bool validNum = false;
+        int quantity = inQuantity.toInt(&validNum);
+
+        if(!validNum)
+        {
+            QMessageBox::warning(this, "Invalid Member ID", "Please enter a valid integer ID.");
+            return;
+        }
+
+        Transaction *t = new Transaction(date, id, itemName, 0, quantity);
+
+        QString result = storage.MakePurchase(t);
+
+        QMessageBox::information(this, "", result);
+
     }
 }
 

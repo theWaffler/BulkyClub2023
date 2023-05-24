@@ -34,6 +34,8 @@ private slots:
     void on_pushButton_addItem_clicked();
     void on_pushButton_deleteItem_clicked();
     void on_pushButton_changeItemPrice_clicked();
+    void on_pushButton_makePurchase_clicked();
+
 
 
 

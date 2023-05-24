@@ -267,7 +267,7 @@ QString DataWarehouse::GetSalesReportForDate(QDate date, int reportType)
 
     // Add total revenue
     report += "\nTotal Daily Revenue (including tax): $";
-    report += QString::number(totalRevenue);
+    report += QString::number(totalRevenue, 'f', 2);
 
     // Add details on members who shopped that day
     int totalExecutive = 0;
@@ -377,15 +377,15 @@ QString DataWarehouse::GetPurchasesAllMembers()
 
             report += "\nItem: " + transaction->productDescription
                     + " Quantity: " + QString::number(transaction->quantity)
-                    + " Price: $" + QString::number(transaction->price);
+                    + " Price: $" + QString::number(transaction->price, 'f', 2);
         }
 
         totalRevenue += customerTotal;
 
-        report += "\nTotal Purchases (including tax): $" + QString::number(customerTotal * 1.0775);
+        report += "\nTotal Purchases (including tax): $" + QString::number(customerTotal * 1.0775, 'f', 2);
     }
 
-    report += "\n\nGrand Total (including tax): $" + QString::number(totalRevenue * 1.0775);
+    report += "\n\nGrand Total (including tax): $" + QString::number(totalRevenue * 1.0775, 'f', 2);
 
     return report;
 }
@@ -429,7 +429,7 @@ QString DataWarehouse::GetItemQuantities()
     {
         report += "\nItem: " + it->first + ". Quantity: "
                   + QString::number(get<0>(it->second)) + " Total Revenue (without tax): $"
-                  + QString::number(get<1>(it->second));
+                  + QString::number(get<1>(it->second), 'f', 2);
     }
 
     return report;
@@ -460,7 +460,7 @@ QString DataWarehouse::GetItemQuantity(QString itemName)
         }
     }
 
-    report += QString::number(quantity) + ", Total Revenue (without tax): $" + QString::number(revenue);
+    report += QString::number(quantity) + ", Total Revenue (without tax): $" + QString::number(revenue, 'f', 2);
 
     return report;
 }
@@ -484,7 +484,7 @@ QString DataWarehouse::GetExecutiveRebates()
             continue;
         }
 
-        report += "ID: " + QString::number(customer.id) + ", Name: " + customer.name + ": $" + QString::number(GetMemberRebate(customer.id)) +"\n";
+        report += "ID: " + QString::number(customer.id) + ", Name: " + customer.name + ": $" + QString::number(GetMemberRebate(customer.id), 'f', 2) +"\n";
     }
 
     return report;
@@ -661,6 +661,7 @@ QString DataWarehouse::MakePurchase(Transaction* t)
             {
                 return QString("Error, item " + item.product + " is deleted.");
             }
+            t->price = item.price;
         }
     }
 
@@ -775,10 +776,10 @@ QString DataWarehouse::GetMemberPurchases(int memberId)
 
         report += "\nItem: " + transaction->productDescription
                   + " Quantity: " + QString::number(transaction->quantity)
-                  + " Price: $" + QString::number(transaction->price);
+                  + " Price: $" + QString::number(transaction->price, 'f', 2);
     }
 
-    report += "\nTotal Purchases (including tax): $" + QString::number(customerTotal * 1.0775);
+    report += "\nTotal Purchases (including tax): $" + QString::number(customerTotal * 1.0775, 'f', 2);
     return report;
 }
 
@@ -823,7 +824,7 @@ QString DataWarehouse::GetItemRevenue(QString itemName)
         }
     }
 
-    report += QString::number(quantity) + ", Total Revenue (without tax): $" + QString::number(revenue);
+    report += QString::number(quantity) + ", Total Revenue (without tax): $" + QString::number(revenue, 'f', 2);
 
     return report;
 }

@@ -254,7 +254,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Member Rebate</string>
+     <string>Executive Member Rebates</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_memberRebateDisplay">
@@ -814,6 +814,19 @@
     </property>
     <property name="text">
      <string>Change Item Price</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_makePurchase">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>20</y>
+      <width>80</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Make Purchase</string>
     </property>
    </widget>
   </widget>

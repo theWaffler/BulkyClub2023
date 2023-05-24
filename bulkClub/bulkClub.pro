@@ -15,6 +15,7 @@ SOURCES += \
     DeleteMemberDialog.cpp \
     Employee.cpp \
     ItemAddDialog.cpp \
+    MakePurchaseDialog.cpp \
     datawarehouse.cpp \
     item.cpp \
     login.cpp \
@@ -32,6 +33,7 @@ HEADERS += \
     DeleteMemberDialog.h \
     Employee.h \
     ItemAddDialog.h \
+    MakePurchaseDialog.h \
     datawarehouse.h \
     item.h \
     login.h \
