@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "AddMemberDialog.h"
+#include "DeleteMemberDialog.h"
 #include "qboxlayout.h"
 #include "ui_mainwindow.h"
 #include "QLabel"
@@ -280,6 +281,14 @@ void MainWindow::on_pushButton_addMember_clicked()
             return;
         }
 
+        // Make sure the id doesn't already exist
+        QString existingMemberName = storage.GetMemberNameById(id);
+        if(existingMemberName.length() > 0)
+        {
+            QMessageBox::warning(this, "Invalid Member ID", "Error: That ID already exists.");
+            return;
+        }
+
         // Check if the entered date is valid
         if (!date.isValid())
         {
@@ -297,13 +306,58 @@ void MainWindow::on_pushButton_addMember_clicked()
         Member m(memberName, id, isExecutive,  date, 0, 0, false);
 
         storage.AddMember(m);
+
+        QMessageBox::information(this, "Success", "New Member Added.");
     }
-
-
-
-
-
 }
+
+void MainWindow::on_pushButton_deleteMember_clicked()
+{
+    qDebug() << "Delete member clicked\n";
+    // Create the dialog
+    DeleteMemberDialog dialog;
+    //dialog.storage = &storage;
+
+    // Set dialog properties or configure it as needed
+    dialog.setWindowTitle("Delete Member");
+    dialog.setMinimumSize(200, 100);
+
+    // Create a layout for the dialog
+    QVBoxLayout *layout = new QVBoxLayout(&dialog);
+
+    // Add any widgets or elements to the layout
+    // ...
+
+    // Show the dialog
+    if (dialog.exec() == QDialog::Accepted) {
+        QString memberId = dialog.getMemberId();
+
+        qDebug() << "Member ID: " + memberId;
+
+        // Make sure Id is intiger:
+        bool idIsInt = false;
+        int id = memberId.toInt(&idIsInt);
+
+        if(!idIsInt)
+        {
+            QMessageBox::warning(this, "Invalid Member ID", "Please enter a valid integer ID.");
+            return;
+        }
+
+        // Make sure the id doesn't already exist
+        QString existingMemberName = storage.GetMemberNameById(id);
+        if(existingMemberName.length() == 0)
+        {
+            QMessageBox::warning(this, "Error", "Member ID not found.");
+            return;
+        }
+
+        storage.DeleteMember(id);
+
+        QMessageBox::information(this, "Success", "Member Deleted.");
+    }
+}
+
 
 void MainWindow::populateTotalRevenue(const QStringList& data)
 {

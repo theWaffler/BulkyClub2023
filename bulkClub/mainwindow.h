@@ -35,6 +35,7 @@ private slots:
     void on_pushButton_inventorySearch_clicked();
     void on_pushButton_memberSearch_clicked();
     void on_pushButton_addMember_clicked();
+    void on_pushButton_deleteMember_clicked();
     void handleMemberSearchWindowDestroyed(QObject *obj); // slot to handle member search window closing
     void performMemberSearch(const QString& memberName, const QString& memberNumber);
     void on_pushButton_salesReportExecutive_clicked();
