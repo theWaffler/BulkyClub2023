@@ -323,7 +323,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>MM-YYYY</string>
+     <string>MM/YYYY</string>
     </property>
     <property name="placeholderText">
      <string/>
@@ -823,7 +823,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>17</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

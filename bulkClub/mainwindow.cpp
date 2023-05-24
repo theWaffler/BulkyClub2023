@@ -199,15 +199,73 @@ void MainWindow::populateAllSalesTable(const QStringList& data)
     // Expand the height of the rows
     for (int row = 0; row < numRows; ++row)
     {
-        ui->tableView->setRowHeight(row, 100); // Set the desired height in pixels
+        ui->tableView->setRowHeight(row, 30); // Set the desired height in pixels
     }
 }
 ////////////////////////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////////////////////
+// Executive Member Conversion
+// input: none
 void MainWindow::on_pushButton_executiveRegular_clicked()
 {
+    //storage.GetConvertToRegularRecommendations();
+    // call function
+    QString memberConversionExecutive = storage.GetConvertToRegularRecommendations();
 
+    // split
+    QStringList rows = memberConversionExecutive.split('\n',Qt::SkipEmptyParts);
+
+    // call populateMemberConversionExecutive
+    populateMemberConversionExecutive(rows);
 }
+
+void MainWindow::setupMemberConversionExecutive()
+{
+    //create table
+    tableModel = new QStandardItemModel(this);
+
+    //set col and label
+    int colCount = 1;
+    tableModel->setColumnCount(colCount);
+    tableModel->setHorizontalHeaderLabels({"Search Results"});
+
+    // set table
+    ui->tableView->setModel(tableModel);
+
+    // auto adjust
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+}
+
+void MainWindow::populateMemberConversionExecutive(const QStringList& data)
+{
+    // Clear the existing data in the table model
+    tableModel->removeRows(0, tableModel->rowCount());
+
+    // Set the row count and column count
+    int numRows = data.size();
+    int numCols = 1;
+
+    // Set the table model size
+    tableModel->setRowCount(numRows);
+    tableModel->setColumnCount(numCols);
+
+    // Populate the table model with the rebate data
+    for (int row = 0; row < numRows; ++row)
+    {
+        tableModel->setData(tableModel->index(row, 0), data[row].trimmed());
+    }
+
+    // Expand the height of the rows
+    for (int row = 0; row < numRows; ++row)
+    {
+        ui->tableView->setRowHeight(row, 30); // Set the desired height in pixels
+    }
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // Total Revenue
@@ -524,7 +582,7 @@ void MainWindow::populateTotalRevenue(const QStringList& data)
     // Expand the height of the rows
     for (int row = 0; row < numRows; ++row)
     {
-        ui->tableView->setRowHeight(row, 100); // Set the desired height in pixels
+        ui->tableView->setRowHeight(row, 30); // Set the desired height in pixels
     }
 }
 
@@ -596,7 +654,7 @@ void MainWindow::populateMemberConversionRegular(const QStringList& data)
     // Expand the height of the rows
     for (int row = 0; row < numRows; ++row)
     {
-        ui->tableView->setRowHeight(row, 100); // Set the desired height in pixels
+        ui->tableView->setRowHeight(row, 30); // Set the desired height in pixels
     }
 }
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -667,7 +725,7 @@ void MainWindow::populateExecutiveSalesTable(const QStringList& data)
     // Expand the height of the rows
     for (int row = 0; row < numRows; ++row)
     {
-        ui->tableView->setRowHeight(row, 100); // Set the desired height in pixels
+        ui->tableView->setRowHeight(row, 30); // Set the desired height in pixels
     }
 }
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -736,7 +794,7 @@ void MainWindow::populateRegularSalesTable(const QStringList& data)
     // Expand the height of the rows
     for (int row = 0; row < numRows; ++row)
     {
-        ui->tableView->setRowHeight(row, 100); // Set the desired height in pixels
+        ui->tableView->setRowHeight(row, 30); // Set the desired height in pixels
     }
 }
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -796,7 +854,7 @@ void MainWindow::populateExecutiveRebate(const QStringList& data)
     // Expand the height of the rows
     for (int row = 0; row < numRows; ++row)
     {
-        ui->tableView->setRowHeight(row, 100); // Set the desired height in pixels
+        ui->tableView->setRowHeight(row, 30); // Set the desired height in pixels
     }
 }
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -871,7 +929,7 @@ void MainWindow::populateExpMemberTable(const QStringList& data)
     // Expand the height of the rows
     for (int row = 0; row < numRows; ++row)
     {
-        ui->tableView->setRowHeight(row, 100); // Set the desired height in pixels
+        ui->tableView->setRowHeight(row, 30); // Set the desired height in pixels
     }
 
 }
@@ -941,7 +999,7 @@ void MainWindow::populateInventoryTable(const QStringList& itemData)
     // Expand the height of the rows
     for (int row = 0; row < numRows; ++row)
     {
-        ui->tableView->setRowHeight(row, 100); // Set the desired height in pixels
+        ui->tableView->setRowHeight(row, 30); // Set the desired height in pixels
     }
 
 }
@@ -1017,7 +1075,7 @@ void MainWindow::populateTable(const QVector<QString>& data)
         tableModel->setData(tableModel->index(0, i), data[i]);
     }
     // Expand the height of the first row
-    ui->tableView->setRowHeight(0, 100); // Set the desired height in pixels
+    ui->tableView->setRowHeight(0, 80); // Set the desired height in pixels
 }
 ////////////////////////////////////////////////////////////////////////////////////////
 
