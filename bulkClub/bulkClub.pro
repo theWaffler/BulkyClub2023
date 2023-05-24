@@ -10,8 +10,11 @@ CONFIG += c++17
 
 SOURCES += \
     AddMemberDialog.cpp \
+    ChangeItemPriceDialog.cpp \
+    DeleteItemDialog.cpp \
     DeleteMemberDialog.cpp \
     Employee.cpp \
+    ItemAddDialog.cpp \
     datawarehouse.cpp \
     item.cpp \
     login.cpp \
@@ -23,9 +26,12 @@ SOURCES += \
 
 HEADERS += \
     AddMemberDialog.h \
+    ChangeItemPriceDialog.h \
     Common.h \
+    DeleteItemDialog.h \
     DeleteMemberDialog.h \
     Employee.h \
+    ItemAddDialog.h \
     datawarehouse.h \
     item.h \
     login.h \

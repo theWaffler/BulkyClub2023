@@ -683,7 +683,7 @@ void DataWarehouse::AddItem(Item i)
 }
 
 // Call for requirement 9
-void DataWarehouse::DeleteItem(QString itemName)
+bool DataWarehouse::DeleteItem(QString itemName)
 {
     for (auto it = Inventory.begin(); it != Inventory.end(); it++)
     {
@@ -692,13 +692,15 @@ void DataWarehouse::DeleteItem(QString itemName)
         if(item.product == itemName)
         {
             item.isDeleted = true;
-            return;
+            return true;
         }
     }
+
+    return false;
 }
 
 // Call for requirement 9
-void DataWarehouse::ChangePrice(QString itemName, double price)
+bool DataWarehouse::ChangePrice(QString itemName, double price)
 {
     for (auto it = Inventory.begin(); it != Inventory.end(); it++)
     {
@@ -707,9 +709,11 @@ void DataWarehouse::ChangePrice(QString itemName, double price)
         if(item.product == itemName)
         {
             item.price = price;
-            return;
+            return true;
         }
     }
+
+    return false;
 }
 
 // Call for requirement 11. If name is given instead of id,

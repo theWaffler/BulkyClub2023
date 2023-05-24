@@ -426,7 +426,7 @@
    <widget class="QPushButton" name="pushButton_itemAddDelete">
     <property name="geometry">
      <rect>
-      <x>1040</x>
+      <x>1140</x>
       <y>580</y>
       <width>131</width>
       <height>51</height>
@@ -775,6 +775,45 @@
     </property>
     <property name="text">
      <string>Delete Member</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_addItem">
+    <property name="geometry">
+     <rect>
+      <x>1009</x>
+      <y>590</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add Item</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_deleteItem">
+    <property name="geometry">
+     <rect>
+      <x>1009</x>
+      <y>630</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Delete Item</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_changeItemPrice">
+    <property name="geometry">
+     <rect>
+      <x>1009</x>
+      <y>610</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Change Item Price</string>
     </property>
    </widget>
   </widget>

@@ -44,8 +44,8 @@ public:
     void DeleteMember(int memberId);
     QString MakePurchase(Transaction* t);
     void AddItem(Item i);
-    void DeleteItem(QString itemName);
-    void ChangePrice(QString itemName, double price);
+    bool DeleteItem(QString itemName);
+    bool ChangePrice(QString itemName, double price);
     int GetMemberIdByName(QString memberName);
     QString GetMemberPurchases(int memberId);
     bool ShouldBeExecutive (int memberId);

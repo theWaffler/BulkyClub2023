@@ -1,4 +1,8 @@
 #include "mainwindow.h"
+#include "ItemAddDialog.h"
+#include "DeleteItemDialog.h"
+#include "ChangeItemPriceDialog.h""
+#include "DeleteMemberDialog.h"
 #include "AddMemberDialog.h"
 #include "DeleteMemberDialog.h"
 #include "qboxlayout.h"
@@ -355,6 +359,145 @@ void MainWindow::on_pushButton_deleteMember_clicked()
         storage.DeleteMember(id);
 
         QMessageBox::information(this, "Success", "Member Deleted.");
+    }
+}
+
+void MainWindow::on_pushButton_addItem_clicked()
+{
+    qDebug() << "Add Item clicked\n";
+    // Create the dialog
+    ItemAddDialog dialog;
+    //dialog.storage = &storage;
+
+    // Set dialog properties or configure it as needed
+    dialog.setWindowTitle("Add Item");
+    dialog.setMinimumSize(200, 100);
+
+    // Create a layout for the dialog
+    QVBoxLayout *layout = new QVBoxLayout(&dialog);
+
+    // Show the dialog
+    if (dialog.exec() == QDialog::Accepted) {
+        QString itemName = dialog.getItemName();
+        QString priceString = dialog.getPrice();
+
+        qDebug() << "Item Name: " + itemName;
+
+        // make sure the item name is there
+        if(itemName.length() == 0)
+        {
+            QMessageBox::warning(this, "Missing Item Name", "Please enter an Item Name.");
+            return;
+        }
+
+        // Make sure price is valid:
+        bool priceIsDouble = false;
+        double price = priceString.toDouble(&priceIsDouble);
+
+        if(!priceIsDouble)
+        {
+            QMessageBox::warning(this, "Invalid price", "Please enter a valid price.");
+            return;
+        }
+
+        Item i(itemName, price, 0, false);
+
+        storage.AddItem(i);
+
+        QMessageBox::information(this, "Success", "Item Added.");
+    }
+}
+
+void MainWindow::on_pushButton_changeItemPrice_clicked()
+{
+    qDebug() << "Change Item clicked\n";
+    // Create the dialog
+    ChangeItemPriceDialog dialog;
+    //dialog.storage = &storage;
+
+    // Set dialog properties or configure it as needed
+    dialog.setWindowTitle("Change Item Price");
+
+    dialog.setMinimumSize(200, 100);
+
+    // Create a layout for the dialog
+    QVBoxLayout *layout = new QVBoxLayout(&dialog);
+
+    // Show the dialog
+    if (dialog.exec() == QDialog::Accepted) {
+        QString itemName = dialog.getItemName();
+        QString priceString = dialog.getPrice();
+
+        qDebug() << "Item Name: " + itemName;
+
+        // make sure the item name is there
+        if(itemName.length() == 0)
+        {
+            QMessageBox::warning(this, "Missing Item Name", "Please enter an Item Name.");
+            return;
+        }
+
+        // Make sure price is valid:
+        bool priceIsDouble = false;
+        double price = priceString.toDouble(&priceIsDouble);
+
+        if(!priceIsDouble)
+        {
+            QMessageBox::warning(this, "Invalid price", "Please enter a valid price.");
+            return;
+        }
+
+        bool found = storage.ChangePrice(itemName, price);
+
+        if(found)
+        {
+            QMessageBox::information(this, "Success", "Item Price Updated.");
+        }
+        else
+        {
+            QMessageBox::warning(this, "Error", "Item Not Found.");
+        }
+    }
+}
+
+
+void MainWindow::on_pushButton_deleteItem_clicked()
+{
+    qDebug() << "Delete item clicked\n";
+    // Create the dialog
+    DeleteItemDialog dialog;
+    //dialog.storage = &storage;
+
+    // Set dialog properties or configure it as needed
+    dialog.setWindowTitle("Delete Item");
+    dialog.setMinimumSize(200, 100);
+
+    // Create a layout for the dialog
+    QVBoxLayout *layout = new QVBoxLayout(&dialog);
+
+    // Show the dialog
+    if (dialog.exec() == QDialog::Accepted) {
+        QString itemName = dialog.getItemName();
+
+        qDebug() << "Delete item named: " + itemName;
+
+        // make sure the item name is there
+        if(itemName.length() == 0)
+        {
+            QMessageBox::warning(this, "Missing Item Name", "Please enter an Item Name.");
+            return;
+        }
+
+        bool found = storage.DeleteItem(itemName);
+
+        if(found)
+        {
+            QMessageBox::information(this, "Success", "Item Deleted.");
+        }
+        else
+        {
+            QMessageBox::warning(this, "Error", "Item Not Found.");
+        }
     }
 }
 

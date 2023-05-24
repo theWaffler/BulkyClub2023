@@ -29,6 +29,14 @@ private slots:
     void on_pushButton_totalRevenueTax_clicked();
     void on_pushButton_memberShoppingDataSearch_clicked();
     //void on_pushButton_memberType_clicked();
+
+
+    void on_pushButton_addItem_clicked();
+    void on_pushButton_deleteItem_clicked();
+    void on_pushButton_changeItemPrice_clicked();
+
+
+
     void on_pushButton_itemAddDelete_clicked();
     void on_pushButton_memberRebateDisplay_clicked();
     void on_pushButton_memberExpSearch_clicked();
