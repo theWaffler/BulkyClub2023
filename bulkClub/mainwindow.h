@@ -30,11 +30,11 @@ private slots:
     void on_pushButton_memberShoppingDataSearch_clicked();
     //void on_pushButton_memberType_clicked();
     void on_pushButton_itemAddDelete_clicked();
-    void on_pushButton_memberAddDelete_clicked();
     void on_pushButton_memberRebateDisplay_clicked();
     void on_pushButton_memberExpSearch_clicked();
     void on_pushButton_inventorySearch_clicked();
     void on_pushButton_memberSearch_clicked();
+    void on_pushButton_addMember_clicked();
     void handleMemberSearchWindowDestroyed(QObject *obj); // slot to handle member search window closing
     void performMemberSearch(const QString& memberName, const QString& memberNumber);
     void on_pushButton_salesReportExecutive_clicked();

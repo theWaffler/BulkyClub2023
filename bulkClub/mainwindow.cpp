@@ -1,4 +1,6 @@
 #include "mainwindow.h"
+#include "AddMemberDialog.h"
+#include "qboxlayout.h"
 #include "ui_mainwindow.h"
 #include "QLabel"
 #include <QMovie>
@@ -228,6 +230,75 @@ void MainWindow::setupTotalRevenue()
     ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
 
+void MainWindow::on_pushButton_addMember_clicked()
+{
+    qDebug() << "Add member clicked\n";
+    // Create the dialog
+    AddMemberDialog dialog;
+    //dialog.storage = &storage;
+
+    // Set dialog properties or configure it as needed
+    dialog.setWindowTitle("Add New Member");
+    dialog.setMinimumSize(300, 200);
+
+    // Create a layout for the dialog
+    QVBoxLayout *layout = new QVBoxLayout(&dialog);
+
+    // Add any widgets or elements to the layout
+    // ...
+
+    // Show the dialog
+    if (dialog.exec() == QDialog::Accepted) {
+        QString memberId = dialog.getMemberId();
+        QString memberName = dialog.getMemberName();
+        QString expirationDate = dialog.getExpirationDate();
+        bool isExecutive = dialog.isExecutive();
+
+        qDebug() << "Member ID: " + memberId;
+        qDebug() << "Member Name: " + memberName;
+        qDebug() << "Expiration Date: " + expirationDate;
+        if(isExecutive)
+            qDebug() << "Is Executive: true";
+        else
+            qDebug() << "Is Executive: false";
+
+        QDate date = QDate::fromString(expirationDate, "yyyy-MM-dd");
+
+        // Make sure Id is intiger:
+        bool idIsInt = false;
+        int id = memberId.toInt(&idIsInt);
+
+        if(!idIsInt)
+        {
+            QMessageBox::warning(this, "Invalid Member ID", "Please enter a valid integer ID.");
+            return;
+        }
+
+        // Check if the entered date is valid
+        if (!date.isValid())
+        {
+            QMessageBox::warning(this, "Invalid Expiration Date", "Please enter a valid expiration date in the format yyyy-MM-dd.");
+            return;
+        }
+
+        // make sure the member name is there
+        if(memberName.length() == 0)
+        {
+            QMessageBox::warning(this, "Missing Member Name", "Please enter a Member Name.");
+            return;
+        }
+
+        Member m(memberName, id, isExecutive,  date, 0, 0, false);
+
+        storage.AddMember(m);
+    }
+
+
+
+
+
+}
+
 void MainWindow::populateTotalRevenue(const QStringList& data)
 {
     //clear existing data in table view
@@ -266,10 +337,6 @@ void MainWindow::on_pushButton_itemAddDelete_clicked()
     //ADMIN function
 }
 
-void MainWindow::on_pushButton_memberAddDelete_clicked()
-{
-    //ADMIN function
-}
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // Regular Member Conversion

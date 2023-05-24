@@ -713,6 +713,19 @@
      <string>Display</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton_addMember">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>560</y>
+      <width>80</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add Member</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -720,7 +733,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>22</height>
+     <height>17</height>
     </rect>
    </property>
   </widget>
