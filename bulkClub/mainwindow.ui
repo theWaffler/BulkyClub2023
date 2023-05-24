@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>945</width>
+    <width>999</width>
     <height>713</height>
    </rect>
   </property>
@@ -29,7 +29,7 @@
    <widget class="QLabel" name="taco">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>750</x>
       <y>0</y>
       <width>251</width>
       <height>261</height>
@@ -69,7 +69,7 @@
      <rect>
       <x>270</x>
       <y>10</y>
-      <width>421</width>
+      <width>461</width>
       <height>561</height>
      </rect>
     </property>
@@ -359,7 +359,7 @@
    <widget class="QLabel" name="label_adminPanel">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>750</x>
       <y>260</y>
       <width>391</width>
       <height>81</height>
@@ -378,7 +378,7 @@
    <widget class="QLabel" name="label_memberAddDelete">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>750</x>
       <y>330</y>
       <width>121</width>
       <height>41</height>
@@ -397,7 +397,7 @@
    <widget class="QLabel" name="label_itemAddDelete">
     <property name="geometry">
      <rect>
-      <x>701</x>
+      <x>751</x>
       <y>380</y>
       <width>121</width>
       <height>41</height>
@@ -687,7 +687,7 @@
    <widget class="QPushButton" name="pushButton_addMember">
     <property name="geometry">
      <rect>
-      <x>830</x>
+      <x>880</x>
       <y>340</y>
       <width>105</width>
       <height>24</height>
@@ -719,7 +719,7 @@
    <widget class="QPushButton" name="pushButton_deleteMember">
     <property name="geometry">
      <rect>
-      <x>830</x>
+      <x>880</x>
       <y>360</y>
       <width>105</width>
       <height>24</height>
@@ -732,7 +732,7 @@
    <widget class="QPushButton" name="pushButton_addItem">
     <property name="geometry">
      <rect>
-      <x>830</x>
+      <x>880</x>
       <y>390</y>
       <width>105</width>
       <height>24</height>
@@ -745,7 +745,7 @@
    <widget class="QPushButton" name="pushButton_deleteItem">
     <property name="geometry">
      <rect>
-      <x>830</x>
+      <x>880</x>
       <y>430</y>
       <width>105</width>
       <height>24</height>
@@ -758,7 +758,7 @@
    <widget class="QPushButton" name="pushButton_changeItemPrice">
     <property name="geometry">
      <rect>
-      <x>830</x>
+      <x>880</x>
       <y>410</y>
       <width>105</width>
       <height>24</height>
@@ -771,7 +771,7 @@
    <widget class="QPushButton" name="pushButton_makePurchase">
     <property name="geometry">
      <rect>
-      <x>830</x>
+      <x>880</x>
       <y>470</y>
       <width>105</width>
       <height>24</height>
@@ -784,7 +784,7 @@
    <widget class="QLabel" name="catgif">
     <property name="geometry">
      <rect>
-      <x>710</x>
+      <x>760</x>
       <y>490</y>
       <width>211</width>
       <height>171</height>
@@ -806,7 +806,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>945</width>
+     <width>999</width>
      <height>21</height>
     </rect>
    </property>
