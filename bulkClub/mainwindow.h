@@ -27,7 +27,7 @@ private slots:
     //void on_pushButton_salesReportMemberTypeDisplay_clicked();
     void on_pushButton_itemSold_clicked();
     void on_pushButton_totalRevenueTax_clicked();
-    void on_pushButton_memberShoppingDataSearch_clicked();
+    //void on_pushButton_memberShoppingDataSearch_clicked();
     //void on_pushButton_memberType_clicked();
 
 
@@ -39,7 +39,7 @@ private slots:
 
 
 
-    void on_pushButton_itemAddDelete_clicked();
+    //void on_pushButton_itemAddDelete_clicked();
     void on_pushButton_memberRebateDisplay_clicked();
     void on_pushButton_memberExpSearch_clicked();
     void on_pushButton_inventorySearch_clicked();
@@ -52,6 +52,8 @@ private slots:
     void on_pushButton_salesReportRegular_clicked();
     void on_pushButton_memberConversionRegular_clicked();
     void on_pushButton_executiveRegular_clicked();
+
+    //void on_pushButton_memberAddDelete_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -40,13 +40,19 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
         //ui->pushButton_memberShoppingDataSearch->setEnabled(true);
         //ui->pushButton_memberType->setEnabled(true);
         ui->pushButton_memberConversionRegular->setEnabled(true);
-        ui->pushButton_itemAddDelete->setEnabled(true);
-        ui->pushButton_memberAddDelete->setEnabled(true);
+        //ui->pushButton_itemAddDelete->setEnabled(true);
+        //ui->pushButton_memberAddDelete->setEnabled(true);
         ui->pushButton_memberRebateDisplay->setEnabled(true);
         ui->pushButton_memberExpSearch->setEnabled(true);
         ui->pushButton_inventorySearch->setEnabled(true);
         ui->pushButton_memberSearch->setEnabled(true);
         ui->pushButton_executiveRegular->setEnabled(true);
+        ui->pushButton_addMember->setEnabled(true);
+        ui->pushButton_deleteMember->setEnabled(true);
+        ui->pushButton_addItem->setEnabled(true);
+        ui->pushButton_changeItemPrice->setEnabled(true);
+        ui->pushButton_deleteItem->setEnabled(true);
+        ui->pushButton_makePurchase->setEnabled(true);
     }
     else {
         //disable admin-specific GUI elements
@@ -58,13 +64,19 @@ MainWindow::MainWindow(EmployeeType role, QWidget *parent)
         //ui->pushButton_memberShoppingDataSearch->setEnabled(true);
         //ui->pushButton_memberType->setEnabled(true);
         ui->pushButton_memberConversionRegular->setEnabled(true);
-        ui->pushButton_itemAddDelete->setEnabled(false);
-        ui->pushButton_memberAddDelete->setEnabled(false);
+        //ui->pushButton_itemAddDelete->setEnabled(false);
+        //ui->pushButton_memberAddDelete->setEnabled(false);
         ui->pushButton_memberRebateDisplay->setEnabled(true);
         ui->pushButton_memberExpSearch->setEnabled(true);
         ui->pushButton_inventorySearch->setEnabled(true);
         ui->pushButton_memberSearch->setEnabled(true);
         ui->pushButton_executiveRegular->setEnabled(false);
+        ui->pushButton_addMember->setEnabled(false);
+        ui->pushButton_deleteMember->setEnabled(false);
+        ui->pushButton_addItem->setEnabled(false);
+        ui->pushButton_changeItemPrice->setEnabled(false);
+        ui->pushButton_deleteItem->setEnabled(false);
+        ui->pushButton_makePurchase->setEnabled(false);
     }
 
     // Connect the search button clicked signal to the slot
@@ -651,15 +663,15 @@ void MainWindow::populateTotalRevenue(const QStringList& data)
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-void MainWindow::on_pushButton_memberShoppingDataSearch_clicked()
-{
+//void MainWindow::on_pushButton_memberShoppingDataSearch_clicked()
+//{
     // Manager function
-}
+//}
 
-void MainWindow::on_pushButton_itemAddDelete_clicked()
-{
-    //ADMIN function
-}
+//void MainWindow::on_pushButton_itemAddDelete_clicked()
+//{
+//    //ADMIN function
+//}
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -1141,7 +1153,3 @@ void MainWindow::populateTable(const QVector<QString>& data)
     ui->tableView->setRowHeight(0, 80); // Set the desired height in pixels
 }
 ////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
