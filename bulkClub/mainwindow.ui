@@ -122,7 +122,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>390</y>
+      <y>380</y>
       <width>80</width>
       <height>30</height>
      </rect>
@@ -140,8 +140,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>360</y>
-      <width>231</width>
+      <y>350</y>
+      <width>141</width>
       <height>31</height>
      </rect>
     </property>
@@ -152,7 +152,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Total Revenue (inc. tax)</string>
+     <string>Total Revenue</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_salesReportExecutive">
@@ -196,7 +196,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>320</y>
+      <y>310</y>
       <width>80</width>
       <height>30</height>
      </rect>
@@ -232,7 +232,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>290</y>
+      <y>280</y>
       <width>251</width>
       <height>31</height>
      </rect>
@@ -651,7 +651,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>430</y>
+      <y>420</y>
       <width>191</width>
       <height>31</height>
      </rect>
@@ -670,7 +670,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>460</y>
+      <y>450</y>
       <width>80</width>
       <height>30</height>
      </rect>
@@ -701,7 +701,7 @@
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>460</y>
+      <y>450</y>
       <width>80</width>
       <height>30</height>
      </rect>
@@ -800,6 +800,19 @@
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>450</y>
+      <width>71</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>*Admin Only</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -807,7 +820,7 @@
      <x>0</x>
      <y>0</y>
      <width>999</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
