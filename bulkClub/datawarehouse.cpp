@@ -653,6 +653,11 @@ QString DataWarehouse::MakePurchase(Transaction* t)
             {
                 return QString("Error, customer " + member.name + " is deleted.");
             }
+
+            if(t->date > member.expirationDate)
+            {
+                return QString("Error, customer " + member.name + "'s membership is expired.");
+            }
         }
     }
 
