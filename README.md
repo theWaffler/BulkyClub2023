@@ -1,7 +1,8 @@
 # cs1c_proj
 <h1>CS1C Spring Final Project 2023</h1>
 
-![bulkyclub2023](https://github.com/isaldana0/cs1c_proj/assets/91686331/9d9871b7-d16c-4858-a704-63337be16edb)
+![bulkyclub2023](https://github.com/isaldana0/cs1c_proj/assets/91686331/b4b23591-6288-48cc-9167-4f602051c84f)
+
 
 <b><h2>Requirements:</b></h2>
 1. A store manager should be able to display a sales report for any given day. It should include a list of items and quantities sold on that day as well names of the members who shopped that day. Display the total revenue (including tax) for the given day. It should also include number of unique Executive members and Regular members who shopped during the given day.
