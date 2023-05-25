@@ -1,4 +1,3 @@
-# cs1c_proj
 <h1>CS1C Spring Final Project 2023</h1>
 
 ![bulkyclub2023](https://github.com/isaldana0/cs1c_proj/assets/91686331/b4b23591-6288-48cc-9167-4f602051c84f)
