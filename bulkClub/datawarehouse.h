@@ -34,6 +34,7 @@ public:
     void sortTransactions();
     void sortInventory();
 
+    bool itemExist(QString itemName);
     QString GetSalesReportForDate(QDate date, int reportType);
     QString GetPurchasesAllMembers();
     QString GetItemQuantities();

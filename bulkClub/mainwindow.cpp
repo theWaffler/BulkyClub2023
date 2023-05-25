@@ -390,10 +390,19 @@ void MainWindow::on_pushButton_addMember_clicked()
             return;
         }
 
+
+
         // make sure the member name is there
         if(memberName.length() == 0)
         {
             QMessageBox::warning(this, "Missing Member Name", "Please enter a Member Name.");
+            return;
+        }
+
+
+        if(storage.GetMemberIdByName(memberName) != -1)
+        {
+            QMessageBox::warning(this, "Invalid Name", "Name already exists");
             return;
         }
 
@@ -480,11 +489,18 @@ void MainWindow::on_pushButton_addItem_clicked()
             return;
         }
 
+        bool alrExist = storage.itemExist(itemName);
+        if(alrExist)
+        {
+            QMessageBox::warning(this, "Invalid Item Name", "Error: That Item already exists.");
+            return;
+        }
+
         // Make sure price is valid:
         bool priceIsDouble = false;
         double price = priceString.toDouble(&priceIsDouble);
 
-        if(!priceIsDouble)
+        if(!priceIsDouble || price <= 0)
         {
             QMessageBox::warning(this, "Invalid price", "Please enter a valid price.");
             return;
@@ -531,7 +547,7 @@ void MainWindow::on_pushButton_changeItemPrice_clicked()
         bool priceIsDouble = false;
         double price = priceString.toDouble(&priceIsDouble);
 
-        if(!priceIsDouble)
+        if(!priceIsDouble || price <= 0)
         {
             QMessageBox::warning(this, "Invalid price", "Please enter a valid price.");
             return;
@@ -1122,11 +1138,11 @@ void MainWindow::performMemberSearch(const QString& memberName, const QString& m
             return;
         }
         // Perform the check that member name can only accept letters
-        QRegularExpression nameRegex("^[A-Za-z]+$");
+       /* QRegularExpression nameRegex("^[A-Za-z ]+$");
         if (!nameRegex.match(memberName).hasMatch()) {
             QMessageBox::warning(&memSearch, "Invalid Member Name", "Please enter a valid member name (letters only).");
             return;
-        }
+        }*/
         // Perform the search based on the member name
         memberId = storage.GetMemberIdByName(memberName);
     }

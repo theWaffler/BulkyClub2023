@@ -465,6 +465,19 @@ QString DataWarehouse::GetItemQuantity(QString itemName)
     return report;
 }
 
+bool DataWarehouse::itemExist(QString itemName)
+{
+    itemName = itemName.toLower();
+    for(auto& it : Inventory)
+    {
+        if(it.product.toLower() == itemName)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 // Call this for requirement 5
 QString DataWarehouse::GetExecutiveRebates()
 {
@@ -721,11 +734,12 @@ bool DataWarehouse::ChangePrice(QString itemName, double price)
 // call this to get the Id, then call GetMemberPurchases(id);
 int DataWarehouse::GetMemberIdByName(QString memberName)
 {
+    memberName = memberName.toLower();
     for (auto it = Members.begin(); it != Members.end(); it++)
     {
         auto customer = *it;
 
-        if(customer.name == memberName)
+        if(customer.name.toLower() == memberName)
         {
             return customer.id;
         }
